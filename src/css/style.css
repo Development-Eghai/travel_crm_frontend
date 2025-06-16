@@ -14,12 +14,64 @@ p {
     padding: 80px 0px;
 }
 
+.section-padding-bottom {
+    padding-bottom: 80px;
+}
+
+.section-padding-top {
+    padding-top: 80px;
+}
+
 .anchor-tag {
     text-decoration: none;
     color: black;
 }
 
-/* common css ens  */
+/* common css ends  */
+
+/************************************************************* header css ******************************************/
+
+.header-main {
+    width: 100%;
+    padding: 15px 0;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    transition: background-color 0.3s ease, padding 0.3s ease;
+    background-color: transparent;
+}
+
+.logo-image {
+    width: 150px;
+    height: auto;
+}
+
+.navbar-brand {
+    color: white;
+    font-size: 17px;
+}
+
+.login-btn {
+    background-color: white;
+    border-radius: 20px;
+    padding: 10px 20px 10px;
+    color: #05073C;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.sticky-header {
+    background-color: rgb(39, 39, 39);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 12px 0;
+}
+
+.navbar {
+    transition: all 0.3s ease;
+}
+
+/************************************************************* home banner css ******************************************/
+
 
 .homepaage-banner-image-1 {
     height: 100vh;
@@ -102,15 +154,26 @@ p {
 }
 
 .featured-card-main {
-    border-radius: 12px;
+    border-radius: 20px;
     overflow: hidden;
-    padding: 10px;
+    margin: 10px;
     /* height: 415px; */
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     position: relative;
+    transition: all 0.3s ease;
+
+}
+
+.popular-card-main {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.featured-card-main:hover {
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(235, 102, 43, 0.9);
 }
 
 .featured-card-main img {
@@ -120,8 +183,6 @@ p {
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
 }
-
-
 
 .featured-content-main {
     padding: 30px 25px 20px;
@@ -165,6 +226,38 @@ p {
     object-fit: cover;
 }
 
+.trending-card figure {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+.trending-card figure::before {
+    position: absolute;
+    top: 0;
+    left: -75%;
+    z-index: 2;
+    display: block;
+    content: '';
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.3) 100%);
+    transform: skewX(-25deg);
+}
+
+.trending-card figure:hover::before {
+    animation: shine 0.75s;
+}
+
+@keyframes shine {
+    100% {
+        left: 125%;
+    }
+}
+
+
 .trending-grid-para {
     color: white;
     font-weight: 600;
@@ -175,13 +268,318 @@ p {
     top: 195px;
     left: 20px;
 }
+
 .trending-grid-content-two {
     position: absolute;
     bottom: 30px;
     left: 20px;
 }
+
 .trending-grid-content-three {
     position: absolute;
     bottom: 30px;
     left: 20px;
+}
+
+/************************************************************* offer css ******************************************/
+.offer-left {
+    background-color: #EB662B0D;
+    padding-left: 100px;
+    border-radius: 10px;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    height: 100%;
+
+}
+
+.offer-left-heading {
+    font-size: 28px;
+    color: #05073C;
+    font-weight: 700;
+    line-height: 37px;
+}
+
+.offer-left p {
+    color: #05073C;
+    margin: 10px 0px 20px;
+}
+
+.offer-button {
+    background-color: #EB662B;
+    color: white;
+    padding: 8px 25px 10px;
+    border: 1px solid #EB662B;
+    border-radius: 10px;
+}
+
+.offer-span-head {
+    color: #EB662B;
+}
+
+/************************************************************* reviews css ******************************************/
+.reviews-main {
+    margin: 60px 0px 80px;
+}
+
+.reviews-para {
+    color: #EB662B;
+    text-align: center;
+}
+
+.reviews-content-para {
+    color: #05073C;
+    line-height: 30px;
+}
+
+.reviews-content-para {
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+.testimonial-name {
+    font-size: 17px;
+}
+
+.testimonial-postion {
+    font-size: 13px;
+}
+
+.reviews-icon-main {
+    position: absolute;
+    top: -8px;
+    right: 285px;
+}
+
+.booking-offer-main {
+    background-color: #EB662B;
+    padding: 70px;
+    border-radius: 10px;
+}
+
+.first-booking-head {
+    color: white;
+    font-size: 26px;
+}
+
+.first-booking-left p {
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.get-link-para {
+    font-size: 16px !important;
+    color: white;
+    margin-top: 30px !important;
+}
+
+.get-link-input input {
+    padding: 10px 10px 10px 16px;
+    border-radius: 7px;
+    border: none;
+    margin-right: 10px;
+    width: 280px;
+}
+
+.get-link-input input:focus {
+    outline: none;
+}
+
+.get-link-input button {
+    padding: 10px 23px;
+    border-radius: 7px;
+    border: none;
+    background-color: white;
+    color: #4A43C4;
+}
+
+/************************************************************* blogs css ******************************************/
+
+.blogs-card-img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.blogs-author {
+    font-size: 14px;
+    border-right: 1px solid #E7E6E6;
+    padding-right: 10px;
+}
+
+.blogs-posted {
+    font-size: 14px;
+    padding-left: 10px;
+}
+
+.blogs-content {
+    font-size: 19px;
+}
+
+.blogs-tag-main p {
+    padding: 7px 18px;
+    border-radius: 20px;
+    background-color: white;
+    font-size: 14px;
+}
+
+.blogs-tag-main {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+/************************************************************* Footer css ******************************************/
+.footer-main {
+    background-color: #EB662B0D;
+}
+
+.expert-contact {
+    color: #EB662B;
+    margin-left: 10px;
+    text-decoration: none;
+}
+
+.footer-social-icon {
+    display: flex;
+}
+
+.footer-top-main {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 50px;
+    border-bottom: 1px solid #ffd8c7;
+}
+
+.footer-social-icon {
+    text-align: center;
+}
+
+.footer-social-icon p {
+    color: black;
+    margin: auto 0px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-right: 20px;
+}
+
+.footer-social-icon ul.social-hover {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    gap: 10px;
+}
+
+.footer-social-icon ul.social-hover li {
+    list-style: none;
+}
+
+.footer-social-icon ul.social-hover li a {
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    text-align: center;
+    line-height: 40px;
+    font-size: 18px;
+    display: block;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #fff;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.footer-social-icon ul.social-hover li a .icon {
+    position: relative;
+    color: #262626;
+    transition: 0.5s;
+    z-index: 3;
+}
+
+.footer-social-icon ul.social-hover li a:hover .icon {
+    color: #fff;
+    transform: rotateY(360deg);
+}
+
+.footer-social-icon ul.social-hover li a::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f00;
+    transition: 0.5s;
+    z-index: 2;
+}
+
+.footer-social-icon ul.social-hover li a:hover::before {
+    top: 0;
+}
+
+/* Unique hover colors per icon */
+.footer-social-icon ul.social-hover li:nth-child(1) a::before {
+    background: #3b5999;
+    /* Facebook */
+}
+
+.footer-social-icon ul.social-hover li:nth-child(2) a::before {
+    background: #e4405f;
+    /* Instagram */
+}
+
+.footer-social-icon ul.social-hover li:nth-child(3) a::before {
+    background: #000000;
+    /* X (Twitter) */
+}
+
+.footer-social-icon ul.social-hover li:nth-child(4) a::before {
+    background: #0077b5;
+    /* LinkedIn */
+}
+
+.footer-bottom-main {
+    padding: 50px 0px;
+}
+
+.footer-column-heading {
+    color: #05073C;
+    margin-bottom: 20px;
+}
+
+.footer-column-one a {
+    text-decoration: none;
+    color: #05073C;
+}
+
+.footer-anchor-main a {
+    text-decoration: none;
+    color: #05073C;
+    margin-bottom: 15px;
+}
+
+.subscribe-main input {
+    border-radius: 7px;
+    border: none;
+    padding: 10px 20px;
+    width: 250px;
+}
+
+.subscribe-main button {
+    border: none;
+    background-color: white;
+}
+
+.subscribe-main {
+    background-color: white;
+    width: 360px;
+    padding: 6px 0px;
+    border-radius: 10px;
+}
+
+.subscribe-main input:focus {
+    outline: none;
 }
