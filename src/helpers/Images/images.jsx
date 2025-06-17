@@ -14,6 +14,14 @@ import review_icon from "../../assets/images/review-icon.png";
 
 import logo from "../../assets/images/dummy-logo.png";
 
+import destination_one from "../../assets/images/destination-slider-1.png";
+import destination_two from "../../assets/images/destination-slider-2.png";
+import destination_three from "../../assets/images/destination-slider-3.png";
+
+import discount_banner from "../../assets/images/discount-banner.png";
+
+
+
 
 
 
@@ -31,6 +39,13 @@ const Images = {
     offer_right,
     reviews,
     review_icon,
-    logo
+    logo,
+
+    destination_one,
+    destination_two,
+    destination_three,
+
+    discount_banner
+    
 };
 export { Images };

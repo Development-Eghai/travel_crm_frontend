@@ -14,11 +14,12 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+
   return (
     <div className={`header-main ${isSticky ? "sticky-header" : ""}`}>
       <nav className="navbar navbar-expand-lg">
         <div className="container">
-          <a className="navbar-brand" href="#">Search destinations or activities</a>
+          <a className="navbar-brand" href="/">Search destinations or activities</a>
           <button
             className="navbar-toggler"
             type="button"
@@ -36,15 +37,15 @@ const Header = () => {
               <img src={Images.logo} alt="logo" className="logo-image" />
             </ul>
             <div className="d-flex ms-auto mt-3 mt-lg-0">
-              <a className="navbar-brand" href="#">Signup</a>
+              <a className="navbar-brand" href="/destination">Signup</a>
               <a className="navbar-brand login-btn" href="#">Login</a>
             </div>
           </div>
         </div>
       </nav>
     </div>
-
   )
 }
+
 
 export default Header

@@ -583,3 +583,148 @@ p {
 .subscribe-main input:focus {
     outline: none;
 }
+
+/************************************************************* Destination Detail css ******************************************/
+.destination-detail-banner-main {
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.destination-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 60%;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+    /* Black to transparent */
+    z-index: 1;
+}
+
+.swiper-button-prev:after,
+.swiper-rtl .swiper-button-next:after {
+    color: white !important;
+    font-size: 30px !important;
+    margin-left: 60px !important;
+}
+
+.swiper-button-next:after,
+.swiper-rtl .swiper-button-prev:after {
+    color: white !important;
+    font-size: 30px !important;
+    margin-right: 60px !important;
+}
+
+
+.destination-slide-content {
+    position: absolute;
+    z-index: 2;
+    position: absolute;
+    bottom: 40px;
+    left: 120px;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+}
+
+.destination-swiper,
+.destination-slide {
+    height: 100%;
+    width: 100%;
+}
+
+.destination-slide {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100%;
+}
+
+.dest-package-name {
+    font-size: 45px;
+    color: white;
+    font-weight: 600;
+}
+
+.dest-package-para {
+    font-weight: 600;
+    color: white;
+}
+
+.discount-icon-image {
+    width: 28px;
+    height: auto;
+
+}
+
+.discount-price-banner {
+    font-size: 18px;
+    font-weight: 600;
+    color: #EB662B;
+}
+
+.starting-price {
+    font-size: 16px;
+    margin: 0px 7px 0px 4px;
+}
+
+.destination-banner-btn {
+    background-color: #EB662B;
+    color: white;
+    padding: 8px 25px 10px;
+    font-weight: 500;
+    font-size: 15px;
+    border: 1px solid #EB662B;
+    border-radius: 20px;
+}
+
+.destination-about-tour {
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    padding: 30px 30px;
+    border-radius: 10px;
+}
+
+.destination-read-less-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 4px 15px;
+    font-size: 13px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 25px;
+}
+
+.destination-read-less-main {
+    width: 100%;
+    display: flex;
+    position: sticky;
+    justify-content: end;
+    top: 90px;
+    -webkit-box-align: center;
+    align-items: center;
+    z-index: 10;
+    background: white;
+}
+
+.destination-read-more-btn {
+    background-color: #e4405f;
+    color: white;
+    padding: 4px 15px;
+    font-size: 13px;
+    border: none;
+    border-radius: 5px;
+}
+
+.destination-read-more-main {
+    position: absolute;
+    bottom: 2px;
+}
+
+.destination-about-tour-content {
+    height: 70px;
+    overflow: hidden;
+    position: relative;
+}
