@@ -34,11 +34,18 @@ p {
 .header-main {
     width: 100%;
     padding: 15px 0;
-    position: fixed;
     top: 0;
     z-index: 999;
     transition: background-color 0.3s ease, padding 0.3s ease;
     background-color: transparent;
+}
+
+.fixed-header {
+    position: fixed;
+}
+
+.not-fixed-header {
+    position: sticky;
 }
 
 .logo-image {
@@ -702,7 +709,7 @@ p {
     display: flex;
     position: sticky;
     justify-content: end;
-    top: 90px;
+    top: 80px;
     -webkit-box-align: center;
     align-items: center;
     z-index: 10;
@@ -710,21 +717,105 @@ p {
 }
 
 .destination-read-more-btn {
-    background-color: #e4405f;
-    color: white;
+    background-color: white;
+    color: black;
     padding: 4px 15px;
-    font-size: 13px;
+    font-size: 16px;
     border: none;
     border-radius: 5px;
+    font-weight: 600;
 }
 
 .destination-read-more-main {
     position: absolute;
-    bottom: 2px;
+    bottom: 0px;
+    right: 0;
 }
 
 .destination-about-tour-content {
     height: 70px;
     overflow: hidden;
     position: relative;
+}
+
+.destination-about-tour-content-expand {
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.destination-viewall-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.destination-viewall {
+    background-color: #EB662B;
+    color: white;
+    padding: 8px 40px 10px;
+    font-weight: 500;
+    font-size: 16px;
+    border: 1px solid #EB662B;
+    border-radius: 20px;
+}
+
+/************************************************************* Destination Filter css ******************************************/
+
+
+.destination-filter {
+    color: #05073C;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.destination-filter-top i {
+    font-size: 12px;
+}
+
+.destination-filter-top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.destination-filter-heading {
+    font-weight: 600;
+    margin: 40px 0px 30px;
+}
+
+.destination-filter-main-left-top {
+    background-color: #EB662B;
+    border: 1px solid #EB662B;
+    padding: 30px 40px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.destination-filter-main {
+    padding:0px 30px 20px;
+}
+
+.destination-filter-main .filter-input {
+    margin-top: 10px;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.3);
+    margin-right: 10px;
+}
+
+.destination-filter-main-left-bottom{
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+.destination-filter-main .filter-heading{
+    border-top: 1px solid #E7E6E6;
+    padding-top: 25px;
+    
+}
+.filter-accordion{
+    border: none !important;
+}
+.filter-accordion-button{
+    box-shadow: none !important;
 }

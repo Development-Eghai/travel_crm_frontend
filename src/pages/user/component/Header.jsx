@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Images } from "../../../helpers/Images/images";
 
 
-const Header = () => {
+const Header = ({ fixed = true }) => {
   const [isSticky, setIsSticky] = useState(false);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const Header = () => {
 
 
   return (
-    <div className={`header-main ${isSticky ? "sticky-header" : ""}`}>
+    <div className={`header-main ${isSticky ? "sticky-header" : ""} ${fixed ? "fixed-header" : "not-fixed-header"}`}>
       <nav className="navbar navbar-expand-lg">
         <div className="container">
           <a className="navbar-brand" href="/">Search destinations or activities</a>
@@ -38,7 +38,7 @@ const Header = () => {
             </ul>
             <div className="d-flex ms-auto mt-3 mt-lg-0">
               <a className="navbar-brand" href="/destination">Signup</a>
-              <a className="navbar-brand login-btn" href="#">Login</a>
+              <a className="navbar-brand login-btn" href="/destination-list">Login</a>
             </div>
           </div>
         </div>

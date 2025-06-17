@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from './component/Header'
 import Footer from './component/Footer'
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -15,8 +15,9 @@ const DestinationDetail = () => {
         Images?.destination_one,
         Images?.destination_two,
         Images?.destination_three
-
     ];
+    const [readMore, setReadMore] = useState(false)
+    const [viewMore, setViewMore] = useState(false)
     return (
         <div>
             <Header />
@@ -64,17 +65,17 @@ const DestinationDetail = () => {
                 </Swiper>
             </section>
 
-            <section className=' section-padding'>
+            <section className='section-padding'>
                 <div className="container">
                     <div className='destination-about-tour'>
-                        <div className='destination-read-less-main'>
-                            <button className='destination-read-less-btn'>Read Less</button>
+                        <div className={`destination-read-less-main ${readMore ? 'd-flex' : 'd-none'}`}>
+                            <button className='destination-read-less-btn' onClick={() => setReadMore(!readMore)}>Read Less</button>
                         </div>
 
                         <h5 className='fw-bold mb-4'>About Sikkim Tour Packages</h5>
-                        <div className='destination-about-tour-content'>
+                        <div className={`destination-about-tour-content ${readMore ? 'destination-about-tour-content-expand' : 'destination-about-tour-content'}`}>
                             <div className='destination-read-more-main'>
-                                <button className='destination-read-more-btn'>Read More</button>
+                                <button className='destination-read-more-btn' onClick={() => setReadMore(!readMore)}>{readMore ? 'Read Less...' : 'Read More...'}</button>
                             </div>
                             <p>Welcome to a realm where history and culture seamlessly converge, eagerly awaiting your exploration through our meticulously curated Georgia tour package. If you crave breathtaking landscapes, ancient monuments, and a thrilling sense of adventure at every turn, then our diverse selection of Georgia trip packages is precisely what you need.
 
@@ -103,6 +104,152 @@ const DestinationDetail = () => {
                     </div>
                 </div>
 
+            </section>
+
+            <section className='section-padding-bottom'>
+                <div className="container">
+                    <div>
+                        <h4 className='common-section-heading'>Featured Packages</h4>
+                    </div>
+
+                    <div className='mt-4'>
+                        <div className="row">
+                            <div className='col-lg-3'>
+                                <div className="featured-card-main popular-card-main">
+                                    <div>
+                                        <img className="featured-card-img" src={Images.featured_card} alt="featured" />
+                                    </div>
+                                    <div className="featured-content-main">
+                                        <p className="featured-city-para">Paris, France</p>
+                                        <p className="featured-content">Centipede Tour - Guided Arizona Desert Tour by ATV</p>
+                                        <div className="featured-bottom-content">
+                                            <p>4 days</p>
+                                            <p>from <span className="fw-bold">1200rs</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='col-lg-3'>
+                                <div className="featured-card-main popular-card-main">
+                                    <div>
+                                        <img className="featured-card-img" src={Images.featured_card} alt="featured" />
+                                    </div>
+                                    <div className="featured-content-main">
+                                        <p className="featured-city-para">Paris, France</p>
+                                        <p className="featured-content">Centipede Tour - Guided Arizona Desert Tour by ATV</p>
+                                        <div className="featured-bottom-content">
+                                            <p>4 days</p>
+                                            <p>from <span className="fw-bold">1200rs</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='col-lg-3'>
+                                <div className="featured-card-main popular-card-main">
+                                    <div>
+                                        <img className="featured-card-img" src={Images.featured_card} alt="featured" />
+                                    </div>
+                                    <div className="featured-content-main">
+                                        <p className="featured-city-para">Paris, France</p>
+                                        <p className="featured-content">Centipede Tour - Guided Arizona Desert Tour by ATV</p>
+                                        <div className="featured-bottom-content">
+                                            <p>4 days</p>
+                                            <p>from <span className="fw-bold">1200rs</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='col-lg-3'>
+                                <div className="featured-card-main popular-card-main">
+                                    <div>
+                                        <img className="featured-card-img" src={Images.featured_card} alt="featured" />
+                                    </div>
+                                    <div className="featured-content-main">
+                                        <p className="featured-city-para">Paris, France</p>
+                                        <p className="featured-content">Centipede Tour - Guided Arizona Desert Tour by ATV</p>
+                                        <div className="featured-bottom-content">
+                                            <p>4 days</p>
+                                            <p>from <span className="fw-bold">1200rs</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={`destination-viewall-main ${viewMore ? 'd-none' : 'd-flex'}`} >
+                                <button className='destination-viewall' onClick={() => setViewMore(!viewMore)}>Show More <i class="fa-solid fa-arrow-right ms-2"></i></button>
+                            </div>
+
+                            {viewMore && (
+                                <>
+                                    <div className='col-lg-3'>
+                                        <div className="featured-card-main popular-card-main">
+                                            <div>
+                                                <img className="featured-card-img" src={Images.featured_card} alt="featured" />
+                                            </div>
+                                            <div className="featured-content-main">
+                                                <p className="featured-city-para">Paris, France</p>
+                                                <p className="featured-content">Centipede Tour - Guided Arizona Desert Tour by ATV</p>
+                                                <div className="featured-bottom-content">
+                                                    <p>4 days</p>
+                                                    <p>from <span className="fw-bold">1200rs</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='col-lg-3'>
+                                        <div className="featured-card-main popular-card-main">
+                                            <div>
+                                                <img className="featured-card-img" src={Images.featured_card} alt="featured" />
+                                            </div>
+                                            <div className="featured-content-main">
+                                                <p className="featured-city-para">Paris, France</p>
+                                                <p className="featured-content">Centipede Tour - Guided Arizona Desert Tour by ATV</p>
+                                                <div className="featured-bottom-content">
+                                                    <p>4 days</p>
+                                                    <p>from <span className="fw-bold">1200rs</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='col-lg-3'>
+                                        <div className="featured-card-main popular-card-main">
+                                            <div>
+                                                <img className="featured-card-img" src={Images.featured_card} alt="featured" />
+                                            </div>
+                                            <div className="featured-content-main">
+                                                <p className="featured-city-para">Paris, France</p>
+                                                <p className="featured-content">Centipede Tour - Guided Arizona Desert Tour by ATV</p>
+                                                <div className="featured-bottom-content">
+                                                    <p>4 days</p>
+                                                    <p>from <span className="fw-bold">1200rs</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='col-lg-3'>
+                                        <div className="featured-card-main popular-card-main">
+                                            <div>
+                                                <img className="featured-card-img" src={Images.featured_card} alt="featured" />
+                                            </div>
+                                            <div className="featured-content-main">
+                                                <p className="featured-city-para">Paris, France</p>
+                                                <p className="featured-content">Centipede Tour - Guided Arizona Desert Tour by ATV</p>
+                                                <div className="featured-bottom-content">
+                                                    <p>4 days</p>
+                                                    <p>from <span className="fw-bold">1200rs</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className={`destination-viewall-main ${viewMore ? 'd-flex' : 'd-none'}`} >
+                                        <button className='destination-viewall' onClick={() => setViewMore(!viewMore)}>Show Less <i class="fa-solid fa-arrow-right ms-2"></i></button>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
             </section>
             <Footer />
         </div>
