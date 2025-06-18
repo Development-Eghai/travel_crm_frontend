@@ -19,7 +19,7 @@ const Header = ({ fixed = true }) => {
     <div className={`header-main ${isSticky ? "sticky-header" : ""} ${fixed ? "fixed-header" : "not-fixed-header"}`}>
       <nav className="navbar navbar-expand-lg">
         <div className="container">
-          <a className="navbar-brand" href="/">Search destinations or activities</a>
+          <a className="navbar-brand" href="/tour-overview">Search destinations or activities</a>
           <button
             className="navbar-toggler"
             type="button"
@@ -34,7 +34,9 @@ const Header = ({ fixed = true }) => {
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
+              <a href='/'>
               <img src={Images.logo} alt="logo" className="logo-image" />
+              </a>
             </ul>
             <div className="d-flex ms-auto mt-3 mt-lg-0">
               <a className="navbar-brand" href="/destination">Signup</a>

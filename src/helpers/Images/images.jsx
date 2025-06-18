@@ -20,6 +20,17 @@ import destination_three from "../../assets/images/destination-slider-3.png";
 
 import discount_banner from "../../assets/images/discount-banner.png";
 
+import filter_image from "../../assets/images/filter-image.png";
+
+import overview_1 from "../../assets/images/overview-1.png";
+import overview_2 from "../../assets/images/overview-2.png";
+import overview_3 from "../../assets/images/overview-3.png";
+import overview_4 from "../../assets/images/overview-4.png";
+
+import review_1 from "../../assets/images/review-image-1.png";
+import review_2 from "../../assets/images/review-image-2.png";
+import review_3 from "../../assets/images/review-image-3.png";
+
 
 
 
@@ -45,7 +56,15 @@ const Images = {
     destination_two,
     destination_three,
 
-    discount_banner
-    
+    discount_banner,
+    filter_image,
+    overview_1,
+    overview_2,
+    overview_3,
+    overview_4,
+    review_1,
+    review_2,
+    review_3
+
 };
 export { Images };

@@ -6,6 +6,7 @@
 
 p {
     margin-bottom: 0px;
+    color: #05073C;
 }
 
 /* common css starts*/
@@ -46,6 +47,7 @@ p {
 
 .not-fixed-header {
     position: sticky;
+    background-color: rgb(39, 39, 39);
 }
 
 .logo-image {
@@ -56,6 +58,10 @@ p {
 .navbar-brand {
     color: white;
     font-size: 17px;
+}
+
+.navbar-brand:hover {
+    color: #EB662B;
 }
 
 .login-btn {
@@ -676,6 +682,7 @@ p {
 .starting-price {
     font-size: 16px;
     margin: 0px 7px 0px 4px;
+    color: white !important;
 }
 
 .destination-banner-btn {
@@ -761,6 +768,24 @@ p {
     border-radius: 20px;
 }
 
+.filter-card-offer {
+    background-color: #EB662B;
+    color: white;
+    padding: 6px 18px 7px;
+    font-weight: 500;
+    font-size: 10px;
+    border: 1px solid #EB662B;
+    border-radius: 10px;
+    position: absolute;
+    top: 15px;
+    left: 15px
+}
+
+.filter-card-featured {
+    background-color: #4A43C4;
+    border: 1px solid #4A43C4;
+}
+
 /************************************************************* Destination Filter css ******************************************/
 
 
@@ -788,34 +813,353 @@ p {
     background-color: #EB662B;
     border: 1px solid #EB662B;
     padding: 30px 40px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    border-top-left-radius: 13px;
+    border-top-right-radius: 13px;
 }
 
 .destination-filter-main {
-    padding:0px 30px 20px;
+    padding: 0px 30px 0px;
 }
 
 .destination-filter-main .filter-input {
     margin-top: 10px;
+    padding-left: 5px;
 }
+
 
 input[type="checkbox"] {
     transform: scale(1.3);
     margin-right: 10px;
 }
 
-.destination-filter-main-left-bottom{
+.destination-filter-main-left-bottom {
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
-.destination-filter-main .filter-heading{
-    border-top: 1px solid #E7E6E6;
+
+.destination-filter-main .filter-heading {
+    border-top: 1px solid #E7E6E6 !important;
     padding-top: 25px;
-    
+
 }
-.filter-accordion{
+
+.filter-accordion {
     border: none !important;
 }
-.filter-accordion-button{
+
+.filter-accordion-button {
     box-shadow: none !important;
+}
+
+.destination-filter-main .accordion-button::after {
+    background-image: none !important;
+}
+
+.destination-filter-main-left {
+    position: sticky;
+    top: 100px;
+}
+
+/* Destination Filter Right Css */
+
+.destination-filter-card-main {
+    padding: 20px 15px;
+    border: 1px solid #E7E6E6;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.filter-card-place {
+    font-size: 14px;
+}
+
+.filter-card-head {
+    margin-top: 5px;
+    font-size: 17px;
+}
+
+.filter-card-rating {
+    font-size: 13px;
+    text-align: center;
+}
+
+.filter-card-features {
+    display: flex;
+    justify-content: space-around;
+}
+
+.filter-card-features p {
+    color: #EB662B;
+    margin-top: 10px;
+}
+
+.destination-filter-card-right {
+    border-left: 1px solid #E7E6E6;
+    padding-left: 30px;
+}
+
+.filter-card-offer-pricing {
+    color: #C6C6D2;
+    text-decoration: line-through;
+}
+
+.filter-card-view-main button {
+    color: #EB662B;
+    ;
+    padding: 12px 45px 14px;
+    font-weight: 500;
+    font-size: 16px;
+    border: 1px solid #EB662B;
+    border-radius: 10px;
+    background-color: white;
+    margin-top: 20px;
+}
+
+.filter-card-view-main button:hover {
+    background-color: #EB662B;
+    color: white;
+}
+
+.filter-card-view-main {
+    margin-top: 65px;
+}
+
+/************************************************************* overview page css ******************************************/
+.overview-best {
+    background-color: #fff4ef;
+    color: #EB662B;
+    padding: 8px 18px 9px;
+    font-weight: 500;
+    font-size: 13px;
+    border-radius: 20px;
+}
+
+.overview-free {
+    background-color: #F5F5F5;
+    color: black;
+    padding: 8px 18px 9px;
+    font-weight: 500;
+    font-size: 13px;
+    border-radius: 20px;
+
+}
+
+.tours-overview-head {
+    font-weight: 600;
+    width: 45%;
+    margin-top: 20px;
+    font-size: 30px;
+}
+
+.tour-overview-ratings-place p {
+    font-size: 14px;
+}
+
+.tour-overview-ratings-place {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0px;
+}
+
+.tour-overview-box {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #E7E6E6;
+    border-radius: 10px;
+}
+
+.tour-overview-image-bottom {
+    margin: 40px 0px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.tour-overview-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.tour-overview-dura {
+    font-weight: 500;
+    color: #05073C;
+}
+
+.tour-overview-days {
+    color: #717171;
+    font-size: 15px;
+}
+
+.tour-overview-common-head {
+    font-weight: 600;
+}
+
+.tour-overview-highlight {
+    border-bottom: 1px solid #E7E6E6;
+    padding-bottom: 40px;
+}
+
+.whats-included-main {
+    padding-top: 40px;
+    border-bottom: 1px solid #E7E6E6;
+    padding-bottom: 40px;
+}
+
+.whats-included-allowed {
+    width: 25px;
+    height: 25px;
+    border-radius: 50px;
+    background-color: green;
+}
+
+.whats-included-dont-allowed {
+    width: 25px;
+    height: 25px;
+    border-radius: 50px;
+    background-color: red;
+}
+
+
+.timeline-container {
+    border-left: 0;
+    padding-left: 20px;
+    margin: 40px 0px 0px;
+}
+
+.timeline-dot-wrapper {
+    position: relative;
+    width: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.timeline-dot {
+    width: 16px;
+    height: 16px;
+    border: 3px solid #f26322;
+    border-radius: 50%;
+    background-color: white;
+    position: relative;
+    z-index: 2;
+}
+
+.timeline-dot.filled {
+    background-color: #f26322;
+    border-color: #f26322;
+}
+
+/* 
+.timeline-line {
+    height: 100%;
+    width: 2px;
+    background-color: #f26322;
+    position: absolute;
+    top: 16px;
+} */
+.timeline-step {
+    cursor: pointer;
+    margin-bottom: 30px !important;
+}
+
+/************************************************************* tour overview Faq's css ******************************************/
+.tour-overview-faqs .accordion-item {
+    border: 1px solid #E7E6E6 !important;
+    margin-bottom: 30px;
+}
+
+.tour-overview-faqs .accordion-button:not(.collapsed) {
+    background-color: white !important;
+    box-shadow: none !important;
+}
+
+.tour-overview-faqs .button:focus:not(:focus-visible) {
+    box-shadow: none !important;
+}
+
+.tour-overview-faqs .accordion-button::after {
+    background-image: none !important;
+    width: 20px !important;
+    height: 20px !important;
+    background-color: #e4dcd9 !important;
+    border-radius: 50px;
+}
+
+.tour-overview-faqs .accordion-button:not(.collapsed)::after {
+    background-image: none !important;
+    width: 20px !important;
+    height: 20px !important;
+    background-color: #f26322 !important;
+    border-radius: 50px;
+}
+
+.tour-overview-faqs .accordion-button:not(.collapsed) {
+    color: black !important;
+    font-weight: 500 !important;
+}
+
+.tour-overview-faqs .accordion-button:focus {
+    box-shadow: none !important;
+}
+
+/************************************************************* Reviews Faq's css ******************************************/
+.customer-review-main .reviwer-image {
+    width: 35px;
+    height: 35px;
+    background-color: black;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.customer-review-main .reviwer-image p {
+    font-size: 13px;
+}
+
+.customer-review-main .reviwer-name {
+    font-weight: 500;
+    color: #05073C;
+}
+
+.customer-review-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.customer-review-main .reviwer-date {
+    color: #717171;
+}
+
+.customer-review-main .reviwer-head {
+    margin-left: 50px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.customer-review-image {
+    margin-top: 25px;
+}
+
+.customer-review-image img {
+    width: 100%;
+    height: auto;
+}
+
+.see-more-review {
+    background-color: white;
+    border: 1px solid #EB662B;
+    border-radius: 10px;
+    padding: 14px 30px;
+    color: #EB662B;
+    cursor: pointer;
+    margin: 50px 0px
+}
+
+.see-more-review:hover {
+    background-color: #EB662B;
+    color: white;
 }
