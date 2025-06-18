@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import DestinationFilters from "./pages/user/DestinationFilters";
 import TourOverview from "./pages/user/TourOverview";
 
-const DestinationDetail = lazy(() => import("./pages/user/destinationDetail"));
+const DestinationDetail = lazy(() => import("./pages/user/DestinationDetail"));
 const Homepage = lazy(() => import("./pages/user/Homepage"));
 
 const AppRoutes = () => {
