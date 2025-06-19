@@ -49,7 +49,7 @@ const TourOverview = () => {
         <div>
             <Header fixed={false} />
 
-            <div className='overflow-hidden'>
+            <div className=''>
                 <div className="container">
                     <div className='destination-filter-top mt-5'>
                         <div className='d-flex'>
@@ -485,7 +485,39 @@ const TourOverview = () => {
                             <div className='whats-included-main'>
                                 <h3 className='tour-overview-common-head'>Leave a Reply</h3>
                                 <p className='my-3'>Your email address will not be published. Required fields are marked *</p>
+
+                                <div className='tour-overview-comments'>
+                                    <div className='row'>
+                                        <div className='col-lg-6'>
+                                            <input placeholder='Name' />
+                                        </div>
+                                        <div className='col-lg-6'>
+                                            <input placeholder='Email' />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <input placeholder='Title' />
+                                    </div>
+                                    <div>
+                                        <textarea placeholder='Commnent' />
+                                    </div>
+                                    <button className='see-more-review comments-overview-btn'>See more reviews</button>
+                                </div>
                             </div>
+                        </div>
+                        <div className='col-lg-4'>
+                            <div className='tour-overview-right'>
+                                <p className='tour-overview-price'>From <span className='fw-bold'>$1,200</span></p>
+                                <div className='tour-overview-totol'>
+                                    <p>Total :</p>
+                                    <p>$530.00 </p>
+                                </div>
+                                <div className='mt-4'>
+                                    <button className='see-more-review comments-overview-btn w-100'>Book Now</button>
+                                </div>
+
+                            </div>
+
                         </div>
                     </div>
 

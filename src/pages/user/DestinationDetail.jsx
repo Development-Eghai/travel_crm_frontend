@@ -251,6 +251,175 @@ const DestinationDetail = () => {
                     </div>
                 </div>
             </section>
+
+            <section className='section-padding-bottom'>
+                <div className="container">
+                    <div>
+                        <h4 className='common-section-heading text-center'>Frequently Asked Questions</h4>
+                    </div>
+                </div>
+
+                <div className='row justify-content-center'>
+                    <div className='col-lg-8'>
+                        <div className='tour-overview-faqs mt-5'>
+                            <div class="accordion" id="accordionExample">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingOne">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            Can I get the refund?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>Phang Nga Bay Sea Cave Canoeing & James Bond Island w/ Buffet Lunch by Big Boat cancellation policy: For a full
+                                                refund, cancel at least 24 hours in advance of the start date of the experience. Discover and book Phang Nga Bay
+                                                Sea Cave Canoeing & James Bond Island w/ Buffet Lunch by Big Boat.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTwo">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            Can I change the travel date?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>Phang Nga Bay Sea Cave Canoeing & James Bond Island w/ Buffet Lunch by Big Boat cancellation policy: For a full
+                                                refund, cancel at least 24 hours in advance of the start date of the experience. Discover and book Phang Nga Bay
+                                                Sea Cave Canoeing & James Bond Island w/ Buffet Lunch by Big Boat.</p>                                    </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingThree">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            When and where does the tour end?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>Phang Nga Bay Sea Cave Canoeing & James Bond Island w/ Buffet Lunch by Big Boat cancellation policy: For a full
+                                                refund, cancel at least 24 hours in advance of the start date of the experience. Discover and book Phang Nga Bay
+                                                Sea Cave Canoeing & James Bond Island w/ Buffet Lunch by Big Boat.</p>                                           </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section className='section-padding-bottom'>
+                <div className="container">
+                    <div>
+                        <h4 className='common-section-heading travel-guidence-head'>Europe Travel Guidelines</h4>
+                    </div>
+
+                    <div className='destionation-travel-guidence'>
+                        <p className=''>1. While applying for a Schengen Visa, your passport should be valid 6 months post the date of travel.</p>
+                        <p className='mt-2'>2. Your passport should have at least 2 blank pages with all the previous Visa applications through the same passport.</p>
+                        <p className='mt-2'>3. It is advised to activate an International roaming plan as per the countries you are visiting, before departing from India.</p>
+                        <p className='mt-2'>4. Currency exchange rates at airports are comparatively higher. Rather exchange your currency from your city in India for better deals. You can also use an International travel card which is widely accepted in Europe.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section className='section-padding-bottom'>
+                <div className="container">
+                    <div className='row justify-content-center'>
+                        <div className='col-lg-8'>
+                            <div className='destination-enquiry-form'>
+                                <h5 className='fw-bold'>Don’t Just Dream, Travel! 🔥</h5>
+                                <div className='destination-enquiry-input-main'>
+                                    <div className='destination-enquiry-input-div'>
+                                        <i class="fa-solid fa-user-tie ps-2"></i>
+                                        <input placeholder='Enter Your Name*' />
+                                    </div>
+                                    <div className='destination-enquiry-input-div'>
+                                        <i class="fa-solid fa-user-tie ps-2"></i>
+                                        <input placeholder='Enter Your Phone Number*' />
+                                    </div>
+                                    <button className='destination-enquiry-button'>
+                                        ENQUIRE NOW
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className='section-padding-bottom'>
+                <div className='container'>
+                    <div className='d-flex justify-content-between'>
+                        <div>
+                            <h4 className='common-section-heading'>Travel Articles</h4>
+                        </div>
+                        <div>
+                            <a href='/' className='anchor-tag'>See all</a>
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div className='col-lg-4'>
+                            <div className="blogs-card-main mt-4 position-relative">
+                                <div>
+                                    <img className="blogs-card-img" src={Images.featured_card} alt="featured" />
+                                    <div className='blogs-tag-main'>
+                                        <p>Trips</p>
+                                    </div>
+                                </div>
+                                <div className="blogs-content-main">
+                                    <div className='d-flex mt-4'>
+                                        <p className="blogs-author">April 06 2023</p>
+                                        <p className="blogs-posted">By Ali Tufan</p>
+                                    </div>
+                                    <p className='blogs-content mt-2'>Kenya vs Tanzania Safari: The Better African
+                                        Safari Experience</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='col-lg-4'>
+                            <div className="blogs-card-main mt-4 position-relative">
+                                <div>
+                                    <img className="blogs-card-img" src={Images.featured_card} alt="featured" />
+                                    <div className='blogs-tag-main'>
+                                        <p>Trips</p>
+                                    </div>
+                                </div>
+                                <div className="blogs-content-main">
+                                    <div className='d-flex mt-4'>
+                                        <p className="blogs-author">April 06 2023</p>
+                                        <p className="blogs-posted">By Ali Tufan</p>
+                                    </div>
+                                    <p className='blogs-content mt-2'>Kenya vs Tanzania Safari: The Better African
+                                        Safari Experience</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='col-lg-4'>
+                            <div className="blogs-card-main mt-4 position-relative">
+                                <div>
+                                    <img className="blogs-card-img" src={Images.featured_card} alt="featured" />
+                                    <div className='blogs-tag-main'>
+                                        <p>Trips</p>
+                                    </div>
+                                </div>
+                                <div className="blogs-content-main">
+                                    <div className='d-flex mt-4'>
+                                        <p className="blogs-author">April 06 2023</p>
+                                        <p className="blogs-posted">By Ali Tufan</p>
+                                    </div>
+                                    <p className='blogs-content mt-2'>Kenya vs Tanzania Safari: The Better African
+                                        Safari Experience</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <Footer />
         </div>
     )

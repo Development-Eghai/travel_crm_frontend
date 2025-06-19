@@ -8,7 +8,7 @@ const DestinationFilters = () => {
     <div>
       <Header fixed={false} />
 
-      <div className='section-padding-bottom overflow-hidden'>
+      <div className='section-padding-bottom'>
         <div className="container">
           <div className='destination-filter-top mt-5'>
             <div className='d-flex'>
@@ -81,7 +81,7 @@ const DestinationFilters = () => {
                           </h2>
                           <div
                             id="filtercollapsetwo"
-                            className="accordion-collapse collapse"
+                            className="accordion-collapse collapse show"
                             aria-labelledby="filter-two"
                           >
                             <div className='filter-input'><input type="checkbox" /> <span>10k - 20k</span></div>
@@ -109,7 +109,7 @@ const DestinationFilters = () => {
                           </h2>
                           <div
                             id="filtercollapsethree"
-                            className="accordion-collapse collapse"
+                            className="accordion-collapse collapse show"
                             aria-labelledby="filter-three"
                           >
                             <div className='filter-input'><input type="checkbox" /> <span>2days - 5days</span></div>
@@ -136,7 +136,7 @@ const DestinationFilters = () => {
                           </h2>
                           <div
                             id="filtercollapsefour"
-                            className="accordion-collapse collapse"
+                            className="accordion-collapse collapse show"
                             aria-labelledby="filter-four"
                           >
                             <div className='filter-input'><input type="checkbox" /> <span>2days - 5days</span></div>
