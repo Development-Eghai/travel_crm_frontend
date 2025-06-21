@@ -25,7 +25,7 @@ const DestinationFilters = () => {
 
           <section>
             <div className="row">
-              <div className="col-lg-3">
+              <div className="col-lg-3 col-md-5">
                 <div className='destination-filter-main-left'>
                   <div className='destination-filter-main-left-top'>
                     <p className='text-white'>When are you traveling?</p>
@@ -150,7 +150,7 @@ const DestinationFilters = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-lg-9">
+              <div className="col-lg-9 col-md-7">
                 <div className='destination-filter-main-right'>
                   <div className='mb-4'>
                     <p>1362 results</p>

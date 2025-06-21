@@ -11,7 +11,7 @@ const Footer = () => {
               <p>Speak to our expert at</p>
               <a className='expert-contact' href='tel:+9345841519'>984-584-1519</a>
             </div>
-            <div className='footer-social-icon'>
+            <div className='footer-social-icon mt-lg-0 mt-3'>
               <p>Follow Us :</p>
               <ul className='social-hover'>
                 <li>
@@ -32,8 +32,7 @@ const Footer = () => {
 
           <div className='footer-bottom-main'>
             <div className='row'>
-
-              <div className="col-lg-4">
+              <div className="col-lg-4 col-md-4 col-6">
                 <div className='footer-column-one'>
                   <h5 className='footer-column-heading'>Contact</h5>
                   <p className='mb-2'>328 Queensberry Street, North Melbourne VIC3051,
@@ -42,7 +41,7 @@ const Footer = () => {
                 </div>
               </div>
 
-              <div className="col-lg-2">
+              <div className="col-lg-2 col-md-3 col-6">
                 <div className='footer-column-two footer-anchor-main d-flex flex-column'>
                   <h5 className='footer-column-heading'>Company</h5>
                   <a href='emailto:sundar@gmail.com'>About Us</a>
@@ -52,7 +51,7 @@ const Footer = () => {
                 </div>
               </div>
 
-              <div className="col-lg-2">
+              <div className="col-lg-2 col-md-3 col-6">
                 <div className='footer-column-two footer-anchor-main d-flex flex-column'>
                   <h5 className='footer-column-heading'>Support</h5>
                   <a href='emailto:sundar@gmail.com'>Get in Touch</a>
@@ -62,7 +61,7 @@ const Footer = () => {
                 </div>
               </div>
 
-              <div className="col-lg-4">
+              <div className="col-lg-4 col-md-4 col-12">
                 <div className='footer-column-two footer-anchor-main d-flex flex-column'>
                   <h5 className='footer-column-heading'>Newsletter</h5>
                   <p className='mb-2'>Subscribe to the free newsletter and stay

@@ -7,7 +7,7 @@ const Header = ({ fixed = true }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsSticky(window.scrollY > 50);
+      setIsSticky(window.scrollY > 10);
     };
     window.addEventListener("scroll", handleScroll);
 
@@ -19,7 +19,9 @@ const Header = ({ fixed = true }) => {
     <div className={`header-main ${isSticky ? "sticky-header" : ""} ${fixed ? "fixed-header" : "not-fixed-header"}`}>
       <nav className="navbar navbar-expand-lg">
         <div className="container">
-          <a className="navbar-brand" href="/tour-overview">Search destinations or activities</a>
+          <a href='/'>
+            <img src={Images.logo} alt="logo" className="logo-image" />
+          </a>
           <button
             className="navbar-toggler"
             type="button"
@@ -34,13 +36,11 @@ const Header = ({ fixed = true }) => {
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
-              <a href='/'>
-              <img src={Images.logo} alt="logo" className="logo-image" />
-              </a>
+              <a className="navbar-brand" href="/tour-overview">Search destinations or activities</a>
             </ul>
-            <div className="d-flex ms-auto mt-3 mt-lg-0">
+            <div className="d-flex flex-column flex-lg-row  mt-3 mt-lg-0">
               <a className="navbar-brand" href="/destination">Signup</a>
-              <a className="navbar-brand login-btn" href="/destination-list">Login</a>
+              <a className="navbar-brand login-btn mt-lg-0 mt-4" href="/destination-list">Login</a>
             </div>
           </div>
         </div>

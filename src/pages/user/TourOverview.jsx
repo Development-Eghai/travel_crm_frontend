@@ -57,7 +57,7 @@ const TourOverview = () => {
                             <a className='destination-filter'>Tours</a><i class="fa-solid fa-greater-than mx-2 mt-1"></i>
                             <a className='destination-filter'>Phuket</a>
                         </div>
-                        <div>
+                        <div className='mt-lg-0 mt-md-0 mt-3'>
                             <p className='destination-filter'>THE TOP {10} Phuket Tours & Excursions</p>
                         </div>
                     </div>
@@ -77,7 +77,7 @@ const TourOverview = () => {
                             <p className='ms-3'>30K+ booked</p>
                         </div>
 
-                        <div className='d-flex'>
+                        <div className='d-flex mt-lg-0 mt-md-0 mt-3'>
                             <p>share</p>
                             <p className='ms-4'>wishlist</p>
                         </div>
@@ -85,7 +85,6 @@ const TourOverview = () => {
 
                     <div className="container tour-overview-image">
                         <div className="row g-2">
-
                             <div className="col-lg-7 col-12">
                                 <img
                                     src={Images?.overview_1}
@@ -142,7 +141,7 @@ const TourOverview = () => {
                                     </div>
                                 </div>
 
-                                <div className='d-flex'>
+                                <div className='d-flex mt-lg-0 mt-md-0 mt-4'>
                                     <div className='tour-overview-box'>
 
                                     </div>
@@ -152,7 +151,7 @@ const TourOverview = () => {
                                     </div>
                                 </div>
 
-                                <div className='d-flex'>
+                                <div className='d-flex mt-lg-0 mt-md-0 mt-4'>
                                     <div className='tour-overview-box'>
 
                                     </div>
@@ -222,7 +221,7 @@ const TourOverview = () => {
                                         </div>
                                     </div>
                                     <div className="col-lg-6">
-                                        <div className='whats-included-right'>
+                                        <div className='whats-included-right mt-lg-0 mt-md-0 mt-5'>
                                             <div className='mt-3 d-flex'>
                                                 <div className='whats-included-dont-allowed'>
 
@@ -350,17 +349,17 @@ const TourOverview = () => {
                                         stamps as a souvenir. Must see for a Harry Potter fan.</p>
 
                                     <div className='row'>
-                                        <div className="col-lg-3">
+                                        <div className="col-lg-3 col-md-3 col-4">
                                             <div className='customer-review-image'>
                                                 <img src={Images?.review_1} alt="" />
                                             </div>
                                         </div>
-                                        <div className="col-lg-3">
+                                        <div className="col-lg-3 col-md-3 col-4">
                                             <div className='customer-review-image'>
                                                 <img src={Images?.review_2} alt="" />
                                             </div>
                                         </div>
-                                        <div className="col-lg-3">
+                                        <div className="col-lg-3 col-md-3 col-4">
                                             <div className='customer-review-image'>
                                                 <img src={Images?.review_2} alt="" />
                                             </div>
@@ -387,17 +386,17 @@ const TourOverview = () => {
                                         stamps as a souvenir. Must see for a Harry Potter fan.</p>
 
                                     <div className='row'>
-                                        <div className="col-lg-3">
+                                        <div className="col-lg-3 col-md-3 col-4">
                                             <div className='customer-review-image'>
                                                 <img src={Images?.review_1} alt="" />
                                             </div>
                                         </div>
-                                        <div className="col-lg-3">
+                                        <div className="col-lg-3 col-md-3 col-4">
                                             <div className='customer-review-image'>
                                                 <img src={Images?.review_2} alt="" />
                                             </div>
                                         </div>
-                                        <div className="col-lg-3">
+                                        <div className="col-lg-3 col-md-3 col-4">
                                             <div className='customer-review-image'>
                                                 <img src={Images?.review_2} alt="" />
                                             </div>
@@ -424,17 +423,17 @@ const TourOverview = () => {
                                         stamps as a souvenir. Must see for a Harry Potter fan.</p>
 
                                     <div className='row'>
-                                        <div className="col-lg-3">
+                                        <div className="col-lg-3 col-md-3 col-4">
                                             <div className='customer-review-image'>
                                                 <img src={Images?.review_1} alt="" />
                                             </div>
                                         </div>
-                                        <div className="col-lg-3">
+                                        <div className="col-lg-3 col-md-3 col-4">
                                             <div className='customer-review-image'>
                                                 <img src={Images?.review_2} alt="" />
                                             </div>
                                         </div>
-                                        <div className="col-lg-3">
+                                        <div className="col-lg-3 col-md-3 col-4">
                                             <div className='customer-review-image'>
                                                 <img src={Images?.review_2} alt="" />
                                             </div>
@@ -461,17 +460,17 @@ const TourOverview = () => {
                                         stamps as a souvenir. Must see for a Harry Potter fan.</p>
 
                                     <div className='row'>
-                                        <div className="col-lg-3">
+                                        <div className="col-lg-3 col-md-3 col-4">
                                             <div className='customer-review-image'>
                                                 <img src={Images?.review_1} alt="" />
                                             </div>
                                         </div>
-                                        <div className="col-lg-3">
+                                        <div className="col-lg-3 col-md-3 col-4">
                                             <div className='customer-review-image'>
                                                 <img src={Images?.review_2} alt="" />
                                             </div>
                                         </div>
-                                        <div className="col-lg-3">
+                                        <div className="col-lg-3 col-md-3 col-4">
                                             <div className='customer-review-image'>
                                                 <img src={Images?.review_2} alt="" />
                                             </div>
@@ -525,7 +524,7 @@ const TourOverview = () => {
                         <h3 className='tour-overview-common-head'>You might also like...</h3>
                         <div className='mt-3'>
                             <div className="row">
-                                <div className='col-lg-3'>
+                                <div className='col-lg-3 col-md-6 col-12'>
                                     <div className="featured-card-main popular-card-main">
                                         <div>
                                             <img className="featured-card-img" src={Images.featured_card} alt="featured" />
@@ -540,7 +539,7 @@ const TourOverview = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className='col-lg-3'>
+                                <div className='col-lg-3 col-md-6 col-12'>
                                     <div className="featured-card-main popular-card-main">
                                         <div>
                                             <img className="featured-card-img" src={Images.featured_card} alt="featured" />
@@ -555,7 +554,7 @@ const TourOverview = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className='col-lg-3'>
+                                <div className='col-lg-3 col-md-6 col-12'>
                                     <div className="featured-card-main popular-card-main">
                                         <div>
                                             <img className="featured-card-img" src={Images.featured_card} alt="featured" />
@@ -570,7 +569,7 @@ const TourOverview = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className='col-lg-3'>
+                                <div className='col-lg-3 col-md-6 col-12'>
                                     <div className="featured-card-main popular-card-main">
                                         <div>
                                             <img className="featured-card-img" src={Images.featured_card} alt="featured" />

@@ -27,7 +27,7 @@ const Homepage = () => {
                                 <h4 className='common-section-heading'>Featured Trips</h4>
                             </div>
                             <div>
-                                <div className="slider-nav">
+                                <div className="slider-nav slider-navigation">
                                     <button ref={prevRef} className="nav-btn">←</button>
                                     <button ref={nextRef} className="nav-btn">→</button>
                                 </div>
@@ -81,32 +81,32 @@ const Homepage = () => {
 
                 <section className='trending-destination-section section-padding'>
                     <div className='container'>
-                        <div className='d-flex justify-content-between'>
-                            <div>
+                        <div className='d-flex flex-lg-row flex-md-row flex-column justify-content-lg-between justify-content-md-between'>
+                            <div className='d-flex justify-content-center'>
                                 <h4 className='common-section-heading'>Trending Destinations</h4>
                             </div>
-                            <div>
-                                <a href='/' className='anchor-tag'>See all</a>
+                            <div className='mt-lg-0 my-md-auto mt-3 d-flex justify-content-center'>
+                                <a href='/' className='anchor-tag text-lg-start text-center'>See all</a>
                             </div>
                         </div>
 
                         <div className='mt-4'>
                             <div className="row">
                                 <div className="col-lg-3">
-                                    <div className='trending-grid-one position-relative'>
-                                        <div className='trending-card'>
+                                    <div className='trending-grid-one'>
+                                        <div className='position-relative trending-card'>
                                             <figure>
                                                 <img src={Images.trending_one} alt="trending-one" className='trending-image' />
                                             </figure>
-                                            <div className='trending-grid-content'>
+                                            <div className='trending-grid-content-three'>
                                                 <p className='trending-grid-para'>Paris, France</p>
                                             </div>
                                         </div>
-                                        <div className='mt-4 trending-card'>
+                                        <div className='mt-4 trending-card position-relative'>
                                             <figure>
                                                 <img src={Images.trending_two} alt="trending-one" className='trending-image' />
                                             </figure>
-                                            <div className='trending-grid-content-two'>
+                                            <div className='trending-grid-content-three'>
                                                 <p className='trending-grid-para'>Italy</p>
                                             </div>
                                         </div>
@@ -121,12 +121,12 @@ const Homepage = () => {
                                             <p className='trending-grid-para'>France</p>
                                         </div>
                                     </div>
-                                    <div className='d-flex mt-4'>
+                                    <div className='d-flex mt-4 justify-content-start justify-content-md-around'>
                                         <div className='position-relative trending-card'>
                                             <figure>
                                                 <img src={Images.trending_four} alt="trending-one" className='trending-image' />
                                             </figure>
-                                            <div className='trending-grid-content-three'>
+                                            <div className='trending-grid-content-center-image'>
                                                 <p className='trending-grid-para'>Iran</p>
                                             </div>
                                         </div>
@@ -134,7 +134,7 @@ const Homepage = () => {
                                             <figure>
                                                 <img src={Images.trending_five} alt="trending-one" className='trending-image' />
                                             </figure>
-                                            <div className='trending-grid-content-three'>
+                                            <div className='trending-grid-content-center-image'>
                                                 <p className='trending-grid-para'>chennai</p>
                                             </div>
                                         </div>
@@ -158,7 +158,7 @@ const Homepage = () => {
                 <section >
                     <div className='container'>
                         <div className="row">
-                            <div className="col-lg-6 p-0">
+                            <div className="col-lg-6 p-lg-0">
                                 <div className='offer-left'>
                                     <div>
                                         <h4 className='offer-left-heading'>Grab up to <span className='offer-span-head'>35% off </span><br className='break-tag' />
@@ -169,7 +169,7 @@ const Homepage = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-lg-6 p-0">
+                            <div className="col-lg-6 p-lg-0">
                                 <img src={Images.offer_right} alt="offer-right" className='w-100 h-auto' />
                             </div>
                         </div>
@@ -186,7 +186,7 @@ const Homepage = () => {
                         </div>
                         <div className='mt-3'>
                             <div className="row">
-                                <div className='col-lg-3'>
+                                <div className='col-lg-3 col-md-6'>
                                     <div className="featured-card-main popular-card-main">
                                         <div>
                                             <img className="featured-card-img" src={Images.featured_card} alt="featured" />
@@ -201,7 +201,7 @@ const Homepage = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className='col-lg-3'>
+                                <div className='col-lg-3 col-md-6'>
                                     <div className="featured-card-main popular-card-main">
                                         <div>
                                             <img className="featured-card-img" src={Images.featured_card} alt="featured" />
@@ -216,7 +216,7 @@ const Homepage = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className='col-lg-3'>
+                                <div className='col-lg-3 col-md-6'>
                                     <div className="featured-card-main popular-card-main">
                                         <div>
                                             <img className="featured-card-img" src={Images.featured_card} alt="featured" />
@@ -231,7 +231,7 @@ const Homepage = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className='col-lg-3'>
+                                <div className='col-lg-3 col-md-6'>
                                     <div className="featured-card-main popular-card-main">
                                         <div>
                                             <img className="featured-card-img" src={Images.featured_card} alt="featured" />
@@ -372,7 +372,7 @@ const Homepage = () => {
                                             <p className='get-link-para'>Get a magic link sent to your email</p>
                                             <div className='mt-2'>
                                                 <input type='email' placeholder='Email' />
-                                                <button>Send</button>
+                                                <button className='mt-lg-0 mt-3'>Send</button>
                                             </div>
                                         </div>
                                     </div>
@@ -398,8 +398,8 @@ const Homepage = () => {
                             </div>
                         </div>
                         <div className='row'>
-                            <div className='col-lg-4'>
-                                <div className="blogs-card-main mt-4 position-relative">
+                            <div className='col-lg-4 col-md-4'>
+                                <div className="blogs-card-main mt-lg-4 mt-5 position-relative">
                                     <div>
                                         <img className="blogs-card-img" src={Images.featured_card} alt="featured" />
                                         <div className='blogs-tag-main'>
@@ -416,8 +416,8 @@ const Homepage = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='col-lg-4'>
-                                <div className="blogs-card-main mt-4 position-relative">
+                            <div className='col-lg-4 col-md-4'>
+                                <div className="blogs-card-main mt-lg-4 mt-5 position-relative">
                                     <div>
                                         <img className="blogs-card-img" src={Images.featured_card} alt="featured" />
                                         <div className='blogs-tag-main'>
@@ -434,8 +434,8 @@ const Homepage = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='col-lg-4'>
-                                <div className="blogs-card-main mt-4 position-relative">
+                            <div className='col-lg-4 col-md-4'>
+                                <div className="blogs-card-main mt-lg-4 mt-5 position-relative">
                                     <div>
                                         <img className="blogs-card-img" src={Images.featured_card} alt="featured" />
                                         <div className='blogs-tag-main'>

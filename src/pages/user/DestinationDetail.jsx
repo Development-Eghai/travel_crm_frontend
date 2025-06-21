@@ -48,7 +48,7 @@ const DestinationDetail = () => {
                                         <span>Europe: </span>
                                         The Land Of Endless Discoveries - Upto 30% Off
                                     </p>
-                                    <div className='mt-5'>
+                                    <div className='mt-lg-5 mt-md-5 mt-4'>
                                         <div className='d-flex'>
                                             <div>
                                                 <img src={Images?.discount_banner} alt="discount-icon-image" className='discount-icon-image' />
@@ -114,7 +114,7 @@ const DestinationDetail = () => {
 
                     <div className='mt-4'>
                         <div className="row">
-                            <div className='col-lg-3'>
+                            <div className='col-lg-3 col-md-6'>
                                 <div className="featured-card-main popular-card-main">
                                     <div>
                                         <img className="featured-card-img" src={Images.featured_card} alt="featured" />
@@ -129,7 +129,7 @@ const DestinationDetail = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='col-lg-3'>
+                            <div className='col-lg-3 col-md-6'>
                                 <div className="featured-card-main popular-card-main">
                                     <div>
                                         <img className="featured-card-img" src={Images.featured_card} alt="featured" />
@@ -144,7 +144,7 @@ const DestinationDetail = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='col-lg-3'>
+                            <div className='col-lg-3 col-md-6'>
                                 <div className="featured-card-main popular-card-main">
                                     <div>
                                         <img className="featured-card-img" src={Images.featured_card} alt="featured" />
@@ -159,7 +159,7 @@ const DestinationDetail = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='col-lg-3'>
+                            <div className='col-lg-3 col-md-6'>
                                 <div className="featured-card-main popular-card-main">
                                     <div>
                                         <img className="featured-card-img" src={Images.featured_card} alt="featured" />
@@ -181,7 +181,7 @@ const DestinationDetail = () => {
 
                             {viewMore && (
                                 <>
-                                    <div className='col-lg-3'>
+                                    <div className='col-lg-3 col-md-6'>
                                         <div className="featured-card-main popular-card-main">
                                             <div>
                                                 <img className="featured-card-img" src={Images.featured_card} alt="featured" />
@@ -196,7 +196,7 @@ const DestinationDetail = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='col-lg-3'>
+                                    <div className='col-lg-3 col-md-6'>
                                         <div className="featured-card-main popular-card-main">
                                             <div>
                                                 <img className="featured-card-img" src={Images.featured_card} alt="featured" />
@@ -211,7 +211,7 @@ const DestinationDetail = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='col-lg-3'>
+                                    <div className='col-lg-3 col-md-6'>
                                         <div className="featured-card-main popular-card-main">
                                             <div>
                                                 <img className="featured-card-img" src={Images.featured_card} alt="featured" />
@@ -226,7 +226,7 @@ const DestinationDetail = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='col-lg-3'>
+                                    <div className='col-lg-3 col-md-6'>
                                         <div className="featured-card-main popular-card-main">
                                             <div>
                                                 <img className="featured-card-img" src={Images.featured_card} alt="featured" />
@@ -328,19 +328,19 @@ const DestinationDetail = () => {
             <section className='section-padding-bottom'>
                 <div className="container">
                     <div className='row justify-content-center'>
-                        <div className='col-lg-8'>
+                        <div className='col-lg-8 col-12'>
                             <div className='destination-enquiry-form'>
                                 <h5 className='fw-bold'>Don’t Just Dream, Travel! 🔥</h5>
                                 <div className='destination-enquiry-input-main'>
-                                    <div className='destination-enquiry-input-div'>
+                                    <div className='destination-enquiry-input-div mt-lg-0 mt-md-3 mt-3'>
                                         <i class="fa-solid fa-user-tie ps-2"></i>
                                         <input placeholder='Enter Your Name*' />
                                     </div>
-                                    <div className='destination-enquiry-input-div'>
+                                    <div className='destination-enquiry-input-div mt-lg-0 mt-md-3 mt-3'>
                                         <i class="fa-solid fa-user-tie ps-2"></i>
                                         <input placeholder='Enter Your Phone Number*' />
                                     </div>
-                                    <button className='destination-enquiry-button'>
+                                    <button className='destination-enquiry-button mt-lg-0 mt-md-3 mt-3'>
                                         ENQUIRE NOW
                                     </button>
                                 </div>
@@ -362,7 +362,7 @@ const DestinationDetail = () => {
                         </div>
                     </div>
                     <div className='row'>
-                        <div className='col-lg-4'>
+                        <div className='col-lg-4 col-md-4'>
                             <div className="blogs-card-main mt-4 position-relative">
                                 <div>
                                     <img className="blogs-card-img" src={Images.featured_card} alt="featured" />
@@ -380,7 +380,7 @@ const DestinationDetail = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='col-lg-4'>
+                        <div className='col-lg-4 col-md-4'>
                             <div className="blogs-card-main mt-4 position-relative">
                                 <div>
                                     <img className="blogs-card-img" src={Images.featured_card} alt="featured" />
@@ -398,7 +398,7 @@ const DestinationDetail = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='col-lg-4'>
+                        <div className='col-lg-4 col-md-4'>
                             <div className="blogs-card-main mt-4 position-relative">
                                 <div>
                                     <img className="blogs-card-img" src={Images.featured_card} alt="featured" />
