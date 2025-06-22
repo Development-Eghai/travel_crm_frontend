@@ -95,59 +95,71 @@ const Homepage = () => {
                                 <div className="col-lg-3">
                                     <div className='trending-grid-one'>
                                         <div className='position-relative trending-card'>
-                                            <figure>
-                                                <img src={Images.trending_one} alt="trending-one" className='trending-image' />
-                                            </figure>
-                                            <div className='trending-grid-content-three'>
-                                                <p className='trending-grid-para'>Paris, France</p>
-                                            </div>
+                                            <a href="destination">
+                                                <figure>
+                                                    <img src={Images.trending_one} alt="trending-one" className='trending-image' />
+                                                </figure>
+                                                <div className='trending-grid-content-three'>
+                                                    <p className='trending-grid-para'>Paris, France</p>
+                                                </div>
+                                            </a>
                                         </div>
                                         <div className='mt-4 trending-card position-relative'>
-                                            <figure>
-                                                <img src={Images.trending_two} alt="trending-one" className='trending-image' />
-                                            </figure>
-                                            <div className='trending-grid-content-three'>
-                                                <p className='trending-grid-para'>Italy</p>
-                                            </div>
+                                            <a href="destination">
+                                                <figure>
+                                                    <img src={Images.trending_two} alt="trending-one" className='trending-image' />
+                                                </figure>
+                                                <div className='trending-grid-content-three'>
+                                                    <p className='trending-grid-para'>Italy</p>
+                                                </div>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="col-lg-5">
                                     <div className='position-relative trending-card'>
-                                        <figure>
-                                            <img src={Images.trending_three} alt="trending-one" className='trending-image' />
-                                        </figure>
-                                        <div className='trending-grid-content-three'>
-                                            <p className='trending-grid-para'>France</p>
-                                        </div>
+                                        <a href="destination">
+                                            <figure>
+                                                <img src={Images.trending_three} alt="trending-one" className='trending-image' />
+                                            </figure>
+                                            <div className='trending-grid-content-three'>
+                                                <p className='trending-grid-para'>France</p>
+                                            </div>
+                                        </a>
                                     </div>
                                     <div className='d-flex mt-4 justify-content-start justify-content-md-around'>
                                         <div className='position-relative trending-card'>
-                                            <figure>
-                                                <img src={Images.trending_four} alt="trending-one" className='trending-image' />
-                                            </figure>
-                                            <div className='trending-grid-content-center-image'>
-                                                <p className='trending-grid-para'>Iran</p>
-                                            </div>
+                                            <a href="destination">
+                                                <figure>
+                                                    <img src={Images.trending_four} alt="trending-one" className='trending-image' />
+                                                </figure>
+                                                <div className='trending-grid-content-center-image'>
+                                                    <p className='trending-grid-para'>Iran</p>
+                                                </div>
+                                            </a>
                                         </div>
                                         <div className='ms-4 position-relative trending-card'>
-                                            <figure>
-                                                <img src={Images.trending_five} alt="trending-one" className='trending-image' />
-                                            </figure>
-                                            <div className='trending-grid-content-center-image'>
-                                                <p className='trending-grid-para'>chennai</p>
-                                            </div>
+                                            <a href="destination">
+                                                <figure>
+                                                    <img src={Images.trending_five} alt="trending-one" className='trending-image' />
+                                                </figure>
+                                                <div className='trending-grid-content-center-image'>
+                                                    <p className='trending-grid-para'>chennai</p>
+                                                </div>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="col-lg-4">
                                     <div className='position-relative trending-card'>
-                                        <figure>
-                                            <img src={Images.trending_six} alt="trending-one" className='trending-image' />
-                                        </figure>
-                                        <div className='trending-grid-content-three'>
-                                            <p className='trending-grid-para'>Australia</p>
-                                        </div>
+                                        <a>
+                                            <figure>
+                                                <img src={Images.trending_six} alt="trending-one" className='trending-image' />
+                                            </figure>
+                                            <div className='trending-grid-content-three'>
+                                                <p className='trending-grid-para'>Australia</p>
+                                            </div>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

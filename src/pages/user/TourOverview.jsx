@@ -1,10 +1,19 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Header from './component/Header'
 import { Images } from "../../helpers/Images/images";
 import Footer from "./component/Footer"
 
 const TourOverview = () => {
     const [activeIndex, setActiveIndex] = useState(2);
+    const bookingRef = useRef();
+
+    const scrollToBooking = () => {
+        const yOffset = -100;
+        const element = bookingRef.current;
+        const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      };
+      
 
     const handleToggle = (index) => {
         setActiveIndex(index === activeIndex ? null : index);
@@ -505,18 +514,111 @@ const TourOverview = () => {
                             </div>
                         </div>
                         <div className='col-lg-4'>
-                            <div className='tour-overview-right'>
-                                <p className='tour-overview-price'>From <span className='fw-bold'>$1,200</span></p>
-                                <div className='tour-overview-totol'>
-                                    <p>Total :</p>
-                                    <p>$530.00 </p>
-                                </div>
-                                <div className='mt-4'>
-                                    <button className='see-more-review comments-overview-btn w-100'>Book Now</button>
-                                </div>
+                            <div ref={bookingRef}>
+                                <>
+                                    <div className='tour-overview-right'>
+                                        <p className='tour-overview-price'>From <span className='fw-bold'>$1,200</span></p>
+                                        <div className='mt-4'>
+                                            <div className='tour-overview-date'>
+                                                <div className='tour-overview-box'>
 
+                                                </div>
+                                                <div className='d-flex flex-column ms-2'>
+                                                    <p>From</p>
+                                                    <p>February 05 ~ March 14</p>
+                                                </div>
+                                            </div>
+                                            <div className='tour-overview-time'>
+                                                <div className='tour-overview-box'>
+
+                                                </div>
+                                                <div className='d-flex flex-column ms-2'>
+                                                    <p>Time</p>
+                                                    <p>08:00 - 11:00</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p className='tour-overview-book-head'>Tickets</p>
+                                            <div className='tour-booking-ticket'>
+                                                <div className='my-auto'>
+                                                    <p className='tour-booking-para'>Adult (18+ years) <span>$282.00</span></p>
+                                                </div>
+                                                <div className='d-flex'>
+                                                    <div className='tour-booking-indicator'>
+
+                                                    </div>
+                                                    <p className='mx-2'>3</p>
+                                                    <div className='tour-booking-indicator'>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className='tour-booking-ticket'>
+                                                <div className='my-auto'>
+                                                    <p className='tour-booking-para'>Youth (13-17 years)  <span>$168.00</span></p>
+                                                </div>
+                                                <div className='d-flex'>
+                                                    <div className='tour-booking-indicator'>
+
+                                                    </div>
+                                                    <p className='mx-2'>3</p>
+                                                    <div className='tour-booking-indicator'>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className='tour-booking-ticket'>
+                                                <div className='my-auto'>
+                                                    <p className='tour-booking-para'>Children (0-12 years) <span>$80.00</span></p>
+                                                </div>
+                                                <div className='d-flex'>
+                                                    <div className='tour-booking-indicator'>
+
+                                                    </div>
+                                                    <p className='mx-2'>3</p>
+                                                    <div className='tour-booking-indicator'>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p className='tour-overview-book-head'>Add Extra</p>
+                                            <div className='tour-booking-extra'>
+                                                <div className='d-flex'>
+                                                    <input type='checkbox' />
+                                                    <p>Add Service per booking</p>
+                                                </div>
+                                                <div>
+                                                    <p>$40</p>
+                                                </div>
+                                            </div>
+                                            <div className='tour-booking-extra mb-0'>
+                                                <div className='d-flex'>
+                                                    <input type='checkbox' />
+                                                    <p>Add Service per person<br /></p>
+                                                </div>
+                                                <div>
+                                                    <p>$40</p>
+                                                </div>
+                                            </div>
+                                            <p className='ms-4 ticket-book-last'>Adult: <span className='fw-bold'>$17.00</span> - Youth:  <span className='fw-bold'>$14.00</span></p>
+                                        </div>
+                                        <div className='tour-overview-totol'>
+                                            <p>Total :</p>
+                                            <p>$530.00 </p>
+                                        </div>
+
+                                        <div className='mt-4'>
+                                            <button className='see-more-review comments-overview-btn w-100'>Book Now</button>
+                                        </div>
+                                    </div>
+                                    <div className="mobile-booking-btn d-lg-none">
+                                        <button className="" onClick={scrollToBooking}>Book Now</button>
+                                    </div>
+                                </>
                             </div>
-
                         </div>
                     </div>
 

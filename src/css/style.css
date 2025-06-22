@@ -6,7 +6,7 @@
 
 p {
     margin-bottom: 0px;
-    color: #05073C;
+    /* color: #05073C; */
 }
 
 /* common css starts*/
@@ -278,7 +278,7 @@ p {
 
 .trending-grid-content-center-image {
     position: absolute;
-    bottom:45px;
+    bottom: 45px;
     left: 20px;
 }
 
@@ -962,8 +962,7 @@ input[type="checkbox"] {
 }
 
 .filter-card-view-main button {
-    color: #EB662B;
-    ;
+    color: #EB662B !important;
     padding: 12px 45px 14px;
     font-weight: 500;
     font-size: 16px;
@@ -975,7 +974,7 @@ input[type="checkbox"] {
 
 .filter-card-view-main button:hover {
     background-color: #EB662B;
-    color: white;
+    color: white !important;
 }
 
 .filter-card-view-main {
@@ -1196,28 +1195,104 @@ input[type="checkbox"] {
 }
 
 .tour-overview-right {
-    margin: 40px 0px 0px 70px;
+    margin: 40px 0px 0px 40px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border: 1px solid #E7E6E6;
     padding: 30px 30px;
     border-radius: 8px;
     position: sticky;
-    top: 120px;
+    top: 100px;
 
 }
 
 .tour-overview-totol {
     display: flex;
     justify-content: space-between;
+    border-top: 1px solid #E7E6E6;
+    margin-top: 25px;
 
 }
 
 .tour-overview-totol p {
     font-size: 20px;
     font-weight: 600;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
+.tour-overview-date {
+    display: flex;
+    padding: 10px;
+    border: 1px solid #E7E6E6;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.tour-overview-time {
+    display: flex;
+    padding: 10px;
+    border: 1px solid #E7E6E6;
+    border-top: none;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.tour-overview-book-head {
+    font-size: 20px;
+    font-weight: 500;
+    margin: 20px 0px;
+}
+
+.tour-booking-para {
+    font-size: 15px;
+}
+
+.tour-booking-para span {
+    font-weight: 600;
+}
+
+.tour-booking-indicator {
+    width: 25px;
+    height: 25px;
+    border: 1px solid #E7E6E6;
+    border-radius: 50px;
+}
+
+.tour-booking-ticket {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.tour-booking-extra {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.tour-booking-extra span {
+    font-size: 12px;
+}
+
+.ticket-book-last {
+    font-size: 14px;
+}
+
+.mobile-booking-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.mobile-booking-btn button {
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 30px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    background-color: #EB662B;
+    color: white;
+    border: none;
+}
 
 /************************************************************* Reviews Faq's css ******************************************/
 .customer-review-main .reviwer-image {

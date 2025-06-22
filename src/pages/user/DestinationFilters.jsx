@@ -151,7 +151,7 @@ const DestinationFilters = () => {
                 </div>
               </div>
               <div className="col-lg-9 col-md-7">
-                <div className='destination-filter-main-right'>
+                <div className='destination-filter-main-right mt-lg-0 mt-md-0 mt-4'>
                   <div className='mb-4'>
                     <p>1362 results</p>
                   </div>
@@ -191,7 +191,7 @@ const DestinationFilters = () => {
                           <div className='filter-card-view-main'>
                             <p className='filter-card-offer-pricing text-center'>$1200</p>
                             <p className='filter-card-original-pricing text-center'>From <span className='fw-bold'>$114</span></p>
-                            <button>View Details</button>
+                            <button><a className='text-decoration-none' href='tour-overview'>View Details</a></button>
                           </div>
                         </div>
                       </div>
@@ -232,7 +232,7 @@ const DestinationFilters = () => {
                           <div className='filter-card-view-main'>
                             <p className='filter-card-offer-pricing text-center'>$1200</p>
                             <p className='filter-card-original-pricing text-center'>From <span className='fw-bold'>$114</span></p>
-                            <button>View Details</button>
+                            <button><a className='text-decoration-none' href='tour-overview'>View Details</a></button>
                           </div>
                         </div>
                       </div>
@@ -271,7 +271,7 @@ const DestinationFilters = () => {
                           <div className='filter-card-view-main'>
                             <p className='filter-card-offer-pricing text-center'>$1200</p>
                             <p className='filter-card-original-pricing text-center'>From <span className='fw-bold'>$114</span></p>
-                            <button>View Details</button>
+                            <button><a className='text-decoration-none' href='tour-overview'>View Details</a></button>
                           </div>
                         </div>
                       </div>
@@ -310,7 +310,7 @@ const DestinationFilters = () => {
                           <div className='filter-card-view-main'>
                             <p className='filter-card-offer-pricing text-center'>$1200</p>
                             <p className='filter-card-original-pricing text-center'>From <span className='fw-bold'>$114</span></p>
-                            <button>View Details</button>
+                            <button><a className='text-decoration-none' href='tour-overview'>View Details</a></button>
                           </div>
                         </div>
                       </div>
@@ -349,7 +349,7 @@ const DestinationFilters = () => {
                           <div className='filter-card-view-main'>
                             <p className='filter-card-offer-pricing text-center'>$1200</p>
                             <p className='filter-card-original-pricing text-center'>From <span className='fw-bold'>$114</span></p>
-                            <button>View Details</button>
+                            <button><a className='text-decoration-none' href='tour-overview'>View Details</a></button>
                           </div>
                         </div>
                       </div>
@@ -388,7 +388,7 @@ const DestinationFilters = () => {
                           <div className='filter-card-view-main'>
                             <p className='filter-card-offer-pricing text-center'>$1200</p>
                             <p className='filter-card-original-pricing text-center'>From <span className='fw-bold'>$114</span></p>
-                            <button>View Details</button>
+                            <button><a className='text-decoration-none' href='tour-overview'>View Details</a></button>
                           </div>
                         </div>
                       </div>
@@ -427,7 +427,7 @@ const DestinationFilters = () => {
                           <div className='filter-card-view-main'>
                             <p className='filter-card-offer-pricing text-center'>$1200</p>
                             <p className='filter-card-original-pricing text-center'>From <span className='fw-bold'>$114</span></p>
-                            <button>View Details</button>
+                            <button><a className='text-decoration-none' href='tour-overview'>View Details</a></button>
                           </div>
                         </div>
                       </div>
@@ -466,7 +466,7 @@ const DestinationFilters = () => {
                           <div className='filter-card-view-main'>
                             <p className='filter-card-offer-pricing text-center'>$1200</p>
                             <p className='filter-card-original-pricing text-center'>From <span className='fw-bold'>$114</span></p>
-                            <button>View Details</button>
+                            <button><a className='text-decoration-none' href='tour-overview'>View Details</a></button>
                           </div>
                         </div>
                       </div>
@@ -476,7 +476,6 @@ const DestinationFilters = () => {
                 </div>
 
                 <div className='pagination-main'>
-                  
 
                 </div>
               </div>
