@@ -1353,3 +1353,44 @@ input[type="checkbox"] {
     background-color: #EB662B;
     color: white;
 }
+
+/************************************************************* sibebar css ******************************************/
+.sidebar-menu {
+    text-decoration: none;
+    color: #EB662B;
+    /* background-color: #EB662B; */
+    margin-bottom: 20px;
+    padding: 4px 15px;
+    border-radius: 7px;
+}
+
+.sidebar-icon {
+    font-size: 16px;
+}
+
+.Layout-container {
+    display: flex;
+    height: 100vh;
+    
+}
+
+.sidebar-container-main {
+    width: 20rem;
+    padding: 1.5rem;
+    display: flex;
+    overflow-y: scroll;
+    flex-direction: column;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+
+}
+
+.Layout-right-container {
+    margin: 20px;
+    width: 100%;
+}
+
+.page-content {
+    padding: 20px;
+    height: 100vh;
+    overflow-y: scroll;
+}
