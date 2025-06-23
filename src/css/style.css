@@ -1357,21 +1357,32 @@ input[type="checkbox"] {
 /************************************************************* sibebar css ******************************************/
 .sidebar-menu {
     text-decoration: none;
-    color: #EB662B;
-    /* background-color: #EB662B; */
+    color: white;
     margin-bottom: 20px;
     padding: 4px 15px;
     border-radius: 7px;
 }
 
+.sidebar-menu:hover,
+.sidebar-menu:hover button {
+    background-color: white;
+    color: #EB662B;
+}
+
+.sidebar-menu.active {
+    background-color: white;
+    color: #EB662B;
+}
+
 .sidebar-icon {
     font-size: 16px;
+    margin-top: 8px;
 }
 
 .Layout-container {
     display: flex;
     height: 100vh;
-    
+
 }
 
 .sidebar-container-main {
@@ -1380,6 +1391,7 @@ input[type="checkbox"] {
     display: flex;
     overflow-y: scroll;
     flex-direction: column;
+    background-color: #EB662B !important;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 
 }
@@ -1391,6 +1403,91 @@ input[type="checkbox"] {
 
 .page-content {
     padding: 20px;
-    height: 100vh;
+    height: 90vh;
     overflow-y: scroll;
+}
+
+.submenu-list {
+    list-style: none;
+    padding-left: 0px;
+}
+
+.submenu-menus {
+    text-decoration: none;
+    color: white;
+    margin-bottom: 20px;
+    padding: 7px 15px;
+    border-radius: 7px;
+}
+
+.submenu-menus a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+}
+
+.submenu-menus a span {
+    font-size: 20px;
+}
+
+.submenu-menus:hover,
+.submenu-menus:hover a {
+    background-color: white;
+    color: #EB662B;
+}
+
+.submenu-menus.active,
+.submenu-menus.active a {
+    background-color: white;
+    color: #EB662B !important;
+}
+
+.header-div-main {
+    padding: 13px 0px;
+    border-radius: 5px;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+.user-profile-main {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 20px;
+}
+
+.user-profile-main h4 {
+    margin-bottom: 0px;
+    margin-left: 20px;
+    font-size: 18px;
+}
+
+.user-profile-main h4 span {
+    margin-left: 5px;
+}
+
+.dropdown-menu .dropdown-item {
+    font-weight: 600;
+    color: black;
+}
+
+.profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.profile-icon.dropdown-toggle::after {
+    display: none !important;
+}
+
+.dropdown-menu {
+    transform: translate3d(20px, 47px, 0px) !important;
+    cursor: pointer;
+}
+
+.dropdown-item {
+    padding: 8px 20px;
 }

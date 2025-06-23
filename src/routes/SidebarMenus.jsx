@@ -1,133 +1,49 @@
 export const AdminMenu = [
     {
         path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
+        icon: <span class="material-symbols-outlined">dashboard_2
         </span>,
         name: "Dashboard",
     },
     {
-        path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
+        path: "/admin/home",
+        icon: <span class="material-symbols-outlined">dashboard_2
         </span>,
         name: "HomePage",
     },
     {
-        path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
+        path: "/admin/tour",
+        icon: <span class="material-symbols-outlined">dashboard_2
         </span>,
         name: "Tour Overview",
-    },
-    {
-        path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
-        </span>,
-        name: "Destination",
     },
 
     {
-        path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
+        path: "/admin/feedback",
+        icon: <span class="material-symbols-outlined">
+            feedback
         </span>,
-        name: "Dashboard",
+        name: "User",
+        subMenu: [
+            {
+                path: "/admin/termsAndCondition",
+                icon: <i className="fa-solid fa-pen-to-square"></i>,
+                name: "Terms And Condition",
+            },
+            {
+                path: "/admin/privacyPolicy",
+                icon: <i className="fa-regular fa-paper-plane"></i>,
+                name: "Privacy Policy",
+            },
+        ],
     },
-    {
-        path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
-        </span>,
-        name: "HomePage",
-    },
-    {
-        path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
-        </span>,
-        name: "Tour Overview",
-    },
-    {
-        path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
-        </span>,
-        name: "Destination",
-    },
-
-    {
-        path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
-        </span>,
-        name: "Dashboard",
-    },
-    {
-        path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
-        </span>,
-        name: "HomePage",
-    },
-    {
-        path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
-        </span>,
-        name: "Tour Overview",
-    },
-    {
-        path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
-        </span>,
-        name: "Destination",
-    },
-
-    {
-        path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
-        </span>,
-        name: "Dashboard",
-    },
-    {
-        path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
-        </span>,
-        name: "HomePage",
-    },
-    {
-        path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
-        </span>,
-        name: "Tour Overview",
-    },
-    {
-        path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
-        </span>,
-        name: "Destination",
-    },
-    {
-        path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
-        </span>,
-        name: "Dashboard",
-    },
-    {
-        path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
-        </span>,
-        name: "HomePage",
-    },
-    {
-        path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
-        </span>,
-        name: "Tour Overview",
-    },
-    {
-        path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
-        </span>,
-        name: "Destination",
-    },
+   
 
 ]
 export const UserMenu = [
     {
         path: "/user/user-dashboard",
-        icon: <span class="material-symbols-outlined mt-2">dashboard_2
+        icon: <span class="material-symbols-outlined">dashboard_2
         </span>,
         name: "Dashboard",
     },
