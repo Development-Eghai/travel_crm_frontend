@@ -31,6 +31,25 @@ import review_1 from "../../assets/images/review-image-1.png";
 import review_2 from "../../assets/images/review-image-2.png";
 import review_3 from "../../assets/images/review-image-3.png";
 
+import blogs_deatil_carosel_1 from "../../assets/images/solo-travel.png";
+import blogs_deatil_carosel_2 from "../../assets/images/road-travel.png";
+import blogs_deatil_carosel_3 from "../../assets/images/osean-travel.png";
+import blogs_deatil_carosel_4 from "../../assets/images/old-city travel.png";
+import blogs_deatil_carosel_5 from "../../assets/images/mount-travel.png";
+import blogs_deatil_carosel_6 from "../../assets/images/jungal-travel.png";
+
+import blogs_deatil_1 from "../../assets/images/blog-page-1.png";
+import blogs_deatil_2 from "../../assets/images/blog-page-2.png";
+import blogs_deatil_3 from "../../assets/images/blog-page-3.png";
+
+import latest_blogs_1 from "../../assets/images/latest-blogs-1.png";
+import latest_blogs_2 from "../../assets/images/latest-blogs-2.png";
+import latest_blogs_3 from "../../assets/images/latest-blogs-3.png";
+import latest_blogs_4 from "../../assets/images/latest-blogs-4.png";
+
+import popular_post from "../../assets/images/popuar-post.png";
+
+
 
 
 
@@ -64,7 +83,28 @@ const Images = {
     overview_4,
     review_1,
     review_2,
-    review_3
+    review_3,
+
+    blogs_deatil_carosel_1,
+    blogs_deatil_carosel_2,
+    blogs_deatil_carosel_3,
+    blogs_deatil_carosel_4,
+    blogs_deatil_carosel_5,
+    blogs_deatil_carosel_6,
+
+    blogs_deatil_1,
+    blogs_deatil_2,
+    blogs_deatil_3,
+
+    latest_blogs_1,
+    latest_blogs_2,
+    latest_blogs_3,
+    latest_blogs_4,
+
+    popular_post
+
+
+    
 
 };
 export { Images };

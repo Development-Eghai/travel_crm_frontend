@@ -14,6 +14,7 @@ import { Pagination, Autoplay } from 'swiper/modules';
 const Homepage = () => {
     const prevRef = useRef(null);
     const nextRef = useRef(null);
+    
     return (
         <div>
             <Header />
@@ -37,6 +38,7 @@ const Homepage = () => {
                             <Swiper
                                 modules={[Navigation]}
                                 slidesPerView={4}
+                                pagination={{ clickable: true }}
                                 slidesPerGroup={4}
                                 spaceBetween={10}
                                 navigation={{
@@ -467,6 +469,7 @@ const Homepage = () => {
                         </div>
                     </div>
                 </section>
+                
 
             </div>
             <Footer />
