@@ -60,7 +60,7 @@ const Blogs = () => {
                                             swiper.params.navigation.nextEl = nextRef.current;
                                         }}
                                         breakpoints={{
-                                            320: { slidesPerView: 1.2 },
+                                            320: { slidesPerView: 1 },
                                             576: { slidesPerView: 2 },
                                             768: { slidesPerView: 3 },
                                             1024: { slidesPerView: 4 },
@@ -90,7 +90,7 @@ const Blogs = () => {
                 <div className="container">
                     <h4 className="text-center mb-4">Featured explore</h4>
                     <div className='row'>
-                        <div className='col-lg-4 col-md-4'>
+                        <div className='col-lg-4 col-md-6'>
                             <div className="blogs-card-main blogs-page-card mt-lg-4 mt-5 position-relative">
                                 <div>
                                     <img className="blogs-card-img" src={Images.blogs_deatil_1} alt="featured" />
@@ -110,7 +110,7 @@ const Blogs = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='col-lg-4 col-md-4'>
+                        <div className='col-lg-4 col-md-6'>
                             <div className="blogs-card-main blogs-page-card mt-lg-4 mt-5 position-relative">
                                 <div>
                                     <img className="blogs-card-img" src={Images.blogs_deatil_2} alt="featured" />
@@ -131,7 +131,7 @@ const Blogs = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='col-lg-4 col-md-4'>
+                        <div className='col-lg-4 col-md-6'>
                             <div className="blogs-card-main blogs-page-card mt-lg-4 mt-5 position-relative">
                                 <div>
                                     <img className="blogs-card-img" src={Images.blogs_deatil_3} alt="featured" />
@@ -151,7 +151,7 @@ const Blogs = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='col-lg-4 col-md-4'>
+                        <div className='col-lg-4 col-md-6'>
                             <div className="blogs-card-main blogs-page-card mt-lg-4 mt-5 position-relative">
                                 <div>
                                     <img className="blogs-card-img" src={Images.blogs_deatil_1} alt="featured" />
@@ -171,7 +171,7 @@ const Blogs = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='col-lg-4 col-md-4'>
+                        <div className='col-lg-4 col-md-6'>
                             <div className="blogs-card-main blogs-page-card mt-lg-4 mt-5 position-relative">
                                 <div>
                                     <img className="blogs-card-img" src={Images.blogs_deatil_2} alt="featured" />
@@ -191,7 +191,7 @@ const Blogs = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='col-lg-4 col-md-4'>
+                        <div className='col-lg-4 col-md-6'>
                             <div className="blogs-card-main blogs-page-card mt-lg-4 mt-5 position-relative">
                                 <div>
                                     <img className="blogs-card-img" src={Images.blogs_deatil_3} alt="featured" />
@@ -219,7 +219,7 @@ const Blogs = () => {
                 <div className="container">
                     <h4 className="text-center mb-4">Latest Blogs</h4>
                     <div className='row'>
-                        <div className='col-lg-8 col-md-4'>
+                        <div className='col-lg-8 col-md-7'>
                             <div className='latest-blogs-left'>
                                 <div className='mt-4'>
                                     <div className='row'>
@@ -329,7 +329,7 @@ const Blogs = () => {
 
 
                         </div>
-                        <div className='col-lg-4 col-md-4'>
+                        <div className='col-lg-4 col-md-5'>
                             <div className='latest-blogs-right'>
                                 <div className='popular-post-main'>
                                     <p className='popular-post-para'>Popular Post</p>

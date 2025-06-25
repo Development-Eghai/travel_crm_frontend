@@ -12,8 +12,8 @@ const TourOverview = () => {
         const element = bookingRef.current;
         const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
         window.scrollTo({ top: y, behavior: "smooth" });
-      };
-      
+    };
+
 
     const handleToggle = (index) => {
         setActiveIndex(index === activeIndex ? null : index);
@@ -194,35 +194,35 @@ const TourOverview = () => {
                                     <div className="col-lg-6">
                                         <div className='whats-included-left'>
                                             <div className='mt-3 d-flex'>
-                                                <div className='whats-included-allowed'>
-
+                                                <div className=''>
+                                                    ✅
                                                 </div>
                                                 <p className='ms-3'>Beverages, drinking water, morning tea and
                                                     buffet lunch</p>
                                             </div>
                                             <div className='mt-3 d-flex'>
-                                                <div className='whats-included-allowed'>
-
+                                                <div className=''>
+                                                    ✅
                                                 </div>
                                                 <p className='ms-3'>Local taxes</p>
                                             </div>
                                             <div className='mt-3 d-flex'>
-                                                <div className='whats-included-allowed'>
-
+                                                <div className=''>
+                                                    ✅
                                                 </div>
                                                 <p className='ms-3'>Hotel pickup and drop-off by air-conditioned
                                                     minivan</p>
                                             </div>
 
                                             <div className='mt-3 d-flex'>
-                                                <div className='whats-included-allowed'>
-
+                                                <div className=''>
+                                                    ✅
                                                 </div>
                                                 <p className='ms-3'>InsuranceTransfer to a private pier</p>
                                             </div>
                                             <div className='mt-3 d-flex'>
-                                                <div className='whats-included-allowed'>
-
+                                                <div className=''>
+                                                    ✅
                                                 </div>
                                                 <p className='ms-3'>Soft drinks</p>
                                             </div>
@@ -232,21 +232,21 @@ const TourOverview = () => {
                                     <div className="col-lg-6">
                                         <div className='whats-included-right mt-lg-0 mt-md-0 mt-5'>
                                             <div className='mt-3 d-flex'>
-                                                <div className='whats-included-dont-allowed'>
-
+                                                <div className=''>
+                                                    ❌
                                                 </div>
                                                 <p className='ms-3'>Towel</p>
                                             </div>
                                             <div className='mt-3 d-flex'>
-                                                <div className='whats-included-dont-allowed'>
-
+                                                <div className=''>
+                                                    ❌
                                                 </div>
                                                 <p className='ms-3'>Tips</p>
                                             </div>
 
                                             <div className='mt-3 d-flex'>
-                                                <div className='whats-included-dont-allowed'>
-
+                                                <div className=''>
+                                                    ❌
                                                 </div>
                                                 <p className='ms-3'>Alcoholic Beverages</p>
                                             </div>

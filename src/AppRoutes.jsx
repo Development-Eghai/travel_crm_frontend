@@ -6,6 +6,9 @@ import Layout from "./container/Layout";
 import Blogs from "./pages/user/Blogs";
 import BlogsDetail from "./pages/user/BlogsDetail";
 import ContactUs from "./pages/user/ContactUs";
+import Payments from "./pages/user/Payments";
+import TermsAndConditions from "./pages/user/TermsAndConditions";
+import PrivacyPolicy from "./pages/user/PrivacyPolicy";
 
 const DestinationDetail = lazy(() => import("./pages/user/DestinationDetail"));
 const Homepage = lazy(() => import("./pages/user/Homepage"));
@@ -23,6 +26,9 @@ const AppRoutes = () => {
                     <Route path="/blogs" element={<Blogs />} />
                     <Route path="/blogs-detail" element={<BlogsDetail />} />
                     <Route path="/contact-us" element={<ContactUs />} />
+                    <Route path="/Payments" element={<Payments />} />
+                    <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 </Routes>
             </Router>
         </div>

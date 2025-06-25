@@ -76,8 +76,14 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className='pb-5'>
-            <p className='text-center'>© Copyright Viatours 2024</p>
+          <div className='pb-5 footer-last'>
+            <div>
+              <a href='/Payments' className='me-3'>Payments</a>
+              <a href='/terms-and-conditions' className='me-3'>TermsAndConditions</a>
+              <a href='/privacy-policy' className='me-3'>PrivacyPolicy</a>
+            
+              </div>
+            <div><p className='mt-lg-0 mt-md-0 mt-3'>© Copyright Viatours 2024</p></div>  
           </div>
           
         </div>

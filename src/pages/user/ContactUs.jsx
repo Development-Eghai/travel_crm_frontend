@@ -9,7 +9,7 @@ const ContactUs = () => {
             <section className='contact-us-main'>
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-6 my-auto">
+                        <div className="col-lg-6 my-lg-auto col-md-4">
                             <div className='contact-us-left'>
                                 <div>
                                     <h1 className='text-white'>Get in Touch</h1>
@@ -31,10 +31,10 @@ const ContactUs = () => {
                             </div>
 
                         </div>
-                        <div className="col-lg-1">
+                        <div className="col-lg-1 col-md-1">
 
                         </div>
-                        <div className="col-lg-5">
+                        <div className="col-lg-5 col-md-7">
                             <div className='contact-us-right'>
                                 <div className='contact-us-right-innner'>
                                     <form>
