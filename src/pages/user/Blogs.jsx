@@ -6,6 +6,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import Footer from './component/Footer';
 
 const Blogs = () => {
     const categories = [
@@ -223,7 +224,7 @@ const Blogs = () => {
                                 <div className='mt-4'>
                                     <div className='row'>
                                         <div className='col-lg-6'>
-                                            <div>
+                                            <div className='position-relative'>
                                                 <img className="blogs-card-img" src={Images.latest_blogs_1} alt="featured" />
                                                 <div className='blogs-tag-main'>
                                                     <p>Trips</p>
@@ -231,7 +232,7 @@ const Blogs = () => {
                                             </div>
                                         </div>
                                         <div className='col-lg-6'>
-                                            <div className="blogs-content-main me-3">
+                                            <div className="blogs-content-main me-3 ">
                                                 <div className='d-flex'>
                                                     <p className="blogs-author">April 06 2023</p>
                                                     <p className="blogs-posted">By Ali Tufan</p>
@@ -249,7 +250,7 @@ const Blogs = () => {
                                 <div className='mt-4'>
                                     <div className='row'>
                                         <div className='col-lg-6'>
-                                            <div>
+                                            <div className='position-relative'>
                                                 <img className="blogs-card-img" src={Images.latest_blogs_2} alt="featured" />
                                                 <div className='blogs-tag-main'>
                                                     <p>Trips</p>
@@ -275,7 +276,7 @@ const Blogs = () => {
                                 <div className='mt-4'>
                                     <div className='row'>
                                         <div className='col-lg-6'>
-                                            <div>
+                                            <div className='position-relative'>
                                                 <img className="blogs-card-img" src={Images.latest_blogs_3} alt="featured" />
                                                 <div className='blogs-tag-main'>
                                                     <p>Trips</p>
@@ -301,7 +302,7 @@ const Blogs = () => {
                                 <div className='mt-4'>
                                     <div className='row'>
                                         <div className='col-lg-6'>
-                                            <div>
+                                            <div className='position-relative'>
                                                 <img className="blogs-card-img" src={Images.latest_blogs_4} alt="featured" />
                                                 <div className='blogs-tag-main'>
                                                     <p>Trips</p>
@@ -332,7 +333,6 @@ const Blogs = () => {
                             <div className='latest-blogs-right'>
                                 <div className='popular-post-main'>
                                     <p className='popular-post-para'>Popular Post</p>
-
                                     <div className='mt-4'>
                                         <div className="row">
                                             <div className="col-lg-4 p-0">
@@ -418,13 +418,70 @@ const Blogs = () => {
                                     </div>
 
                                 </div>
+
+                                <div className='popular-post-main mt-5'>
+                                    <p className='popular-post-para mb-3'>Follow Me</p>
+                                    <div className='footer-social-icon mt-lg-0 mt-3'>
+                                        <ul className='social-hover'>
+                                            <li className='blogs-icon'>
+                                                <a href="#"><i className="fa-brands fa-facebook-f icon "></i></a>
+                                            </li>
+                                            <li className='blogs-icon'>
+                                                <a href="#"><i className="fa-brands fa-instagram icon"></i></a>
+                                            </li>
+                                            <li className='blogs-icon'>
+                                                <a href="#"><i className="fa-brands fa-x-twitter icon"></i></a>
+                                            </li>
+                                            <li className='blogs-icon'>
+                                                <a href="#"><i className="fa-brands fa-linkedin-in icon"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div className='popular-post-main mt-5 blogs-subscribe'>
+                                    <h5 className='fw-bold text-white'>Subscribe Today</h5>
+                                    <p className='text-white mb-4'>Lorem ipsum dolor sit am consectetur adipisc ing elit. In sed et donec purus viverra. Sit justo</p>
+                                    <form>
+                                        <div>
+                                            <input type='text' placeholder='Enter Full Name' required />
+                                            <input type='email' placeholder='Enter  Email' required />
+                                        </div>
+                                        <div className='d-flex'>
+                                            <div>
+                                                <input type='checkbox' required />
+                                            </div>
+                                            <p className='blogs-checkbox text-white ms-2'>You agree to our company privacy policy</p>
+                                        </div>
+                                        <button className='blogs-subscribe-btn' type='submit'>Subscribe</button>
+                                    </form>
+                                </div>
+
+
+                                <div className='popular-post-main mt-5'>
+                                    <p className='popular-post-para mb-3'>Tags</p>
+
+                                    <div className='tags-main'>
+                                        <a href=''>Travel website</a>
+                                        <a href=''>Travel website</a>
+                                        <a href=''>Travel tips</a>
+                                        <a href=''>Travel website</a>
+                                        <a href=''>Travel website</a>
+                                        <a href=''>Travel website</a>
+                                        <a href=''>Travel website</a>
+                                        <a href=''>Travel website</a>
+                                        <a href=''>Travel website</a>
+
+
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-
+            <Footer />
         </div>
     )
 }

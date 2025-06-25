@@ -49,6 +49,9 @@ import latest_blogs_4 from "../../assets/images/latest-blogs-4.png";
 
 import popular_post from "../../assets/images/popuar-post.png";
 
+import blogs_author from "../../assets/images/blogs-authot.png";
+
+import blogs_detail_image from "../../assets/images/blogs-detail-image.png";
 
 
 
@@ -101,7 +104,9 @@ const Images = {
     latest_blogs_3,
     latest_blogs_4,
 
-    popular_post
+    popular_post,
+    blogs_author,
+    blogs_detail_image
 
 
     

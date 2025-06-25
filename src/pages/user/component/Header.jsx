@@ -40,6 +40,8 @@ const Header = ({ fixed = true }) => {
             </ul>
             <div className="d-flex flex-column flex-lg-row  mt-3 mt-lg-0">
               <a className="navbar-brand" href="/blogs">Blogs</a>
+              <a className="navbar-brand" href="/blogs-detail">Blogs Detail</a>
+              <a className="navbar-brand" href="/contact-us">Contact Us</a>
               <a className="navbar-brand" href="/destination">Signup</a>
               <a className="navbar-brand login-btn mt-lg-0 mt-4" href="/destination-list">Login</a>
             </div>
