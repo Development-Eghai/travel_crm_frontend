@@ -53,6 +53,12 @@ import blogs_author from "../../assets/images/blogs-authot.png";
 
 import blogs_detail_image from "../../assets/images/blogs-detail-image.png";
 
+import leader_dummy from "../../assets/images/leader-dummy.jpeg";
+
+import culture_image_1 from "../../assets/images/culture-image-1.avif";
+import culture_image_2 from "../../assets/images/culture-image-2.avif";
+import culture_image_3 from "../../assets/images/culture-image-3.avif";
+
 
 
 
@@ -106,7 +112,12 @@ const Images = {
 
     popular_post,
     blogs_author,
-    blogs_detail_image
+    blogs_detail_image,
+    leader_dummy,
+
+    culture_image_1,
+    culture_image_2,
+    culture_image_3
 
 
     

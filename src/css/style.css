@@ -1871,3 +1871,177 @@ input[type="checkbox"] {
     font-size: 20px;
     margin-bottom: 10px;
 }
+
+/************************************************************* About Us css ******************************************/
+.about-we-are {
+    font-size: 35px;
+    margin-bottom: 0px;
+}
+
+.about-company-name {
+    font-size: 55px;
+
+}
+
+.about-us-content p {
+    margin-top: 25px;
+}
+
+.our-leader-section {
+    background-color: #EB662B0D;
+}
+
+.aboutus-head-one-common {
+    font-weight: 700;
+}
+
+.our-leader-name {
+    font-weight: 500;
+    font-size: 23px;
+    margin-top: 10px;
+}
+.our-leader-card img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.6s ease;
+    transform-style: preserve-3d;
+}
+
+
+.our-leader-card:hover img {
+    transform: rotateY(-200deg); 
+}
+.our-leader-card {
+    margin-top: 28px;
+}
+
+.our-footprint-section {
+    background-color: #EB662B;
+}
+
+.our-footprint-number {
+    font-size: 35px;
+    text-align: center;
+    font-weight: 600;
+    color: black;
+}
+
+.our-footprint-card {
+    background-color: white;
+    padding: 25px 0px 28px 0px;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: transform 0.3s ease;
+}
+
+.our-footprint-card:hover {
+    transform: translateY(-10px);
+    background-color: #007bff;
+    color: white;
+}
+.our-footprint-card:hover .our-footprint-number,
+.our-footprint-card:hover .our-footprint-para {
+    color: white;
+}
+
+.our-footprint-para {
+    font-size: 18px;
+    text-align: center;
+    color: rgb(21, 20, 20);
+}
+
+.our-achievements-card {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+    border-radius: 5px;
+    padding: 30px 25px;
+    display: flex;
+    margin: 10px 2px 10px 2px;
+}
+.our-achievements-card:hover{
+    
+}
+
+.our-achievements-card a {
+    font-weight: 600;
+    font-size: 18px;
+    text-decoration: none;
+    display: flex;
+    flex-wrap: nowrap;
+    padding-left: 30px;
+}
+
+.our-achievements-card h5 {
+    font-weight: 700;
+}
+
+.our-achievements-card img {
+    width: 70px;
+    height: auto;
+}
+
+.our-achievements-content p {
+    width: 360px;
+}
+
+.our-culture-card img {
+    width: 200px;
+    height: auto;
+}
+
+.our-culture-card h5 {
+    font-weight: 700;
+    font-size: 23px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.our-culture-card {
+    background-color: white;
+    padding: 30px 35px;
+    margin-top: 30px;
+    height: 370px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s ease;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+        rgba(17, 17, 26, 0.1) 0px 8px 24px,
+        rgba(17, 17, 26, 0.1) 0px 16px 56px;
+}
+
+
+.our-culture-card:hover {
+    transform: scale(1.03);
+}
+
+.our-culture-card::before,
+.our-culture-card::after {
+    content: '';
+    position: absolute;
+    height: 3px;
+    width: 100%;
+    left: 0;
+    background-size: 200% auto;
+    background-position: 0% center;
+    opacity: 0;
+    transition:
+        background-position 0.5s linear,
+        opacity 0.3s ease;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.our-culture-card::before {
+    top: 0;
+    background: linear-gradient(to right, #ff6a00, #ee0979);
+}
+
+.our-culture-card::after {
+    bottom: 0;
+    background: linear-gradient(to left, #ff6a00, #ee0979);
+}
+
+.our-culture-card:hover::before,
+.our-culture-card:hover::after {
+    background-position: 100% center;
+    opacity: 1;
+}

@@ -9,6 +9,7 @@ import ContactUs from "./pages/user/ContactUs";
 import Payments from "./pages/user/Payments";
 import TermsAndConditions from "./pages/user/TermsAndConditions";
 import PrivacyPolicy from "./pages/user/PrivacyPolicy";
+import AboutUs from "./pages/user/AboutUs";
 
 const DestinationDetail = lazy(() => import("./pages/user/DestinationDetail"));
 const Homepage = lazy(() => import("./pages/user/Homepage"));
@@ -29,6 +30,7 @@ const AppRoutes = () => {
                     <Route path="/Payments" element={<Payments />} />
                     <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
                     <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                    <Route path="/about-us" element={<AboutUs />} />
                 </Routes>
             </Router>
         </div>

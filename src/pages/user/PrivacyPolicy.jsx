@@ -4,7 +4,7 @@ import Footer from './component/Footer'
 
 const PrivacyPolicy = () => {
     return (
-        <div>
+        <div className='overflow-hidden'>
             <>
                 <Header fixed={false} />
                 <section className='mt-5 section-padding-bottom'>

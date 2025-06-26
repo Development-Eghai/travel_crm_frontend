@@ -25,7 +25,7 @@ const Blogs = () => {
     }, []);
 
     return (
-        <div>
+        <div className='overflow-hidden'>
             <Header />
             <section className='overflow-hidden'>
                 <div className="homepaage-banner-image-1">

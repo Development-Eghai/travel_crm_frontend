@@ -16,10 +16,10 @@ const Homepage = () => {
     const nextRef = useRef(null);
     
     return (
-        <div>
+        <div className='overflow-hidden'>
             <Header />
             <HomeBanner />
-            <div className='overflow-hidden'>
+            <div className=''>
 
                 <section className='featured-trips-section section-padding'>
                     <div className='container'>

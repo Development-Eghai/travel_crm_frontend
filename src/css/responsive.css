@@ -24,6 +24,9 @@
     .latest-blogs-left .blogs-card-img {
         object-fit: cover;
     }
+    .our-achievements-content p {
+        width: auto;
+    }
 }
 
 
@@ -117,12 +120,31 @@
     .get-in-touch-box {
         margin: 25px 0px;
     }
-   
+    .our-culture-card{
+        padding: 30px 25px;
+    }
+
 }
 
 
 
 @media screen and (max-width: 767px) {
+    .our-achievements-card {
+        padding: 30px 15px;
+    }
+
+    .our-achievements-content p {
+        width: auto;
+    }
+
+    .about-company-name {
+        font-size: 40px;
+    }
+
+    .about-we-are {
+        font-size: 27px;
+        margin-bottom: 0px;
+    }
 
     .footer-last {
         display: flex;

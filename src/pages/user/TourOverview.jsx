@@ -55,7 +55,7 @@ const TourOverview = () => {
         },
     ];
     return (
-        <div>
+        <div className='overflow-hidden'>
             <Header fixed={false} />
 
             <div className=''>

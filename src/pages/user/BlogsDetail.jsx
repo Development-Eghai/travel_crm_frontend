@@ -7,7 +7,7 @@ const BlogsDetail = () => {
   return (
     <>
       <Header fixed={false} />
-      <section className='mt-5'>
+      <section className='mt-5 overflow-hidden'>
         <div className='container'>
           <div className='row'>
             <div className='col-lg-9'>
