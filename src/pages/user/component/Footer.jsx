@@ -37,27 +37,27 @@ const Footer = () => {
                   <h5 className='footer-column-heading'>Contact</h5>
                   <p className='mb-2'>328 Queensberry Street, North Melbourne VIC3051,
                     Australia.</p>
-                  <a href='emailto:sundar@gmail.com'>sundar@gmail.com</a>
+                  <a href='emailto:john@gmail.com'>john@gmail.com</a>
                 </div>
               </div>
 
               <div className="col-lg-2 col-md-3 col-6">
                 <div className='footer-column-two footer-anchor-main d-flex flex-column'>
                   <h5 className='footer-column-heading'>Company</h5>
-                  <a href='emailto:sundar@gmail.com'>About Us</a>
-                  <a href='emailto:sundar@gmail.com'>Tourz Reviews</a>
-                  <a href='emailto:sundar@gmail.com'>Contact Us</a>
-                  <a href='emailto:sundar@gmail.com'>Cookie Policy</a>
+                  <a href='emailto:john@gmail.com'>About Us</a>
+                  <a href='emailto:john@gmail.com'>Tourz Reviews</a>
+                  <a href='emailto:john@gmail.com'>Contact Us</a>
+                  <a href='emailto:john@gmail.com'>Cookie Policy</a>
                 </div>
               </div>
 
               <div className="col-lg-2 col-md-3 col-6">
                 <div className='footer-column-two footer-anchor-main d-flex flex-column'>
                   <h5 className='footer-column-heading'>Support</h5>
-                  <a href='emailto:sundar@gmail.com'>Get in Touch</a>
-                  <a href='emailto:sundar@gmail.com'>Help center</a>
-                  <a href='emailto:sundar@gmail.com'>Live chat</a>
-                  <a href='emailto:sundar@gmail.com'>How it works</a>
+                  <a href='emailto:john@gmail.com'>Get in Touch</a>
+                  <a href='emailto:john@gmail.com'>Help center</a>
+                  <a href='emailto:john@gmail.com'>Live chat</a>
+                  <a href='emailto:john@gmail.com'>How it works</a>
                 </div>
               </div>
 
