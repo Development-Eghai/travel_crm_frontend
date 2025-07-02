@@ -9,9 +9,11 @@ const Header = () => {
                 <div className='header-div-main'>
                     <div className='user-profile-main'>
                         <div>
-                            {/* <h4>{user_name}<span>({user_role})</span></h4> */}
+                            <p className='dashboard-route'>Dashboard</p>
+                            <p className='header-para'>Welcome back admin , Here's what happening with your travel portal</p>
+
                         </div>
-                        <div className="dropdown">
+                        <div className="dropdown my-auto">
                             <button className="profile-icon dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i className="fa-solid fa-user"></i>
                             </button>

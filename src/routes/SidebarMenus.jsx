@@ -6,37 +6,68 @@ export const AdminMenu = [
         name: "Dashboard",
     },
     {
-        path: "/admin/home",
+        path: "/admin/destination",
         icon: <span class="material-symbols-outlined">dashboard_2
         </span>,
-        name: "HomePage",
+        name: "Destination",
     },
     {
-        path: "/admin/tour",
+        path: "/admin/tour-packages",
         icon: <span class="material-symbols-outlined">dashboard_2
         </span>,
-        name: "Tour Overview",
+        name: "Trip Packages",
+    },
+    {
+        path: "/admin/blogs",
+        icon: <span class="material-symbols-outlined">dashboard_2
+        </span>,
+        name: "Blogs",
+    },
+    {
+        path: "/admin/inquiries",
+        icon: <span class="material-symbols-outlined">dashboard_2
+        </span>,
+        name: "Inquiries",
+    },
+    {
+        path: "/admin/bookings",
+        icon: <span class="material-symbols-outlined">dashboard_2
+        </span>,
+        name: "Bookings",
     },
 
     {
-        path: "/admin/feedback",
-        icon: <span class="material-symbols-outlined">
-            feedback
+        path: "/admin/users",
+        icon: <span class="material-symbols-outlined">dashboard_2
         </span>,
-        name: "User",
-        subMenu: [
-            {
-                path: "/admin/termsAndCondition",
-                icon: <i className="fa-solid fa-pen-to-square"></i>,
-                name: "Terms And Condition",
-            },
-            {
-                path: "/admin/privacyPolicy",
-                icon: <i className="fa-regular fa-paper-plane"></i>,
-                name: "Privacy Policy",
-            },
-        ],
+        name: "Users",
     },
+    {
+        path: "/admin/settings",
+        icon: <span class="material-symbols-outlined">dashboard_2
+        </span>,
+        name: "Settings",
+    },
+
+    // {
+    //     path: "/admin/feedback",
+    //     icon: <span class="material-symbols-outlined">
+    //         feedback
+    //     </span>,
+    //     name: "User",
+    //     subMenu: [
+    //         {
+    //             path: "/admin/termsAndCondition",
+    //             icon: <i className="fa-solid fa-pen-to-square"></i>,
+    //             name: "Terms And Condition",
+    //         },
+    //         {
+    //             path: "/admin/privacyPolicy",
+    //             icon: <i className="fa-regular fa-paper-plane"></i>,
+    //             name: "Privacy Policy",
+    //         },
+    //     ],
+    // },
    
 
 ]
