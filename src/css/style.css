@@ -1,3 +1,5 @@
+/* @import '../node_modules/pm-react-text-editor/dist/index.css'; */
+
 * {
     margin: 0;
     padding: 0;
@@ -1403,12 +1405,12 @@ input[type="checkbox"] {
 .Layout-right-container {
     width: 100%;
     padding: 24px;
-     height: 100vh;
-     overflow-y: scroll;
+    height: 100vh;
+    overflow-y: scroll;
 }
 
 .page-content {
-    padding: 0px 4px;
+    margin: 20px 4px;
 }
 
 .submenu-list {
@@ -2065,7 +2067,6 @@ input[type="checkbox"] {
     background-color: white;
     padding: 25px 25px;
     border-radius: 5px;
-    margin-top: 20px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
@@ -2141,9 +2142,100 @@ input[type="checkbox"] {
 .dashboard-bottom-card.card-4 {
     background-color: orange;
 }
-.data-percent{
+
+.data-percent {
     font-size: 13px;
 }
-.cursor{
+
+.cursor {
     cursor: pointer;
+}
+
+.admin-parent-div {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 5px;
+    padding: 20px 30px;
+}
+
+.admin-input-div {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.admin-input-div label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.admin-input-div input {
+    padding: 8px 0px 9px 10px;
+    border-radius: 6px;
+    border: 1px solid #C4C4C4;
+}
+
+
+
+.editor-container {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 12px;
+    min-height: 200px;
+    background-color: #fff;
+}
+
+.editor-input {
+    min-height: 150px;
+    outline: none;
+    font-size: 16px;
+}
+
+.editor-placeholder {
+    color: #aaa;
+    position: absolute;
+    pointer-events: none;
+    font-size: 16px;
+}
+
+.editor-paragraph {
+    margin: 0 0 1em;
+}
+
+.admin-desti-faq textarea {
+    padding: 9px 0px 9px 10px;
+    border-radius: 6px;
+    border: 1px solid #C4C4C4;
+    height: 120px;
+}
+
+.destination-faq .accordion-button:focus{
+box-shadow: none;
+}
+
+.destination-faq-add{
+    padding: 5px 20px;
+    font-size: 15px;
+    border: 1px solid green;
+    border-radius: 5px;
+    background-color: green;
+    color: white;
+    height: 33px;
+}
+.destination-faq-add.faq-delete{
+    background-color: red;
+    border: 1px solid red;
+}
+.destination-faq-add:hover{
+    color:green;
+    background-color: white;
+}
+.destination-faq-add.faq-delete:hover{
+    background-color: white;
+    color: red;
+}
+
+.accordion-button:not(.collapsed){
+    background-color: white !important;
+    box-shadow: none !important;
 }

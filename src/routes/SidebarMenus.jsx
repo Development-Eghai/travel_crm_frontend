@@ -6,10 +6,22 @@ export const AdminMenu = [
         name: "Dashboard",
     },
     {
-        path: "/admin/destination",
+        path: "/admin/feedback",
         icon: <span class="material-symbols-outlined">dashboard_2
         </span>,
-        name: "Destination",
+        name: "Trip Management",
+        subMenu: [
+            {
+                path: "/admin/create-desination",
+                icon: <i className="fa-solid fa-pen-to-square"></i>,
+                name: "Destination",
+            },
+            {
+                path: "/admin/privacyPolicy",
+                icon: <i className="fa-regular fa-paper-plane"></i>,
+                name: "Privacy Policy",
+            },
+        ],
     },
     {
         path: "/admin/tour-packages",
@@ -68,7 +80,7 @@ export const AdminMenu = [
     //         },
     //     ],
     // },
-   
+
 
 ]
 export const UserMenu = [

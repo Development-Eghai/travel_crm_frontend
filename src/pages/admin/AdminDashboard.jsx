@@ -3,7 +3,7 @@ import React from 'react'
 const AdminDashboard = () => {
     return (
         <>
-            <div className='mt-3'>
+            <div className=''>
                 <div className="row">
                     <div className="col-lg-3">
                         <div className='dashboard-top-card'>
