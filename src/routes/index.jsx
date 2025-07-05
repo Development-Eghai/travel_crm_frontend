@@ -11,5 +11,9 @@ export const routes = [
     {
         path: "/create-desination",
         component: DestinationCreation,
+    },
+    {
+        path: "/desination-list",
+        component: DestinationList,
     }
 ]

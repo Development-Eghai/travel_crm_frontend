@@ -2209,11 +2209,11 @@ input[type="checkbox"] {
     height: 120px;
 }
 
-.destination-faq .accordion-button:focus{
-box-shadow: none;
+.destination-faq .accordion-button:focus {
+    box-shadow: none;
 }
 
-.destination-faq-add{
+.destination-faq-add {
     padding: 5px 20px;
     font-size: 15px;
     border: 1px solid green;
@@ -2222,23 +2222,62 @@ box-shadow: none;
     color: white;
     height: 33px;
 }
-.destination-faq-add.faq-delete{
+
+.destination-faq-add.faq-delete {
     background-color: red;
     border: 1px solid red;
 }
-.destination-faq-add:hover{
-    color:green;
+
+.destination-faq-add:hover {
+    color: green;
     background-color: white;
 }
-.destination-faq-add.faq-delete:hover{
+
+.destination-faq-add.faq-delete:hover {
     background-color: white;
     color: red;
 }
 
-.accordion-button:not(.collapsed){
+.accordion-button:not(.collapsed) {
     background-color: white !important;
     box-shadow: none !important;
 }
-.admin-parent-div h3{
-    text-decoration: underline;
+
+.admin-parent-div h3 {
+    /* text-decoration: underline; */
+}
+
+.create-common-btn {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #EB662B;
+    background-color: #EB662B;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 25px;
+    font-weight: 600;
+}
+
+.create-common-btn:hover {
+    background-color: green;
+    border: 1px solid green;
+}
+
+.admin-add-button {
+    width: fit-content;
+    padding: 10px 40px;
+    border: 1px solid #EB662B;
+    background-color: #EB662B;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 25px;
+    font-weight: 600;
+
+}
+
+.admin-add-button:hover {
+    background-color: green;
+    border: 1px solid green;
 }

@@ -12,7 +12,7 @@ export const AdminMenu = [
         name: "Trip Management",
         subMenu: [
             {
-                path: "/admin/create-desination",
+                path: "/admin/desination-list",
                 icon: <i className="fa-solid fa-pen-to-square"></i>,
                 name: "Destination",
             },

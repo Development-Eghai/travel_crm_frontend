@@ -1,12 +1,16 @@
 
 import React, { useRef, useState } from "react";
 import JoditEditor from "jodit-react";
+import { CreateDestination } from "../../../../common/api/ApiService";
 // import "jodit/build/jodit.min.css";
+import { useNavigate } from 'react-router-dom';
 
 const DestinationCreation = () => {
-    const [faqs, setFaqs] = useState([{ question: "", answer: "" }]);
+    const navigate = useNavigate();
 
-    console.log(faqs, "faqs")
+    const [createDestination, setCreateDestination] = useState({});
+
+    const [faqs, setFaqs] = useState([{ question: "", answer: "" }]);
 
     const addFaq = () => {
         setFaqs([...faqs, { question: "", answer: "" }]);
@@ -24,30 +28,51 @@ const DestinationCreation = () => {
         updatedFaqs[index][key] = value;
         setFaqs(updatedFaqs);
     };
+
+    const handleChange = (key, value) => {
+        setCreateDestination({ ...createDestination, [key]: value })
+    }
+
+    const handleSubmit = async () => {
+        createDestination.destination_faqs = faqs
+        const response = await CreateDestination(createDestination)
+        if (response?.status === 200) {
+            navigate(-1)
+            setCreateDestination({})
+            setFaqs([{ question: "", answer: "" }])
+        }
+    }
     const editor = useRef(null);
-    const [content, setContent] = useState("");
     const editor2 = useRef(null);
-    const [content2, setContent2] = useState("");
+
     return (
         <div className='admin-parent-div'>
-            <h3>Create Destination</h3>
+
+            <div className='d-flex justify-content-between mb-5'>
+                <h3 className='my-auto'>Create Destination</h3>
+                <button className='admin-add-button mt-0' onClick={() => navigate(-1)}>Back</button>
+            </div>
+
             <div className='row'>
                 <div className='col-lg-4'>
                     <div className='admin-input-div'>
                         <label>Destination Name</label>
-                        <input type="text" />
+                        <input type="text" value={createDestination?.destination_name}
+                            onChange={(e) => handleChange("destination_name", e.target.value)} />
                     </div>
                 </div>
                 <div className='col-lg-4'>
                     <div className='admin-input-div'>
                         <label>Offer Description</label>
-                        <input type="text" />
+                        <input type="text" value={createDestination?.offer_description}
+                            onChange={(e) => handleChange("offer_description", e.target.value)} />
                     </div>
                 </div>
                 <div className='col-lg-4'>
                     <div className='admin-input-div'>
                         <label>Starting Price</label>
-                        <input type="text" />
+                        <input type="text" value={createDestination?.starting_price}
+                            onChange={(e) => handleChange("starting_price", e.target.value)} />
                     </div>
                 </div>
             </div>
@@ -58,14 +83,14 @@ const DestinationCreation = () => {
                 <div className="mt-3">
                     <JoditEditor
                         ref={editor}
-                        value={content}
+                        value={createDestination?.about_destination}
                         config={{
                             readonly: false,
                             height: 300,
                             toolbarButtonSize: "middle"
                         }}
                         tabIndex={1}
-                        onBlur={(newContent) => setContent(newContent)}
+                        onBlur={(newContent) => handleChange("about_destination", newContent)}
                     />
                     <div className="mt-3">
                         {/* <h5>Output:</h5>
@@ -150,17 +175,19 @@ const DestinationCreation = () => {
                 <div className="mt-3">
                     <JoditEditor
                         ref={editor2}
-                        value={content2}
+                        value={createDestination?.guidance}
                         config={{
                             readonly: false,
                             height: 300,
                             toolbarButtonSize: "middle"
                         }}
                         tabIndex={1}
-                        onBlur={(newContent) => setContent2(newContent)}
+                        onBlur={(newContent) => handleChange("guidance", newContent)}
                     />
                 </div>
             </div>
+
+            <button className="create-common-btn" onClick={handleSubmit}>Create</button>
 
         </div>
     )
