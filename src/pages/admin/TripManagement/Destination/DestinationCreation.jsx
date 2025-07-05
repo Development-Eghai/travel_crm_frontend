@@ -1,20 +1,22 @@
 
-import React, { useState } from 'react';
-// import ReactQuill from 'react-quill';
-// import 'react-quill/dist/quill.snow.css';
+import React, { useRef, useState } from "react";
+import JoditEditor from "jodit-react";
+// import "jodit/build/jodit.min.css";
 
 const DestinationCreation = () => {
     const [faqs, setFaqs] = useState([{ question: "", answer: "" }]);
 
-    console.log(faqs,"faqs")
+    console.log(faqs, "faqs")
 
     const addFaq = () => {
         setFaqs([...faqs, { question: "", answer: "" }]);
     };
 
     const deleteFaq = (indexToRemove) => {
-        const updatedFaqs = faqs.filter((_, index) => index !== indexToRemove);
-        setFaqs(updatedFaqs);
+        if (indexToRemove !== 0) {
+            const updatedFaqs = faqs.filter((_, index) => index !== indexToRemove);
+            setFaqs(updatedFaqs);
+        }
     };
 
     const updateFaq = (index, key, value) => {
@@ -22,9 +24,13 @@ const DestinationCreation = () => {
         updatedFaqs[index][key] = value;
         setFaqs(updatedFaqs);
     };
+    const editor = useRef(null);
+    const [content, setContent] = useState("");
+    const editor2 = useRef(null);
+    const [content2, setContent2] = useState("");
     return (
         <div className='admin-parent-div'>
-            <h3>Creation</h3>
+            <h3>Create Destination</h3>
             <div className='row'>
                 <div className='col-lg-4'>
                     <div className='admin-input-div'>
@@ -46,7 +52,34 @@ const DestinationCreation = () => {
                 </div>
             </div>
 
-            <div className="mt-5 destination-faq">
+            <div className='admin-input-div mt-5'>
+                <label>About Tour Packages</label>
+
+                <div className="mt-3">
+                    <JoditEditor
+                        ref={editor}
+                        value={content}
+                        config={{
+                            readonly: false,
+                            height: 300,
+                            toolbarButtonSize: "middle"
+                        }}
+                        tabIndex={1}
+                        onBlur={(newContent) => setContent(newContent)}
+                    />
+                    <div className="mt-3">
+                        {/* <h5>Output:</h5>
+                        <div dangerouslySetInnerHTML={{ __html: content }} /> */}
+                    </div>
+                </div>
+            </div>
+
+            <div className='admin-input-div'>
+                <label>Frequently Asked Questions</label>
+            </div>
+
+
+            <div className="mt-3 destination-faq">
                 <div className="accordion" id="accordionExample">
                     {faqs.map((faq, index) => (
                         <div className='mt-4'>
@@ -108,6 +141,24 @@ const DestinationCreation = () => {
                             </div>
                         </div>
                     ))}
+                </div>
+            </div>
+
+            <div className='admin-input-div mt-5'>
+                <label>Travel Guidelines</label>
+
+                <div className="mt-3">
+                    <JoditEditor
+                        ref={editor2}
+                        value={content2}
+                        config={{
+                            readonly: false,
+                            height: 300,
+                            toolbarButtonSize: "middle"
+                        }}
+                        tabIndex={1}
+                        onBlur={(newContent) => setContent2(newContent)}
+                    />
                 </div>
             </div>
 
