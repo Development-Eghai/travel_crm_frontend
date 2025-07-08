@@ -57,7 +57,7 @@ const DestinationList = () => {
 
 
     return (
-        <div>
+        <div className='admin-content-main'>
             <div className='d-flex justify-content-between'>
                 <h3 className='my-auto'>Destination</h3>
                 <button className='admin-add-button' onClick={() => navigate("/admin/create-desination")}>Add Destination</button>

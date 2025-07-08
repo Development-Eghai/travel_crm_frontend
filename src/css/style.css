@@ -633,13 +633,15 @@ p {
 
 .destination-slide-content {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 2;
-    position: absolute;
-    bottom: 40px;
-    left: 120px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     color: #fff;
+
 }
 
 .destination-swiper,
@@ -665,6 +667,7 @@ p {
 .dest-package-para {
     font-weight: 600;
     color: white;
+    text-align: center;
 }
 
 .discount-icon-image {
@@ -848,6 +851,46 @@ p {
     margin-top: 30px;
 }
 
+.destination-tabsection {
+    display: flex;
+    justify-content: space-between;
+}
+
+.destination-tabsection-parent {
+    border-bottom: 1px solid #d4d4d4;
+}
+
+.destination-tabs {
+    padding: 17px 30px;
+    cursor: pointer;
+}
+
+.destination-tabs a {
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+}
+
+.destination-tabs:hover {
+    background-color: #EB662B;
+    color: white;
+}
+
+.destination-tabs.active {
+    background-color: #EB662B;
+    color: white;
+
+}
+
+.destination-tabsection button {
+    padding: 0px 25px;
+    background-color: #EB662B;
+    color: white;
+    border: none;
+    margin: 7px 0px;
+    font-weight: 600;
+}
+
 /************************************************************* Destination Filter css ******************************************/
 
 
@@ -968,8 +1011,8 @@ input[type="checkbox"] {
 }
 
 .filter-card-view-main button {
-    color: #EB662B !important;
-    padding: 12px 45px 14px;
+
+    padding: 12px 40px 14px;
     font-weight: 500;
     font-size: 16px;
     border: 1px solid #EB662B;
@@ -978,7 +1021,12 @@ input[type="checkbox"] {
     margin-top: 20px;
 }
 
-.filter-card-view-main button:hover {
+.filter-card-view-main button a {
+    color: #EB662B !important;
+}
+
+.filter-card-view-main button:hover,
+.filter-card-view-main button:hover a {
     background-color: #EB662B;
     color: white !important;
 }
@@ -1372,12 +1420,16 @@ input[type="checkbox"] {
 .sidebar-menu:hover,
 .sidebar-menu:hover button {
     background-color: white;
-    color: #EB662B;
+    color: #EB662B !important;
+}
+
+button:focus:not(:focus-visible) {
+    /* color: #EB662B; */
 }
 
 .sidebar-menu.active {
     background-color: white;
-    color: #EB662B;
+    color: #EB662B !important;
 }
 
 .sidebar-icon {
@@ -2151,12 +2203,6 @@ input[type="checkbox"] {
     cursor: pointer;
 }
 
-.admin-parent-div {
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    border-radius: 5px;
-    padding: 20px 30px;
-}
-
 .admin-input-div {
     display: flex;
     flex-direction: column;
@@ -2280,4 +2326,133 @@ input[type="checkbox"] {
 .admin-add-button:hover {
     background-color: green;
     border: 1px solid green;
+}
+
+
+/************************************************************* Model Css ******************************************/
+
+
+
+.modal-backdrop {
+    background-color: rgb(0 0 0 / 63%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close-btn {
+    position: absolute;
+    z-index: 100;
+    top: 12px;
+    right: 12px;
+    font-size: 1.3rem;
+}
+
+.modal-close-btn:hover {
+    color: gray;
+}
+
+.Modal-View {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    padding: 30px 50px;
+    border-radius: 5px;
+    background-color: white;
+    height: 500px;
+    overflow-y: scroll;
+}
+
+
+.model-input-div {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+
+}
+
+.model-input-div label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.model-input-div input {
+    width: 500px;
+    padding: 10px 7px 10px 14px;
+    border-radius: 4px;
+    border: 1px solid #d4d4d4;
+}
+
+.model-input-div textarea {
+    width: 500px;
+    height: 100px;
+    padding: 10px 7px 10px 14px;
+    border-radius: 4px;
+    border: 1px solid #d4d4d4;
+}
+
+.model-submit-button {
+    padding: 8px 30px;
+    border-radius: 5px;
+    border: 1px solid #EB662B !important;
+    background-color: #EB662B;
+    color: white;
+    cursor: pointer;
+    margin-top: 25px;
+    font-weight: 600;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.model-submit-button:hover {
+    background-color: green;
+    border: 1px solid green !important;
+}
+
+.model-submit-button:active {
+    background-color: black;
+    border: 1px solid black !important;
+}
+
+.creta-tour-parent {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px 0px;
+}
+
+.create-tour-main {
+    width: 100%;
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 25px;
+    font-weight: 600;
+    text-align: center;
+    margin: 0px 5px;
+}
+
+.create-tour-main:hover {
+    background-color: white;
+    color: black;
+}
+
+.create-tour-main.active {
+    background-color: white;
+    color: black;
+    ;
+}
+
+.creta-tour-parent {
+    background-color: #EB662B;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-top: 30px;
+}
+
+
+.admin-content-main{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 20px 40px;
+    margin-top: 30px;
+    border-radius: 3px;
 }

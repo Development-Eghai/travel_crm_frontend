@@ -46,7 +46,7 @@ const Sidebar = ({ role = "admin" }) => {
                                                 }`} key={subIndex}>
                                                 <NavLink
                                                     to={sub.path}>
-                                                    <span className="me-2">{sub.icon}</span>
+                                                    <span className="me-2 ">{sub.icon}</span>
                                                     {sub.name}
                                                 </NavLink>
                                             </li>

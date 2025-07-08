@@ -46,7 +46,7 @@ const DestinationCreation = () => {
     const editor2 = useRef(null);
 
     return (
-        <div className='admin-parent-div'>
+        <div className='admin-content-main'>
 
             <div className='d-flex justify-content-between mb-5'>
                 <h3 className='my-auto'>Create Destination</h3>

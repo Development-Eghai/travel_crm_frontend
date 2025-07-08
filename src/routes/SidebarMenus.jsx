@@ -6,7 +6,7 @@ export const AdminMenu = [
         name: "Dashboard",
     },
     {
-        path: "/admin/feedback",
+        path: "",
         icon: <span class="material-symbols-outlined">dashboard_2
         </span>,
         name: "Trip Management",
@@ -14,12 +14,17 @@ export const AdminMenu = [
             {
                 path: "/admin/desination-list",
                 icon: <i className="fa-solid fa-pen-to-square"></i>,
-                name: "Destination",
+                name: "Add Destination",
             },
             {
-                path: "/admin/privacyPolicy",
+                path: "/admin/activity",
                 icon: <i className="fa-regular fa-paper-plane"></i>,
-                name: "Privacy Policy",
+                name: "Add Activity",
+            },
+            {
+                path: "/admin/tour-list",
+                icon: <i className="fa-regular fa-paper-plane"></i>,
+                name: " Add Tour",
             },
         ],
     },

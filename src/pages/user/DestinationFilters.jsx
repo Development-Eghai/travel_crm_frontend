@@ -23,7 +23,7 @@ const DestinationFilters = () => {
 
           <h2 className='destination-filter-heading'>Explore all things to do in Phuket</h2>
 
-          <section>
+          <section >
             <div className="row">
               <div className="col-lg-3 col-md-5">
                 <div className='destination-filter-main-left'>
