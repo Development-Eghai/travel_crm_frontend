@@ -54,25 +54,65 @@ const DestinationCreation = () => {
             </div>
 
             <div className='row'>
-                <div className='col-lg-4'>
+                <div className='col-lg-6'>
                     <div className='admin-input-div'>
-                        <label>Destination Name</label>
-                        <input type="text" value={createDestination?.destination_name}
+                        <label>Name <span className='required-icon'>*</span></label>
+                        <input type="text" value={createDestination?.destination_name} placeholder="Enter Destination Name"
                             onChange={(e) => handleChange("destination_name", e.target.value)} />
                     </div>
                 </div>
-                <div className='col-lg-4'>
+                <div className='col-lg-6'>
                     <div className='admin-input-div'>
-                        <label>Offer Description</label>
-                        <input type="text" value={createDestination?.offer_description}
+                        <label>Description <span className='required-icon'>*</span></label>
+                        <input type="text" value={createDestination?.offer_description} placeholder="Enter Description"
                             onChange={(e) => handleChange("offer_description", e.target.value)} />
                     </div>
                 </div>
-                <div className='col-lg-4'>
+                <div className='col-lg-6'>
+                    <div className="admin-input-div">
+                        <label>Hero Banner Images <span className='required-icon'>*</span></label>
+                        <input
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            className="form-control"
+                        />
+                    </div>
+                </div>
+                <div className='col-lg-6'>
                     <div className='admin-input-div'>
-                        <label>Starting Price</label>
-                        <input type="text" value={createDestination?.starting_price}
-                            onChange={(e) => handleChange("starting_price", e.target.value)} />
+                        <label>Domestic / International  <span className='required-icon'>*</span></label>
+                        <select>
+                            <option value="">Select Places</option>
+                            <option value="Fixed Price">Domestic</option>
+                            <option value="Price Per Person">International</option>
+                        </select>
+                    </div>
+                </div>
+                <div className='col-lg-6'>
+                    <div className='admin-input-div'>
+                        <label>Select Featured Hotels</label>
+                        <select>
+                            <option value="">Select Hotel</option>
+                            <option value="Fixed Price">Buhari</option>
+                            <option value="Price Per Person">Aryaas</option>
+                            <option value="Price Per Person">The Grand Palace</option>
+                            <option value="Price Per Person">Ocean View Resort</option>
+                            <option value="Price Per Person">Himalayan Retreat</option>
+                        </select>
+                    </div>
+                </div>
+                <div className='col-lg-6'>
+                    <div className='admin-input-div'>
+                        <label>Select Popular Trip Packages</label>
+                        <select>
+                            <option value="">Select Packages</option>
+                            <option value="Fixed Price">India</option>
+                            <option value="Price Per Person">Australia</option>
+                            <option value="Price Per Person">Brazil</option>
+                            <option value="Price Per Person">Canada</option>
+                            <option value="Price Per Person">USA</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -102,7 +142,6 @@ const DestinationCreation = () => {
             <div className='admin-input-div'>
                 <label>Frequently Asked Questions</label>
             </div>
-
 
             <div className="mt-3 destination-faq">
                 <div className="accordion" id="accordionExample">
@@ -187,7 +226,7 @@ const DestinationCreation = () => {
                 </div>
             </div>
 
-            <button className="create-common-btn" onClick={handleSubmit}>Create</button>
+            <button className="create-common-btn" >Create</button>
 
         </div>
     )

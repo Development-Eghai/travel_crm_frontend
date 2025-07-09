@@ -4,6 +4,8 @@ import DestinationCreation from "../pages/admin/TripManagement/Destination/Desti
 import DestinationList from "../pages/admin/TripManagement/Destination/DestinationList";
 import TourList from "../pages/admin/TripManagement/Tour/TourList";
 import TourCreation from "../pages/admin/TripManagement/Tour/TourCreation";
+import TourCategory from "../pages/admin/TripManagement/Category/TourCategory";
+import TourType from "../pages/admin/TripManagement/TourType/TourType";
 
 
 
@@ -13,11 +15,11 @@ export const routes = [
         component: AdminDashboard,
     },
     {
-        path: "/create-desination",
+        path: "/destination-create",
         component: DestinationCreation,
     },
     {
-        path: "/desination-list",
+        path: "/destination-list",
         component: DestinationList,
     },
     {
@@ -29,7 +31,15 @@ export const routes = [
         component: TourList,
     },
     {
-        path: "/creeta-tour",
+        path: "/tour-create",
         component: TourCreation,
+    },
+    {
+        path: "/category-create",
+        component:TourCategory,
+    },
+    {
+        path: "/create-tour-type",
+        component:TourType,
     }
 ]

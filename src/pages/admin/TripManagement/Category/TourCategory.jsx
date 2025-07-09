@@ -4,14 +4,14 @@ import MyDataTable from '../../../../component/MyDataTable';
 import CustomModal from '../../../../component/CustomModel';
 
 
-const Activity = () => {
+const TourCategory = () => {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false)
     return (
         <div className='admin-content-main'>
             <div className='d-flex justify-content-between'>
-                <h3 className='my-auto'>Activity</h3>
-                <button className='admin-add-button mt-0' onClick={() => setOpen(true)}>Add Activity</button>
+                <h3 className='my-auto'>Category</h3>
+                <button className='admin-add-button mt-0' onClick={() => setOpen(true)}>Add Category</button>
             </div>
 
             <div className='my-5'>
@@ -31,25 +31,32 @@ const Activity = () => {
             >
                 <>
                     <div className=''>
-                        <h4 className='mt-2'>Add New Activity</h4>
+                        <h4 className='mt-2'>Add New Category</h4>
                         <form>
                             <div className='model-input-div'>
                                 <label>Name</label>
-                                <input type="text" placeholder='Name' />
+                                <input type="text" placeholder="Enter Name"
+                                />
                             </div>
                             <div className='model-input-div'>
                                 <label>Slug</label>
-                                <input type="text" placeholder='Slug' />
+                                <input type="text" placeholder="Enter Slug"
+                                />
                             </div>
                             <div className='model-input-div'>
                                 <label>Description</label>
-                                <textarea type="text" placeholder='Description' />
+                                <input type="text" placeholder='Enter Description' />
                             </div>
                             <div className='model-input-div'>
-                                <label>Image </label>
-                                <input type="file" />
+                                <label>Images</label>
+                                <input
+                                    type="file"
+                                    multiple
+                                    accept="image/*"
+                                    className="form-control"
+                                />
                             </div>
-                            <button className='model-submit-button'>Add Activity</button>
+                            <button className='model-submit-button'>Add Category</button>
                         </form>
                     </div>
                 </>
@@ -59,4 +66,4 @@ const Activity = () => {
     )
 }
 
-export default Activity
+export default TourCategory

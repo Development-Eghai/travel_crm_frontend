@@ -12,7 +12,7 @@ export const AdminMenu = [
         name: "Trip Management",
         subMenu: [
             {
-                path: "/admin/desination-list",
+                path: "/admin/destination-list",
                 icon: <i className="fa-solid fa-pen-to-square"></i>,
                 name: "Add Destination",
             },
@@ -25,6 +25,16 @@ export const AdminMenu = [
                 path: "/admin/tour-list",
                 icon: <i className="fa-regular fa-paper-plane"></i>,
                 name: " Add Tour",
+            },
+            {
+                path: "/admin/category-create",
+                icon: <i className="fa-regular fa-paper-plane"></i>,
+                name: " Add Category",
+            },
+            {
+                path: "/admin/create-tour-type",
+                icon: <i className="fa-regular fa-paper-plane"></i>,
+                name: " Add Tour Type",
             },
         ],
     },

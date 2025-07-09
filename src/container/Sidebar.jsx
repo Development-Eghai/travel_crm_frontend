@@ -5,8 +5,11 @@ import { AdminMenu, UserMenu } from "../routes/SidebarMenus";
 
 const Sidebar = ({ role = "admin" }) => {
     const [openSubmenus, setOpenSubmenus] = useState({});
-    const location = useLocation();
-    console.log(location.pathname, "pathname")
+    const { pathname } = useLocation()
+    const getBasePath = (path) => {
+        const parts = path.split('/');
+        return parts.length > 2 ? `/${parts[1]}/${parts[2].split("-")[0]}` : path;
+    };
     const menus = role === "admin" ? AdminMenu : UserMenu;
 
     const toggleSubmenu = (index) => {
@@ -41,16 +44,20 @@ const Sidebar = ({ role = "admin" }) => {
                                 </button>
                                 <div className={`collapse ${openSubmenus[index] ? "show" : ""}`}>
                                     <ul className="submenu-list">
-                                        {item.subMenu.map((sub, subIndex) => (
-                                            <li className={`nav-item submenu-menus ${location.pathname === sub.path ? "active" : ""
-                                                }`} key={subIndex}>
-                                                <NavLink
-                                                    to={sub.path}>
-                                                    <span className="me-2 ">{sub.icon}</span>
-                                                    {sub.name}
-                                                </NavLink>
-                                            </li>
-                                        ))}
+                                        {item.subMenu.map((sub, subIndex) => {
+                                            const basePath = getBasePath(sub.path);
+                                            const isActive = pathname.startsWith(basePath);
+                                            return (
+                                                <li className={`nav-item submenu-menus ${isActive ? "active" : ""
+                                                    }`} key={subIndex}>
+                                                    <NavLink
+                                                        to={sub.path}>
+                                                        <span className="me-2 ">{sub.icon}</span>
+                                                        {sub.name}
+                                                    </NavLink>
+                                                </li>
+                                            )
+                                        })}
                                     </ul>
                                 </div>
                             </>
