@@ -1,24 +1,22 @@
 export const AdminMenu = [
     {
         path: "/admin/admin-dashboard",
-        icon: <span class="material-symbols-outlined">dashboard_2
-        </span>,
+        icon:<i class="fa-solid fa-chart-line"></i>,
         name: "Dashboard",
     },
     {
         path: "",
-        icon: <span class="material-symbols-outlined">dashboard_2
-        </span>,
+        icon: <i class="fa-solid fa-suitcase-rolling"></i>,
         name: "Trip Management",
         subMenu: [
             {
                 path: "/admin/destination-list",
-                icon: <i className="fa-solid fa-pen-to-square"></i>,
+                icon: <i class="fa-solid fa-location-dot"></i>,
                 name: "Add Destination",
             },
             {
                 path: "/admin/activity",
-                icon: <i className="fa-regular fa-paper-plane"></i>,
+                icon: <i class="fa-solid fa-location-dot"></i>,
                 name: "Add Activity",
             },
             {
@@ -35,6 +33,23 @@ export const AdminMenu = [
                 path: "/admin/create-tour-type",
                 icon: <i className="fa-regular fa-paper-plane"></i>,
                 name: " Add Tour Type",
+            },
+        ],
+    },
+    {
+        path: "",
+        icon: <i class="fa-solid fa-suitcase-rolling"></i>,
+        name: "Blogs Management",
+        subMenu: [
+            {
+                path: "/admin/category-blog",
+                icon: <i class="fa-solid fa-location-dot"></i>,
+                name: "Create Blog Category",
+            },
+            {
+                path: "/admin/blog-List",
+                icon: <i class="fa-solid fa-location-dot"></i>,
+                name: "Create Blog",
             },
         ],
     },

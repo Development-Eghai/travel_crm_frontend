@@ -6,6 +6,9 @@ import TourList from "../pages/admin/TripManagement/Tour/TourList";
 import TourCreation from "../pages/admin/TripManagement/Tour/TourCreation";
 import TourCategory from "../pages/admin/TripManagement/Category/TourCategory";
 import TourType from "../pages/admin/TripManagement/TourType/TourType";
+import BlogsCategory from "../pages/admin/Blogs/Category/BlogsCategory";
+import BlogsList from "../pages/admin/Blogs/BlogsList";
+import BlogsCreation from "../pages/admin/Blogs/BlogsCreation";
 
 
 
@@ -41,5 +44,17 @@ export const routes = [
     {
         path: "/create-tour-type",
         component:TourType,
+    },
+    {
+        path: "/category-blog",
+        component:BlogsCategory,
+    },
+    {
+        path: "/blog-List",
+        component:BlogsList,
+    },
+    {
+        path: "/blog-create",
+        component:BlogsCreation,
     }
 ]

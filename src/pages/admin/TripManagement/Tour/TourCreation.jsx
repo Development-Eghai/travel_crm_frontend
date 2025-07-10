@@ -238,7 +238,7 @@ const TourCreation = () => {
                         <div className="accordion-item" key={index} >
                           <h2 className="accordion-header d-flex align-items-center justify-content-between">
                             <button
-                              className="accordion-button flex-grow-1"
+                              className="accordion-button flex-grow-1 fw-bold"
                               type="button"
                               data-bs-toggle="collapse"
                               data-bs-target={`#collapse${index}`}
@@ -381,10 +381,11 @@ const TourCreation = () => {
 
               <div className='col-lg-6'>
                 <div className='admin-input-div'>
-                  <label>Discounted Price</label>
+                  <label>End Date</label>
                   <DatePicker
                     selected={endDate}
                     readOnly
+                    disabled
                     placeholderText="End Date"
                     className='w-100'
                   />
@@ -401,7 +402,7 @@ const TourCreation = () => {
               <div className='col-lg-6'>
                 <div className='admin-input-div'>
                   <label>Available Slots</label>
-                  <input type="number" readOnly disabled value={5} />
+                  <input type="number" value={5} />
                 </div>
               </div>
 
@@ -430,7 +431,7 @@ const TourCreation = () => {
                   <DatePicker
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
-                    placeholderText="Select Start Date"
+                    placeholderText="Select Cut-off Date"
                     className='w-100'
                   />
                 </div>
@@ -444,61 +445,24 @@ const TourCreation = () => {
           <div className='row'>
             <div className='col-lg-6'>
               <div className='admin-input-div'>
-                <label>Headline  <span className='required-icon'>*</span></label>
-                <input type="text" placeholder='Enter Headline' />
-              </div>
-            </div>
-            <div className='col-lg-6'>
-              <div className='admin-input-div'>
-                <label>SEO Title</label>
-                <input type="text" placeholder='Enter Title' />
+                <label>Meta Title <span className='required-icon'>*</span></label>
+                <input type="text" />
               </div>
             </div>
 
             <div className='col-lg-6'>
               <div className='admin-input-div'>
-                <label>URL Slug</label>
-                <input type="text" placeholder='Enter URL Slug' />
-              </div>
-            </div>
-
-
-            <div className='col-lg-6'>
-              <div className='admin-input-div'>
-                <label>Video Links</label>
-                <input type="text" placeholder='Enter Video Links' />
+                <label>Meta Tag <span className='required-icon'>*</span></label>
+                <input type="text" />
               </div>
             </div>
 
             <div className='col-lg-6'>
               <div className='admin-input-div'>
-                <label>Video Links</label>
-                <input type="text" placeholder='Enter Video Links' />
+                <label>Meta Description <span className='required-icon'>*</span></label>
+                <input type="text" />
               </div>
             </div>
-
-            <div className='col-lg-6'>
-              <div className='admin-input-div'>
-                <label>Related Trips</label>
-                <Select isMulti
-                  options={allOptions}
-                  placeholder="Select Category"
-                  onChange={handleDropDownChange}
-                  isClearable
-                />
-              </div>
-            </div>
-
-            <div className='col-lg-12'>
-              <div className="admin-input-div admin-desti-faq">
-                <label>Description</label>
-                <textarea
-                  className="form-control"
-                  placeholder='Enter Description'
-                />
-              </div>
-            </div>
-
           </div>
 
         )}
@@ -506,7 +470,7 @@ const TourCreation = () => {
         {activeTab == 5 && (
 
           <div className='row'>
-            <div className='col-lg-12'>
+            <div className='col-lg-6'>
               <div className='admin-input-div'>
                 <label className='text-area-label'>Inclusion</label>
                 <div className="mt-2">
@@ -524,7 +488,7 @@ const TourCreation = () => {
                 </div>
               </div>
             </div>
-            <div className='col-lg-12'>
+            <div className='col-lg-6'>
               <div className='admin-input-div'>
                 <label className='text-area-label'>Exclusion</label>
                 <div className="mt-2">
@@ -542,7 +506,7 @@ const TourCreation = () => {
                 </div>
               </div>
             </div>
-            <div className='col-lg-12'>
+            <div className='col-lg-6'>
               <div className='admin-input-div'>
                 <label className='text-area-label'>Key Highlights/Features</label>
                 <div className="mt-2">
@@ -560,7 +524,7 @@ const TourCreation = () => {
                 </div>
               </div>
             </div>
-            <div className='col-lg-12'>
+            <div className='col-lg-6'>
               <div className='admin-input-div'>
                 <label className='text-area-label'>Cancellation Policy</label>
                 <div className="mt-2">
@@ -584,11 +548,11 @@ const TourCreation = () => {
             <div className="mt-3 destination-faq">
               <div className="accordion" id="accordionExample">
                 {faqs.map((faq, index) => (
-                  <div className='mt-4'>
+                  <div className=''>
                     <div className="accordion-item" key={index} >
                       <h2 className="accordion-header d-flex align-items-center justify-content-between">
                         <button
-                          className="accordion-button flex-grow-1"
+                          className="accordion-button flex-grow-1 fw-bold"
                           type="button"
                           data-bs-toggle="collapse"
                           data-bs-target={`#collapse${index}`}

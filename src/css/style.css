@@ -1465,6 +1465,14 @@ button:focus:not(:focus-visible) {
     margin: 20px 4px;
 }
 
+.nav-link.sidebar-menu:focus {
+    color: white !important;
+}
+
+.nav-link.sidebar-menu:hover {
+    color: #EB662B !important;
+}
+
 .submenu-list {
     list-style: none;
     padding-left: 0px;
@@ -1476,18 +1484,13 @@ button:focus:not(:focus-visible) {
     text-decoration: none;
     color: white;
     margin-bottom: 20px;
-    padding: 7px 15px;
+    padding: 12px 15px;
     border-radius: 7px;
 }
 
-.submenu-menus a {
-    text-decoration: none;
-    color: white;
-    font-size: 16px;
-}
 
-.submenu-menus a span {
-    font-size: 20px;
+.submenu-menus span {
+    font-size: 16px;
 }
 
 .submenu-menus:hover,
@@ -1828,7 +1831,7 @@ button:focus:not(:focus-visible) {
 
 .blogs-detail-tags {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     flex-wrap: wrap;
 }
 
@@ -2346,6 +2349,7 @@ button:focus:not(:focus-visible) {
     justify-content: center;
 }
 
+
 .modal-close-btn {
     position: absolute;
     z-index: 100;
@@ -2408,6 +2412,33 @@ button:focus:not(:focus-visible) {
     width: 100%;
     margin-bottom: 30px;
 }
+
+
+
+.blog-category-main {
+    position: fixed;            /* Ensure it's on top of the page */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.63);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+  
+  .blog-category-child {
+    background-color: white;
+    border-radius: 5px;
+    padding: 30px 50px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+                rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+
 
 .model-submit-button:hover {
     background-color: green;

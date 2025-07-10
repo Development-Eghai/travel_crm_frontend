@@ -48,14 +48,15 @@ const Sidebar = ({ role = "admin" }) => {
                                             const basePath = getBasePath(sub.path);
                                             const isActive = pathname.startsWith(basePath);
                                             return (
-                                                <li className={`nav-item submenu-menus ${isActive ? "active" : ""
-                                                    }`} key={subIndex}>
-                                                    <NavLink
-                                                        to={sub.path}>
-                                                        <span className="me-2 ">{sub.icon}</span>
-                                                        {sub.name}
-                                                    </NavLink>
-                                                </li>
+                                                <NavLink
+                                                    to={sub.path} className={`text-decoration-none`}>
+                                                    <li className={`nav-item submenu-menus ${isActive ? "active" : ""
+                                                        }`} key={subIndex}>
+
+                                                        <span className="me-2">{sub.icon}</span>
+                                                        <span> {sub.name}</span>
+                                                    </li>
+                                                </NavLink>
                                             )
                                         })}
                                     </ul>
