@@ -28,8 +28,8 @@ const Sidebar = ({ role = "admin" }) => {
                         {item.subMenu ? (
                             <>
                                 <button
-                                    className={`nav-link w-100 d-flex justify-content-between sidebar-menu pb-2 pt-3 border-none" 
-                                    ${location.pathname === item.path ? "active" : ""}`}
+                                    className={`nav-link w-100 d-flex justify-content-between sidebar-menu pb-2 pt-2 border-none 
+                                         ${location.pathname === item.path ? "active" : ""}`}
                                     onClick={() => toggleSubmenu(index)}
                                 >
                                     <div className="d-flex">
@@ -37,11 +37,10 @@ const Sidebar = ({ role = "admin" }) => {
                                         <p className="ms-2">{item.name}</p>
                                     </div>
                                     <div>
-                                        <span className="material-symbols-outlined">
-                                            {openSubmenus[index] ? "expand_less" : "expand_more"}
-                                        </span>
+                                        <i className={`fa-solid ${openSubmenus[index] ? "fa-chevron-up" : "fa-chevron-down"}`}></i>
                                     </div>
                                 </button>
+
                                 <div className={`collapse ${openSubmenus[index] ? "show" : ""}`}>
                                     <ul className="submenu-list">
                                         {item.subMenu.map((sub, subIndex) => {
