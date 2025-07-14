@@ -11,6 +11,8 @@ import BlogsList from "../pages/admin/Blogs/BlogsList";
 import BlogsCreation from "../pages/admin/Blogs/BlogsCreation";
 import HotelList from "../pages/admin/HotelManagement/HotelList";
 import HotelCreation from "../pages/admin/HotelManagement/HotelCreation";
+import ActivityBookingListing from "../pages/admin/ActivityBooking/ActivityBookingListing";
+import ActivityBookingCreation from "../pages/admin/ActivityBooking/ActivityBookingCreation";
 
 
 
@@ -66,5 +68,13 @@ export const routes = [
     {
         path: "/hotel-create",
         component: HotelCreation,
+    },
+    {
+        path: "/Activity-list",
+        component: ActivityBookingListing,
+    },
+    {
+        path: "/Activity-create",
+        component: ActivityBookingCreation,
     }
 ]

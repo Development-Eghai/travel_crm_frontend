@@ -41,6 +41,11 @@ export const AdminMenu = [
         icon:<i class="fa-solid fa-chart-line"></i>,
         name: "Hotel Management",
     },
+    {
+        path: "/admin/Activity-list",
+        icon:<i class="fa-solid fa-chart-line"></i>,
+        name: "Activity Management",
+    },
 
 ]
 

@@ -188,7 +188,7 @@ const HotelCreation = () => {
 
                                 <div className='col-lg-6'>
                                     <div className='admin-input-div'>
-                                        <label>Hotel Website URL<span className='required-icon'>*</span></label>
+                                        <label>Postal Code<span className='required-icon'>*</span></label>
                                         <input type="text" placeholder='Enter Postal Code' />
                                     </div>
                                 </div>
