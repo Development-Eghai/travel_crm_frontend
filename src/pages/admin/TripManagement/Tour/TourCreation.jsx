@@ -166,13 +166,13 @@ const TourCreation = () => {
         ))}
       </div>
 
-
       <div className='trip-creation-form'>
         <h4>{sectionTabs[activeTab - 1]?.id}.{sectionTabs[activeTab - 1]?.detail?.head}</h4>
         <p>{sectionTabs[activeTab - 1]?.detail?.para}</p>
       </div>
 
       <div className='mt-3'>
+
         {activeTab == 1 && (
           <>
             <div className='d-flex mb-4'>
@@ -311,122 +311,261 @@ const TourCreation = () => {
 
             </div>
 
-
-            <div className='itenary-main my-5'>
-              <div className='admin-input-div mt-0'>
-                <label>Day Wise Itenary </label>
-              </div>
-
-              <div className='itenary-list-main mt-4 '>
-                <div className='itenary-content mb-5'>
-                  <h5 className='text-center'>Itinerary Builder</h5>
-                  <p className='text-center'>Create day-by-day itinerary for your customized package</p>
+            {activeTripTab == 1 && (
+              <div className='itenary-main my-5'>
+                <div className='admin-input-div mt-0'>
+                  <label>Day Wise Itenary </label>
                 </div>
-                {/* <div className='d-flex justify-content-center'>
+
+                <div className='itenary-list-main mt-4 '>
+                  <div className='itenary-content mb-5'>
+                    <h5 className='text-center'>Itinerary Builder</h5>
+                    <p className='text-center'>Create day-by-day itinerary for your customized package</p>
+                  </div>
+                  {/* <div className='d-flex justify-content-center'>
                   <button className='admin-add-button'>Add Day <i class="fa-solid fa-plus ms-2"></i></button>
                 </div> */}
 
-                <div className="destination-faq">
-                  <div className="accordion" id="accordionExample">
-                    {itinerarys.map((faq, index) => (
-                      <div className='mt-4'>
-                        <div className="accordion-item" key={index} >
-                          <h2 className="accordion-header d-flex align-items-center justify-content-between">
-                            <button
-                              className="accordion-button flex-grow-1 fw-bold"
-                              type="button"
-                              data-bs-toggle="collapse"
-                              data-bs-target={`#collapse${index}`}
-                              aria-expanded="true"
-                              aria-controls={`collapse${index}`}
-                            >
-                              DAY {index + 1}
-                            </button>
-                            <div className="ms-3 d-flex gap-2">
-                              <button className="destination-faq-add" onClick={addItinerary}>
-                                Add
-                              </button>
-                              {/* {index !== 0 && ( */}
+                  <div className="destination-faq">
+                    <div className="accordion" id="accordionExample">
+                      {itinerarys.map((faq, index) => (
+                        <div className='mt-4'>
+                          <div className="accordion-item" key={index} >
+                            <h2 className="accordion-header d-flex align-items-center justify-content-between">
                               <button
-                                className="destination-faq-add faq-delete me-4"
-                                onClick={() => deleteItinerary(index)}
+                                className="accordion-button flex-grow-1 fw-bold"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target={`#collapse${index}`}
+                                aria-expanded="true"
+                                aria-controls={`collapse${index}`}
                               >
-                                Delete
+                                DAY {index + 1}
                               </button>
-                              {/* )} */}
-                            </div>
-                          </h2>
-
-                          <div
-                            id={`collapse${index}`}
-                            className="accordion-collapse collapse show"
-                            data-bs-parent="#accordionExample"
-                          >
-                            <div className="accordion-body">
-                              <div className="admin-input-div mb-3">
-                                <label className=''>Day Title</label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  value={faq.question}
-                                  placeholder="Enter Day Title"
-                                  onChange={(e) =>
-                                    updateItinerary(index, "day_title", e.target.value)
-                                  }
-                                />
+                              <div className="ms-3 d-flex gap-2">
+                                <button className="destination-faq-add me-3" onClick={addItinerary}>
+                                  Add
+                                </button>
+                                {index !== 0 && (
+                                  <button
+                                    className="destination-faq-add faq-delete me-4"
+                                    onClick={() => deleteItinerary(index)}
+                                  >
+                                    Delete
+                                  </button>
+                                )}
                               </div>
+                            </h2>
 
-                              <div className="admin-input-div admin-desti-faq">
-                                <label>Day Description</label>
-                                <textarea
-                                  className="form-control"
-                                  placeholder="Enter Day Description"
-                                  value={faq.answer}
-                                  onChange={(e) =>
-                                    updateItinerary(index, "day_description", e.target.value)
-                                  }
-                                />
+                            <div
+                              id={`collapse${index}`}
+                              className="accordion-collapse collapse show"
+                              data-bs-parent="#accordionExample"
+                            >
+                              <div className="accordion-body">
+                                <div className="admin-input-div mb-3">
+                                  <label className=''>Day Title</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    value={faq.question}
+                                    placeholder="Enter Day Title"
+                                    onChange={(e) =>
+                                      updateItinerary(index, "day_title", e.target.value)
+                                    }
+                                  />
+                                </div>
+
+                                <div className="admin-input-div admin-desti-faq">
+                                  <label>Day Description</label>
+                                  <textarea
+                                    className="form-control"
+                                    placeholder="Enter Day Description"
+                                    value={faq.answer}
+                                    onChange={(e) =>
+                                      updateItinerary(index, "day_description", e.target.value)
+                                    }
+                                  />
+                                </div>
+
+                                <div className="admin-input-div admin-desti-faq">
+                                  <label>Day Images (Optional) <span className='required-icon'>*</span></label>
+                                  <input
+                                    type="file"
+                                    multiple
+                                    accept="image/*"
+                                    className="form-control"
+                                  />
+                                </div>
+
                               </div>
-
-                              <div className="admin-input-div admin-desti-faq">
-                                <label>Day Images (Optional) <span className='required-icon'>*</span></label>
-                                <input
-                                  type="file"
-                                  multiple
-                                  accept="image/*"
-                                  className="form-control"
-                                />
-                              </div>
-
                             </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
+
+            {activeTripTab == 2 && (
+              <div className='itenary-main my-5'>
+                <div className='admin-input-div mt-0'>
+                  <label>Fixed Departure Details</label>
+                </div>
+
+                <div className='itenary-list-main mt-4 '>
+                  <div className='itenary-content mb-5'>
+                    <h5 className='text-center'>Manage Departures & Slots</h5>
+                  </div>
+                  {/* <div className='d-flex justify-content-center'>
+                  <button className='admin-add-button'>Add Day <i class="fa-solid fa-plus ms-2"></i></button>
+                </div> */}
+
+                  <div className="destination-faq">
+                    <div className="accordion" id="accordionExample">
+                      {itinerarys.map((faq, index) => (
+                        <div className='mt-4'>
+                          <div className="accordion-item" key={index} >
+                            <h2 className="accordion-header d-flex align-items-center justify-content-between">
+                              <button
+                                className="accordion-button flex-grow-1 fw-bold"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target={`#collapse${index}`}
+                                aria-expanded="true"
+                                aria-controls={`collapse${index}`}
+                              >
+                                Departure {index + 1}
+                              </button>
+                              <div className="ms-3 d-flex gap-2">
+                                <button className="destination-faq-add me-3" onClick={addItinerary}>
+                                  Add
+                                </button>
+                                {index !== 0 && (
+                                  <button
+                                    className="destination-faq-add faq-delete me-4 "
+                                    onClick={() => deleteItinerary(index)}
+                                  >
+                                    Delete
+                                  </button>
+                                )}
+                              </div>
+                            </h2>
+
+                            <div
+                              id={`collapse${index}`}
+                              className="accordion-collapse collapse show"
+                              data-bs-parent="#accordionExample"
+                            >
+                              <div className="accordion-body">
+
+                                <div className='row'>
+                                  <div className='col-lg-6'>
+                                    <div className='admin-input-div mt-0'>
+                                      <label>Start Date<span className='required-icon'>*</span></label>
+                                      <DatePicker
+                                        selected={startDate}
+                                        onChange={(date) => setStartDate(date)}
+                                        placeholderText="Select Start Date"
+                                        className='w-100'
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className='col-lg-6 '>
+                                    <div className='admin-input-div mt-0'>
+                                      <label>End Date</label>
+                                      <DatePicker
+                                        selected={endDate}
+                                        placeholderText="End Date"
+                                        className='w-100'
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className='col-lg-6'>
+                                    <div className='admin-input-div'>
+                                      <label>Total Slots <span className='required-icon'>*</span></label>
+                                      <input type="number" placeholder='Enter Total No Of Slots' />
+                                    </div>
+                                  </div>
+
+                                  <div className='col-lg-6'>
+                                    <div className='admin-input-div'>
+                                      <label>Available Slots <span className='required-icon'>*</span></label>
+                                      <input type="number" placeholder='Enter Available Slots' />
+                                    </div>
+                                  </div>
+
+                                  <div className='col-lg-6'>
+                                    <div className='admin-input-div'>
+                                      <label>Price Override (Optional) <span className='required-icon'>*</span></label>
+                                      <input type="number" placeholder='Special Price For This Departure' />
+                                    </div>
+                                  </div>
+
+                                  <div className='col-lg-6'>
+                                    <div className='admin-input-div'>
+                                      <label>Status  <span className='required-icon'>*</span></label>
+                                      <select>
+                                        <option value="">Booked Out</option>
+                                        <option value="">Cancelled</option>
+                                      </select>
+                                    </div>
+                                  </div>
+
+
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
 
           </>
         )}
 
         {activeTab == 4 && (
           <>
+            {activeTripTab == 1 && (
+              <div className='d-flex mb-4'>
+                {PricingTab.map((item, index) => (
+                  <div className={`trip-type-card ${activePricingTab === item?.id ? 'active' : ''} pricing-tab-card`} key={item?.id} onClick={() => setActivePricingTab(item?.id)}>
+                    <div className='d-flex flex-column trip-type-card-content ms-2'>
+                      <h6>{item?.head}</h6>
+                      <p>{item?.para}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
-            <div className='d-flex mb-4'>
-              {PricingTab.map((item, index) => (
-                <div className={`trip-type-card ${activePricingTab === item?.id ? 'active' : ''} pricing-tab-card`} key={item?.id} onClick={() => setActivePricingTab(item?.id)}>
+
+            {activeTripTab == 2 && (
+              <div className='d-flex mb-4'>
+                {/* {PricingTab.map((item, index) => ( */}
+                <div className={`trip-type-card ${activePricingTab === 1 ? 'active' : ''} pricing-tab-card`} onClick={() => setActivePricingTab(1)}>
                   <div className='d-flex flex-column trip-type-card-content ms-2'>
-                    <h6>{item?.head}</h6>
-                    <p>{item?.para}</p>
+                    <h6>{PricingTab[1]?.head}</h6>
+                    <p>{PricingTab[1]?.para}</p>
                   </div>
                 </div>
-              ))}
-            </div>
+                {/* ))} */}
+              </div>
+            )}
 
 
             <div className='itenary-main my-5'>
+
+              <h5 className='fw-bold mb-4'>Price Configuration</h5>
 
               <div className='row'>
 
@@ -468,107 +607,135 @@ const TourCreation = () => {
                   </div>
                 </div>
 
+                {activeTripTab == 2 && (
+                  <>
+                    <div className='col-lg-6'>
+                      <div className='admin-input-div'>
+                        <label>Double Occupancy <span className='required-icon'>*</span></label>
+                        <input type="number" placeholder='Enter Price' />
+                      </div>
+                    </div>
+                    <div className='col-lg-6'>
+                      <div className='admin-input-div'>
+                        <label>Triple Occupancy <span className='required-icon'>*</span></label>
+                        <input type="number" placeholder='Enter Price' />
+                      </div>
+                    </div>
+                    <div className='col-lg-6'>
+                      <div className='admin-input-div'>
+                        <label>Quad Occupancy <span className='required-icon'>*</span></label>
+                        <input type="number" placeholder='Enter Price' />
+                      </div>
+                    </div>
+                  </>
+                )}
+
 
               </div>
 
-              <div className='itenary-list-main mt-4 '>
-                <div className='itenary-content mb-5'>
-                  <h5 className='text-center'>Seasonal Pricing (Optional)</h5>
-                  <p className='text-center'>Add different prices for different seasons or dates</p>
-                </div>
-                {/* <div className='d-flex justify-content-center'>
+              {activeTripTab == 1 && (
+                <div className='itenary-list-main mt-4 '>
+                  <div className='itenary-content mb-5'>
+                    <h5 className='text-center'>Seasonal Pricing (Optional)</h5>
+                    <p className='text-center'>Add different prices for different seasons or dates</p>
+                  </div>
+                  {/* <div className='d-flex justify-content-center'>
                   <button className='admin-add-button'>Add Day <i class="fa-solid fa-plus ms-2"></i></button>
                 </div> */}
 
-                <div className="destination-faq">
-                  <div className="accordion" id="accordionExample">
-                    {itinerarys.map((faq, index) => (
-                      <div className='mt-4'>
-                        <div className="accordion-item" key={index} >
-                          <h2 className="accordion-header d-flex align-items-center justify-content-between">
-                            <button
-                              className="accordion-button flex-grow-1 fw-bold"
-                              type="button"
-                              data-bs-toggle="collapse"
-                              data-bs-target={`#collapse${index}`}
-                              aria-expanded="true"
-                              aria-controls={`collapse${index}`}
-                            >
-                              Season {index + 1}
-                            </button>
-                            <div className="ms-3 d-flex gap-2">
-                              <button className="destination-faq-add" onClick={addItinerary}>
-                                Add
-                              </button>
-                              {/* {index !== 0 && ( */}
+                  <div className="destination-faq">
+                    <div className="accordion" id="accordionExample">
+                      {itinerarys.map((faq, index) => (
+                        <div className='mt-4'>
+                          <div className="accordion-item" key={index} >
+                            <h2 className="accordion-header d-flex align-items-center justify-content-between">
                               <button
-                                className="destination-faq-add faq-delete me-4"
-                                onClick={() => deleteItinerary(index)}
+                                className="accordion-button flex-grow-1 fw-bold"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target={`#collapse${index}`}
+                                aria-expanded="true"
+                                aria-controls={`collapse${index}`}
                               >
-                                Delete
+                                Season {index + 1}
                               </button>
-                              {/* )} */}
-                            </div>
-                          </h2>
-
-                          <div
-                            id={`collapse${index}`}
-                            className="accordion-collapse collapse show"
-                            data-bs-parent="#accordionExample"
-                          >
-                            <div className="accordion-body">
-
-                              <div className='row'>
-                                <div className='col-lg-6'>
-                                  <div className='admin-input-div mt-0'>
-                                    <label>Start Date<span className='required-icon'>*</span></label>
-                                    <DatePicker
-                                      selected={startDate}
-                                      onChange={(date) => setStartDate(date)}
-                                      placeholderText="Select Start Date"
-                                      className='w-100'
-                                    />
-                                  </div>
-                                </div>
-
-                                <div className='col-lg-6 '>
-                                  <div className='admin-input-div mt-0'>
-                                    <label>End Date</label>
-                                    <DatePicker
-                                      selected={endDate}
-                                      readOnly
-                                      disabled
-                                      placeholderText="End Date"
-                                      className='w-100'
-                                    />
-                                  </div>
-                                </div>
-
-                                <div className='col-lg-6'>
-                                  <div className='admin-input-div'>
-                                    <label>Season Price</label>
-                                    <input type="number" placeholder='Enter Season Price' />
-                                  </div>
-                                </div>
-
-                                <div className='col-lg-6'>
-                                  <div className='admin-input-div'>
-                                    <label>Season Name</label>
-                                    <input type="number" placeholder='e.g.., Summer, Winter' />
-                                  </div>
-                                </div>
+                              <div className="ms-3 d-flex gap-2">
+                                <button className="destination-faq-add" onClick={addItinerary}>
+                                  Add
+                                </button>
+                                {/* {index !== 0 && ( */}
+                                <button
+                                  className="destination-faq-add faq-delete me-4"
+                                  onClick={() => deleteItinerary(index)}
+                                >
+                                  Delete
+                                </button>
+                                {/* )} */}
                               </div>
+                            </h2>
+
+                            <div
+                              id={`collapse${index}`}
+                              className="accordion-collapse collapse show"
+                              data-bs-parent="#accordionExample"
+                            >
+                              <div className="accordion-body">
+
+                                <div className='row'>
+                                  <div className='col-lg-6'>
+                                    <div className='admin-input-div mt-0'>
+                                      <label>Start Date<span className='required-icon'>*</span></label>
+                                      <DatePicker
+                                        selected={startDate}
+                                        onChange={(date) => setStartDate(date)}
+                                        placeholderText="Select Start Date"
+                                        className='w-100'
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className='col-lg-6 '>
+                                    <div className='admin-input-div mt-0'>
+                                      <label>End Date</label>
+                                      <DatePicker
+                                        selected={endDate}
+                                        readOnly
+                                        disabled
+                                        placeholderText="End Date"
+                                        className='w-100'
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className='col-lg-6'>
+                                    <div className='admin-input-div'>
+                                      <label>Season Price</label>
+                                      <input type="number" placeholder='Enter Season Price' />
+                                    </div>
+                                  </div>
+
+                                  <div className='col-lg-6'>
+                                    <div className='admin-input-div'>
+                                      <label>Season Name</label>
+                                      <input type="number" placeholder='e.g.., Summer, Winter' />
+                                    </div>
+                                  </div>
+                                </div>
 
 
 
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
+
+
+
             </div>
 
             <div className='row'>
@@ -655,68 +822,73 @@ const TourCreation = () => {
             <div className='col-lg-6'>
               <div className='admin-input-div'>
                 <label>Meta Title <span className='required-icon'>*</span></label>
-                <input type="text" placeholder='SEO Meta Title'/>
+                <input type="text" placeholder='SEO Meta Title' />
               </div>
             </div>
 
             <div className='col-lg-6'>
               <div className='admin-input-div'>
                 <label>Meta Tag <span className='required-icon'>*</span></label>
-                <input type="text" placeholder='SEO Meta Tag'/>
+                <input type="text" placeholder='SEO Meta Tag' />
               </div>
             </div>
 
             <div className='col-lg-6'>
               <div className='admin-input-div'>
                 <label>Meta Description <span className='required-icon'>*</span></label>
-                <input type="text" placeholder='SEO Meta Description'/>
+                <input type="text" placeholder='SEO Meta Description' />
               </div>
             </div>
 
             <div className='col-lg-6'>
               <div className='admin-input-div'>
                 <label>Video Links <span className='required-icon'>*</span></label>
-                <input type="text" placeholder='Enter Video Links'/>
+                <input type="text" placeholder='Enter Video Links' />
               </div>
             </div>
 
             <div className='col-lg-6'>
-                <div className="admin-input-div">
-                  <label>Gallery <span className='required-icon'>*</span></label>
-                  <input
-                    type="file"
-                    multiple
-                    accept="image/*"
-                    className="form-control"
-                  />
-                </div>
+              <div className="admin-input-div">
+                <label>Gallery <span className='required-icon'>*</span></label>
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  className="form-control"
+                />
               </div>
+            </div>
 
-              <div className='col-lg-6'>
-                  <div className='admin-input-div'>
-                    <label>Related Trips  <span className='required-icon'>*</span></label>
-                    <select>
-                      <option value="">Select Trips</option>
-                      <option value="">Bali Honey Moon</option>
-                      <option value="">Kerala BackWater</option>
-                      <option value="">Goa Beach Holiday</option>
-                    </select>
-                  </div>
-                </div>
+            <div className='col-lg-6'>
+              <div className='admin-input-div'>
+                <label>Related Trips  <span className='required-icon'>*</span></label>
+                <select>
+                  <option value="">Select Trips</option>
+                  <option value="">Bali Honey Moon</option>
+                  <option value="">Kerala BackWater</option>
+                  <option value="">Goa Beach Holiday</option>
+                </select>
+              </div>
+            </div>
           </div>
-
 
         )}
 
-
       </div>
+
       <div className='my-4 d-flex justify-content-between '>
-        <button className={`admin-add-button ${activeTab === 0 ? 'disabled' : ''}`}
-          onClick={() => setActiveTab(activeTab - 1)}><i class="fa-solid fa-arrow-left me-2"></i>Previous</button>
 
-        <button className={`admin-add-button ${activeTab === sectionTabs?.length ? 'disabled' : ''}`}
-          onClick={() => setActiveTab(activeTab + 1)}>Next <i class="fa-solid fa-arrow-right ms-2"></i></button>
+        {activeTab !== 1 &&(
+          <button className={`admin-add-button ${activeTab === 0 ? 'disabled' : ''}`}
+            onClick={() => setActiveTab(activeTab - 1)}><i class="fa-solid fa-arrow-left me-2"></i>Previous</button>
+        )}
+
+        {activeTab !== sectionTabs?.length && (
+          <button className={`admin-add-button ${activeTab === sectionTabs?.length ? 'disabled' : ''}`}
+            onClick={() => setActiveTab(activeTab + 1)}>Next <i class="fa-solid fa-arrow-right ms-2"></i></button>
+        )}
       </div>
+
     </div >
   )
 }

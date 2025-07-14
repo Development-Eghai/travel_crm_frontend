@@ -37,25 +37,13 @@ export const AdminMenu = [
         ],
     },
     {
-        path: "",
-        icon: <i class="fa-solid fa-suitcase-rolling"></i>,
-        name: "Blogs Management",
-        subMenu: [
-            {
-                path: "/admin/category-blog",
-                icon: <i class="fa-solid fa-location-dot"></i>,
-                name: "Create Blog Category",
-            },
-            {
-                path: "/admin/blog-List",
-                icon: <i class="fa-solid fa-location-dot"></i>,
-                name: "Create Blog",
-            },
-        ],
+        path: "/admin/hotel-List",
+        icon:<i class="fa-solid fa-chart-line"></i>,
+        name: "Hotel Management",
     },
 
-
 ]
+
 export const UserMenu = [
     {
         path: "/user/user-dashboard",

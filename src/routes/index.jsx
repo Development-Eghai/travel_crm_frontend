@@ -9,6 +9,8 @@ import TourType from "../pages/admin/TripManagement/TourType/TourType";
 import BlogsCategory from "../pages/admin/Blogs/Category/BlogsCategory";
 import BlogsList from "../pages/admin/Blogs/BlogsList";
 import BlogsCreation from "../pages/admin/Blogs/BlogsCreation";
+import HotelList from "../pages/admin/HotelManagement/HotelList";
+import HotelCreation from "../pages/admin/HotelManagement/HotelCreation";
 
 
 
@@ -39,22 +41,30 @@ export const routes = [
     },
     {
         path: "/category-create",
-        component:TourCategory,
+        component: TourCategory,
     },
     {
         path: "/create-tour-type",
-        component:TourType,
+        component: TourType,
     },
     {
         path: "/category-blog",
-        component:BlogsCategory,
+        component: BlogsCategory,
     },
     {
         path: "/blog-List",
-        component:BlogsList,
+        component: BlogsList,
     },
     {
         path: "/blog-create",
-        component:BlogsCreation,
+        component: BlogsCreation,
+    },
+    {
+        path: "/hotel-List",
+        component: HotelList,
+    },
+    {
+        path: "/hotel-create",
+        component: HotelCreation,
     }
 ]

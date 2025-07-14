@@ -28,7 +28,7 @@ const Sidebar = ({ role = "admin" }) => {
                         {item.subMenu ? (
                             <>
                                 <button
-                                    className={`nav-link w-100 d-flex justify-content-between sidebar-menu pb-2 pt-2 border-none 
+                                    className={`nav-link w-100 d-flex justify-content-between sidebar-menu border-none 
                                          ${location.pathname === item.path ? "active" : ""}`}
                                     onClick={() => toggleSubmenu(index)}
                                 >

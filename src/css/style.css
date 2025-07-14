@@ -1413,7 +1413,7 @@ input[type="checkbox"] {
     text-decoration: none;
     color: white;
     margin-bottom: 20px;
-    padding: 4px 15px;
+    padding: 14px 15px;
     border-radius: 7px;
 }
 
@@ -1434,7 +1434,7 @@ button:focus:not(:focus-visible) {
 
 .sidebar-icon {
     font-size: 16px;
-    margin-top: 8px;
+    /* margin-top: 8px; */
 }
 
 .Layout-container {
@@ -2684,3 +2684,7 @@ input:checked+.slider:before {
     padding: 20px 100px;
     border-radius: 14px;
 }
+
+
+
+
