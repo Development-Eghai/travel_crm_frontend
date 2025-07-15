@@ -83,7 +83,7 @@ const DestinationDetail = () => {
                                             <p className='starting-price'>Starting Price:</p>
                                             <p className='discount-price-banner'>Rs. 42,999/- Per Person</p>
                                         </div>
-                                        <button className='destination-banner-btn mt-1' onClick={() => navigate("/")}><i class="fa-solid fa-phone me-1"></i> Request a Callback</button>
+                                        <button className='destination-banner-btn mt-1' onClick={() => navigate("/")}><i className="fa-solid fa-phone me-1"></i> Request a Callback</button>
                                     </div> */}
                                 </div>
                             </div>
@@ -227,7 +227,7 @@ const DestinationDetail = () => {
                                     </div>
 
                                     <div className={`destination-viewall-main ${viewMore ? 'd-none' : 'd-flex'}`} >
-                                        <button className='destination-viewall' onClick={() => setViewMore(!viewMore)}>Show More <i class="fa-solid fa-arrow-right ms-2"></i></button>
+                                        <button className='destination-viewall' onClick={() => setViewMore(!viewMore)}>Show More <i className="fa-solid fa-arrow-right ms-2"></i></button>
                                     </div>
 
                                     {viewMore && (
@@ -304,7 +304,7 @@ const DestinationDetail = () => {
                                                 </div>
                                             </div>
                                             <div className={`destination-viewall-main ${viewMore ? 'd-flex' : 'd-none'}`} >
-                                                <button className='destination-viewall' onClick={() => setViewMore(!viewMore)}>Show Less <i class="fa-solid fa-arrow-right ms-2"></i></button>
+                                                <button className='destination-viewall' onClick={() => setViewMore(!viewMore)}>Show Less <i className="fa-solid fa-arrow-right ms-2"></i></button>
                                             </div>
                                         </>
                                     )}
@@ -323,42 +323,42 @@ const DestinationDetail = () => {
                         <div className='row justify-content-center'>
                             <div className='col-lg-8'>
                                 <div className='tour-overview-faqs mt-5'>
-                                    <div class="accordion" id="accordionExample">
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="headingOne">
-                                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    <div className="accordion" id="accordionExample">
+                                        <div className="accordion-item">
+                                            <h2 className="accordion-header" id="headingOne">
+                                                <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                                     Can I get the refund?
                                                 </button>
                                             </h2>
-                                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
+                                            <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                                <div className="accordion-body">
                                                     <p>Phang Nga Bay Sea Cave Canoeing & James Bond Island w/ Buffet Lunch by Big Boat cancellation policy: For a full
                                                         refund, cancel at least 24 hours in advance of the start date of the experience. Discover and book Phang Nga Bay
                                                         Sea Cave Canoeing & James Bond Island w/ Buffet Lunch by Big Boat.</p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="headingTwo">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        <div className="accordion-item">
+                                            <h2 className="accordion-header" id="headingTwo">
+                                                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                                     Can I change the travel date?
                                                 </button>
                                             </h2>
-                                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
+                                            <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                                <div className="accordion-body">
                                                     <p>Phang Nga Bay Sea Cave Canoeing & James Bond Island w/ Buffet Lunch by Big Boat cancellation policy: For a full
                                                         refund, cancel at least 24 hours in advance of the start date of the experience. Discover and book Phang Nga Bay
                                                         Sea Cave Canoeing & James Bond Island w/ Buffet Lunch by Big Boat.</p>                                    </div>
                                             </div>
                                         </div>
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="headingThree">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        <div className="accordion-item">
+                                            <h2 className="accordion-header" id="headingThree">
+                                                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                                     When and where does the tour end?
                                                 </button>
                                             </h2>
-                                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
+                                            <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                                <div className="accordion-body">
                                                     <p>Phang Nga Bay Sea Cave Canoeing & James Bond Island w/ Buffet Lunch by Big Boat cancellation policy: For a full
                                                         refund, cancel at least 24 hours in advance of the start date of the experience. Discover and book Phang Nga Bay
                                                         Sea Cave Canoeing & James Bond Island w/ Buffet Lunch by Big Boat.</p>                                           </div>
@@ -394,11 +394,11 @@ const DestinationDetail = () => {
                                         <h5 className='fw-bold'>Don’t Just Dream, Travel! 🔥</h5>
                                         <div className='destination-enquiry-input-main'>
                                             <div className='destination-enquiry-input-div mt-lg-0 mt-md-3 mt-3'>
-                                                <i class="fa-solid fa-user-tie ps-2"></i>
+                                                <i className="fa-solid fa-user-tie ps-2"></i>
                                                 <input placeholder='Enter Your Name*' />
                                             </div>
                                             <div className='destination-enquiry-input-div mt-lg-0 mt-md-3 mt-3'>
-                                                <i class="fa-solid fa-user-tie ps-2"></i>
+                                                <i className="fa-solid fa-user-tie ps-2"></i>
                                                 <input placeholder='Enter Your Phone Number*' />
                                             </div>
                                             <button className='destination-enquiry-button mt-lg-0 mt-md-3 mt-3'>

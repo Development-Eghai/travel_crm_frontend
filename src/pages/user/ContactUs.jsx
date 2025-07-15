@@ -17,15 +17,15 @@ const ContactUs = () => {
                                         <p className='text-white'>Pill up the form and our Team wil get back to you within 24 hours.</p>
 
                                         <div className='get-in-touch-box'>
-                                            <i class="fa-solid fa-location-dot mt-1 me-2"></i>
+                                            <i className="fa-solid fa-location-dot mt-1 me-2"></i>
                                             <a href="">Piazza Napoleone, Lucca, Tuscary</a>
                                         </div>
                                         <div className='get-in-touch-box get-in-touch-box-active'>
-                                            <i class="fa-solid fa-phone-volume mt-1 me-2"></i>
+                                            <i className="fa-solid fa-phone-volume mt-1 me-2"></i>
                                             <a href="">+91 987654321</a>
                                         </div>
                                         <div className='get-in-touch-box'>
-                                            <i class="fa-solid fa-envelope mt-1 me-2"></i>
+                                            <i className="fa-solid fa-envelope mt-1 me-2"></i>
                                             <a href="">hello@gmail.com</a>
                                         </div>
                                     </div>

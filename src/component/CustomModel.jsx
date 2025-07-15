@@ -29,7 +29,7 @@ export default function CustomModal(props) {
     return (
         <div className="modal-backdrop">
             <div className="position-relative">
-                <i class="fa-solid fa-xmark modal-close-btn cursor-pointer modal-close-btn2"></i>
+                <i className="fa-solid fa-xmark modal-close-btn cursor-pointer modal-close-btn2"></i>
                 <div ref={ref} className="Modal-View">
                     {children}
                 </div>

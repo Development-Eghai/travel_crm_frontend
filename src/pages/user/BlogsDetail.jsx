@@ -22,7 +22,7 @@ const BlogsDetail = () => {
                   <p className='ms-2'>Jesica koli</p>
                 </div>
                 <div className='blogs-detail-date'>
-                  <i class="fa-solid fa-calendar-days my-auto me-2"></i>
+                  <i className="fa-solid fa-calendar-days my-auto me-2"></i>
                   <p>02 december 2022</p>
                 </div>
 

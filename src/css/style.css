@@ -1456,13 +1456,13 @@ button:focus:not(:focus-visible) {
 
 .Layout-right-container {
     width: 100%;
-    padding: 24px;
+    /* padding: 24px; */
     height: 100vh;
     overflow-y: scroll;
 }
 
 .page-content {
-    margin: 20px 4px;
+    /* margin: 20px 4px; */
 }
 
 .nav-link.sidebar-menu:focus {
@@ -1507,8 +1507,8 @@ button:focus:not(:focus-visible) {
 
 .header-div-main {
     padding: 15px 25px;
-    border-radius: 5px;
-    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    /* border-radius: 5px; */
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 
 .user-profile-main {
@@ -2333,20 +2333,28 @@ button:focus:not(:focus-visible) {
 
 .admin-add-button {
     width: fit-content;
-    padding: 10px 40px;
+    padding: 13px 25px;
     border: 1px solid #EB662B;
-    background-color: #EB662B;
     color: white;
-    border-radius: 5px;
+    border-radius: 13px;
     cursor: pointer;
     margin-top: 25px;
     font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+    background: linear-gradient(to right, #f0803f, #EB662B);
 
 }
 
 .admin-add-button:hover {
-    background-color: green;
-    border: 1px solid green;
+    background: linear-gradient(to right, #e86c31, #d95313);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.admin-right-title {
+    font-weight: 600;
+    font-size: 26px;
 }
 
 
@@ -2501,14 +2509,25 @@ button:focus:not(:focus-visible) {
 
 
 .admin-content-main {
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    padding: 20px 40px;
-    margin-top: 30px;
+    /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
+    padding: 28px 40px 20px 40px;
+    /* margin-top: 30px; */
     border-radius: 5px;
+    background-color: #f9fafb !important;
 }
 
 .admin-input-div .required-icon {
     color: red;
+}
+
+.required-icon {
+    color: red;
+}
+
+.error-para {
+    color: red;
+    font-size: 13px;
+    font-weight: 500;
 }
 
 .admin-input-div .text-area-label {
@@ -2699,7 +2718,7 @@ input:checked+.slider:before {
     border-radius: 20px;
 }
 
-.upload-content svg{
+.upload-content svg {
     width: 90px;
     height: auto;
 }
@@ -2758,4 +2777,39 @@ input:checked+.slider:before {
     object-fit: cover;
     border: 2px solid #fff;
     border-radius: 8px;
+}
+
+.css-147d4ti-MuiDataGrid-root .MuiDataGrid-columnHeaderTitleContainer {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.css-147d4ti-MuiDataGrid-root .MuiDataGrid-cell--textLeft {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.css-1gqmilo-MuiDataGrid-columnHeaderTitle {
+    font-weight: 600 !important;
+    font-size: 16px !important;
+}
+
+.css-147d4ti-MuiDataGrid-root .MuiDataGrid-cell--textLeft {
+    font-size: 15px !important;
+}
+
+.css-147d4ti-MuiDataGrid-root .MuiDataGrid-row--borderBottom .MuiDataGrid-columnHeader,
+.css-147d4ti-MuiDataGrid-root .MuiDataGrid-row--borderBottom .MuiDataGrid-filler,
+.css-147d4ti-MuiDataGrid-root .MuiDataGrid-row--borderBottom .MuiDataGrid-scrollbarFiller {
+    background-color: #f9fafb !important;
+}
+
+.css-y1ejz4-MuiTablePagination-root:last-child {
+    background-color: #f9fafb !important;
+}
+
+.admin-panel-head-text {
+    /* border-bottom: 1px solid #f1f1f1;
+    padding-bottom: 20px; */
+    padding-left: 16px;
 }

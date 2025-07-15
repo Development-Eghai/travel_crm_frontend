@@ -43,7 +43,7 @@ const Blogs = () => {
                     <div className="row justify-content-center">
                         <div className="col-lg-9">
                             <div className="blogs-slider-wrapper position-relative">
-                                <button ref={prevRef} className="blogs-swiper-nav-btn left-arrow"><i class="fa-solid fa-arrow-left"></i></button>
+                                <button ref={prevRef} className="blogs-swiper-nav-btn left-arrow"><i className="fa-solid fa-arrow-left"></i></button>
 
                                 {swiperReady && (
                                     <Swiper
@@ -79,7 +79,7 @@ const Blogs = () => {
                                         ))}
                                     </Swiper>
                                 )}
-                                <button ref={nextRef} className="blogs-swiper-nav-btn right-arrow"><i class="fa-solid fa-arrow-right"></i></button>
+                                <button ref={nextRef} className="blogs-swiper-nav-btn right-arrow"><i className="fa-solid fa-arrow-right"></i></button>
                             </div>
                         </div>
                     </div>

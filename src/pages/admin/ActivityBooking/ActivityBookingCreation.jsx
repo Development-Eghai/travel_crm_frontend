@@ -277,12 +277,12 @@ const ActivityBookingCreation = () => {
 
                 {activeTab !== 1 && (
                     <button className={`admin-add-button ${activeTab === 0 ? 'disabled' : ''}`}
-                        onClick={() => setActiveTab(activeTab - 1)}><i class="fa-solid fa-arrow-left me-2"></i>Previous</button>
+                        onClick={() => setActiveTab(activeTab - 1)}><i className="fa-solid fa-arrow-left me-2"></i>Previous</button>
                 )}
 
                 {activeTab !== sectionTabs?.length && (
                     <button className={`admin-add-button ${activeTab === sectionTabs?.length ? 'disabled' : ''}`}
-                        onClick={() => setActiveTab(activeTab + 1)}>Next <i class="fa-solid fa-arrow-right ms-2"></i></button>
+                        onClick={() => setActiveTab(activeTab + 1)}>Next <i className="fa-solid fa-arrow-right ms-2"></i></button>
                 )}
             </div>
 

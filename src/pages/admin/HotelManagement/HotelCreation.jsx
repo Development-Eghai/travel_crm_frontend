@@ -237,7 +237,7 @@ const HotelCreation = () => {
                                     <p className='text-center'>Manage Room Types & Base Pricing</p>
                                 </div>
                                 {/* <div className='d-flex justify-content-center'>
-                  <button className='admin-add-button'>Add Day <i class="fa-solid fa-plus ms-2"></i></button>
+                  <button className='admin-add-button'>Add Day <i className="fa-solid fa-plus ms-2"></i></button>
                 </div> */}
 
                                 <div className="destination-faq">
@@ -429,12 +429,12 @@ const HotelCreation = () => {
 
                 {activeTab !== 1 && (
                     <button className={`admin-add-button ${activeTab === 0 ? 'disabled' : ''}`}
-                        onClick={() => setActiveTab(activeTab - 1)}><i class="fa-solid fa-arrow-left me-2"></i>Previous</button>
+                        onClick={() => setActiveTab(activeTab - 1)}><i className="fa-solid fa-arrow-left me-2"></i>Previous</button>
                 )}
 
                 {activeTab !== sectionTabs?.length && (
                     <button className={`admin-add-button ${activeTab === sectionTabs?.length ? 'disabled' : ''}`}
-                        onClick={() => setActiveTab(activeTab + 1)}>Next <i class="fa-solid fa-arrow-right ms-2"></i></button>
+                        onClick={() => setActiveTab(activeTab + 1)}>Next <i className="fa-solid fa-arrow-right ms-2"></i></button>
                 )}
             </div>
 

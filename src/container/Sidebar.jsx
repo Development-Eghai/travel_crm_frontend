@@ -21,7 +21,7 @@ const Sidebar = ({ role = "admin" }) => {
 
     return (
         <div className={`sidebar-container-main ${role === "admin" ? 'bg-white' : 'bg-white'}`}>
-            <h4 className="mb-4 text-white">Admin Panel</h4>
+            <h4 className="mb-4 text-white admin-panel-head-text">Admin Panel</h4>
             <ul className="nav flex-column">
                 {menus.map((item, index) => (
                     <li key={index} className="nav-item">
@@ -42,7 +42,7 @@ const Sidebar = ({ role = "admin" }) => {
                                 </button>
 
                                 <div className={`collapse ${openSubmenus[index] ? "show" : ""}`}>
-                                    <ul className="submenu-list">
+                                    <ul className="submenu-list ms-4">
                                         {item.subMenu.map((sub, subIndex) => {
                                             const basePath = getBasePath(sub.path);
                                             const isActive = pathname.startsWith(basePath);

@@ -1,5 +1,7 @@
 import React, { Suspense } from "react";
 import AppRoutes from "./AppRoutes";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
 
@@ -10,6 +12,7 @@ function App() {
           Loadingsss...
         </div>}>
         <AppRoutes />
+        <ToastContainer />
       </Suspense>
 
     </>

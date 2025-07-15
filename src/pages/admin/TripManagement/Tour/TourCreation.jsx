@@ -323,7 +323,7 @@ const TourCreation = () => {
                     <p className='text-center'>Create day-by-day itinerary for your customized package</p>
                   </div>
                   {/* <div className='d-flex justify-content-center'>
-                  <button className='admin-add-button'>Add Day <i class="fa-solid fa-plus ms-2"></i></button>
+                  <button className='admin-add-button'>Add Day <i className="fa-solid fa-plus ms-2"></i></button>
                 </div> */}
 
                   <div className="destination-faq">
@@ -420,7 +420,7 @@ const TourCreation = () => {
                     <h5 className='text-center'>Manage Departures & Slots</h5>
                   </div>
                   {/* <div className='d-flex justify-content-center'>
-                  <button className='admin-add-button'>Add Day <i class="fa-solid fa-plus ms-2"></i></button>
+                  <button className='admin-add-button'>Add Day <i className="fa-solid fa-plus ms-2"></i></button>
                 </div> */}
 
                   <div className="destination-faq">
@@ -600,9 +600,9 @@ const TourCreation = () => {
                 <div className='col-lg-4'>
                   <div className='admin-input-div'>
                     <label>Display as "Starts From" Price</label>
-                    <label class="switch">
+                    <label className="switch">
                       <input type="checkbox" />
-                      <span class="slider round"></span>
+                      <span className="slider round"></span>
                     </label>
                   </div>
                 </div>
@@ -640,7 +640,7 @@ const TourCreation = () => {
                     <p className='text-center'>Add different prices for different seasons or dates</p>
                   </div>
                   {/* <div className='d-flex justify-content-center'>
-                  <button className='admin-add-button'>Add Day <i class="fa-solid fa-plus ms-2"></i></button>
+                  <button className='admin-add-button'>Add Day <i className="fa-solid fa-plus ms-2"></i></button>
                 </div> */}
 
                   <div className="destination-faq">
@@ -880,12 +880,12 @@ const TourCreation = () => {
 
         {activeTab !== 1 &&(
           <button className={`admin-add-button ${activeTab === 0 ? 'disabled' : ''}`}
-            onClick={() => setActiveTab(activeTab - 1)}><i class="fa-solid fa-arrow-left me-2"></i>Previous</button>
+            onClick={() => setActiveTab(activeTab - 1)}><i className="fa-solid fa-arrow-left me-2"></i>Previous</button>
         )}
 
         {activeTab !== sectionTabs?.length && (
           <button className={`admin-add-button ${activeTab === sectionTabs?.length ? 'disabled' : ''}`}
-            onClick={() => setActiveTab(activeTab + 1)}>Next <i class="fa-solid fa-arrow-right ms-2"></i></button>
+            onClick={() => setActiveTab(activeTab + 1)}>Next <i className="fa-solid fa-arrow-right ms-2"></i></button>
         )}
       </div>
 

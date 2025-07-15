@@ -1,22 +1,22 @@
 export const AdminMenu = [
     {
         path: "/admin/admin-dashboard",
-        icon:<i class="fa-solid fa-chart-line"></i>,
+        icon:<i className="fa-solid fa-chart-line"></i>,
         name: "Dashboard",
     },
     {
         path: "",
-        icon: <i class="fa-solid fa-suitcase-rolling"></i>,
+        icon: <i className="fa-solid fa-suitcase-rolling"></i>,
         name: "Trip Management",
         subMenu: [
             {
                 path: "/admin/destination-list",
-                icon: <i class="fa-solid fa-location-dot"></i>,
+                icon: <i className="fa-solid fa-location-dot"></i>,
                 name: "Add Destination",
             },
             {
                 path: "/admin/activity",
-                icon: <i class="fa-solid fa-location-dot"></i>,
+                icon: <i className="fa-solid fa-location-dot"></i>,
                 name: "Add Activity",
             },
             {
@@ -38,12 +38,12 @@ export const AdminMenu = [
     },
     {
         path: "/admin/hotel-List",
-        icon:<i class="fa-solid fa-chart-line"></i>,
+        icon:<i className="fa-solid fa-chart-line"></i>,
         name: "Hotel Management",
     },
     {
         path: "/admin/Activity-list",
-        icon:<i class="fa-solid fa-chart-line"></i>,
+        icon:<i className="fa-solid fa-chart-line"></i>,
         name: "Activity Management",
     },
 
@@ -52,7 +52,7 @@ export const AdminMenu = [
 export const UserMenu = [
     {
         path: "/user/user-dashboard",
-        icon: <span class="material-symbols-outlined">dashboard_2
+        icon: <span className="material-symbols-outlined">dashboard_2
         </span>,
         name: "Dashboard",
     },

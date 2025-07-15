@@ -12,8 +12,8 @@ const DestinationFilters = () => {
         <div className="container">
           <div className='destination-filter-top mt-5'>
             <div className='d-flex'>
-              <a className='destination-filter' href='/'>Home</a><i class="fa-solid fa-greater-than mx-2 mt-1"></i>
-              <a className='destination-filter'>Tours</a><i class="fa-solid fa-greater-than mx-2 mt-1"></i>
+              <a className='destination-filter' href='/'>Home</a><i className="fa-solid fa-greater-than mx-2 mt-1"></i>
+              <a className='destination-filter'>Tours</a><i className="fa-solid fa-greater-than mx-2 mt-1"></i>
               <a className='destination-filter'>Phuket</a>
             </div>
             <div>

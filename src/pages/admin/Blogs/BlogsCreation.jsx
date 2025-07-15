@@ -71,9 +71,9 @@ const BlogsCreation = () => {
                 <div className='col-lg-4'>
                     <div className='admin-input-div'>
                         <label>Featured Blog</label>
-                        <label class="switch">
+                        <label className="switch">
                             <input type="checkbox" />
-                            <span class="slider round"></span>
+                            <span className="slider round"></span>
                         </label>
                     </div>
                 </div>
@@ -81,9 +81,9 @@ const BlogsCreation = () => {
                 <div className='col-lg-4'>
                     <div className='admin-input-div'>
                         <label>Latest Blog</label>
-                        <label class="switch">
+                        <label className="switch">
                             <input type="checkbox" />
-                            <span class="slider round"></span>
+                            <span className="slider round"></span>
                         </label>
                     </div>
                 </div>
@@ -91,9 +91,9 @@ const BlogsCreation = () => {
                 <div className='col-lg-4'>
                     <div className='admin-input-div'>
                         <label>Popular Post</label>
-                        <label class="switch">
+                        <label className="switch">
                             <input type="checkbox" />
-                            <span class="slider round"></span>
+                            <span className="slider round"></span>
                         </label>
                     </div>
                 </div>
