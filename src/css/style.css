@@ -2333,7 +2333,7 @@ button:focus:not(:focus-visible) {
 
 .admin-add-button {
     width: fit-content;
-    padding: 13px 25px;
+    padding: 12px 25px;
     border: 1px solid #EB662B;
     color: white;
     border-radius: 13px;
@@ -2812,4 +2812,41 @@ input:checked+.slider:before {
     /* border-bottom: 1px solid #f1f1f1;
     padding-bottom: 20px; */
     padding-left: 16px;
+}
+
+.admin-status-action .active {
+    color: green !important;
+    font-weight: 700;
+}
+
+.admin-status-action .inactive {
+    color: red !important;
+    font-weight: 700;
+}
+
+.admin-actions i {
+    cursor: pointer;
+}
+
+.upload-image-div img {
+    width: 270px;
+    height: 200px;
+    border: 1px solid rgb(151, 151, 151);
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+.upload-image-div .pdf-file-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: #696cff;
+    margin-top: 2px;
+    margin-bottom: 5px;
+}
+
+.upload-image-div a {
+    text-decoration: underline;
+    font-weight: 500;
+    color: black;
+    font-size: 13px;
 }

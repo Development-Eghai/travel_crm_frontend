@@ -35,6 +35,16 @@ export const GetAllTourCategory = async () => {
         });
 };
 
+export const GetSpecificTourCategory = async (_id) => {
+    return await APIBaseUrl.get(`trip-categories/get_specific?_id=${_id}`)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+
+
 
 
 

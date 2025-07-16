@@ -2,8 +2,8 @@ import axios from "axios";
 // import { store } from "../../store/store";
 // import { UserLogout } from "../../store/slices/loginSlice";
 // import { UserLogoutApi } from "./ApiService";
-const BACKEND_DOMAIN = "http://localhost:8006";
-const BACKEND_BASE = "/api";
+export const BACKEND_DOMAIN = "http://localhost:8006";
+export const BACKEND_BASE = "/api";
 
 export const APIBaseUrl = axios.create({
     baseURL: `${BACKEND_DOMAIN}${BACKEND_BASE}`,
