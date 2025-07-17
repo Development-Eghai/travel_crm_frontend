@@ -4,19 +4,21 @@ import MyDataTable from '../../../../component/MyDataTable';
 import CustomModal from '../../../../component/CustomModel';
 import { NonEmptyValidation, normalizeEmptyFields, StringValidation } from '../../../../common/Validation';
 import { errorMsg, successMsg } from '../../../../common/Toastify';
-import { CreateTourCategory, GetAllTourCategory, GetSpecificTourCategory, SingleFileUpload } from '../../../../common/api/ApiService';
+import { CreateTourCategory, deleteTourCategory, GetAllTourCategory, GetSpecificTourCategory, SingleFileUpload, updateTourCategory } from '../../../../common/api/ApiService';
 import { BACKEND_DOMAIN } from '../../../../common/api/ApiClient';
 
 
 
 const TourCategory = () => {
 
-    const navigate = useNavigate();
     const [open, setOpen] = useState(false)
     const [categoryData, setcategoryData] = useState({})
     const [categoryList, setcategoryList] = useState([])
     const [validation, setValidation] = useState({})
     const [isViewOnly, setIsViewOnly] = useState(false);
+    const [isUpdate, setIsUpdate] = useState(false);
+    const [deleteId, setDeleteId] = useState("");
+    const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [isLoading, setIsLoading] = useState(true);
 
 
@@ -24,19 +26,6 @@ const TourCategory = () => {
         { field: 'sno', headerName: 'SNO', flex: 1 },
         { field: 'name', headerName: 'Name', flex: 1 },
         { field: 'slug', headerName: 'Slug', flex: 1 },
-        {
-            field: 'status', headerName: 'Status', flex: 1,
-            sortable: false,
-            filterable: false,
-            disableColumnMenu: true,
-            renderCell: (params) => (
-                <>
-                    <div className='admin-status-action'>
-                        <p className='active'>Active</p>
-                    </div>
-                </>
-            ),
-        },
         {
             field: '_id',
             headerName: 'Actions',
@@ -46,14 +35,33 @@ const TourCategory = () => {
             disableColumnMenu: true,
             renderCell: (params) => (
                 <>
-                    <div className='admin-actions'>
-                        <i className="fa-solid fa-pen-to-square muitable-action-icons" ></i>
-                        <i className="fa-solid fa-trash ms-3 muitable-action-icons" ></i>
-                        <i className="fa-solid fa-eye ms-3 muitable-action-icons" onClick={() => { setOpen(true); getSpecificTourCategory(params?.row?._id); setIsViewOnly(true) }} ></i>
+                    <div>
+                        <div className='admin-actions'>
+                            <i className="fa-solid fa-pen-to-square" onClick={() => { setOpen(true); getSpecificTourCategory(params?.row?._id); setIsUpdate(true) }}></i>
+                            <i className="fa-solid fa-trash ms-3" onClick={() => { setDeleteId(params?.row?._id); setOpenDeleteModal(true) }}></i>
+                            <i className="fa-solid fa-eye ms-3" onClick={() => { setOpen(true); getSpecificTourCategory(params?.row?._id); setIsViewOnly(true) }} ></i>
+                        </div>
                     </div>
                 </>
             ),
         },
+        {
+            field: 'status',
+            headerName: 'Status',
+            flex: 1,
+            sortable: false,
+            filterable: false,
+            disableColumnMenu: true,
+            renderCell: (params) => {
+                const status = params.row.status === "active" ? true : false;
+                return (
+                    <div className="switch" onClick={() => handleStatusUpdate(params?.row?._id, status)}>
+                        <input type="checkbox" checked={status} readOnly />
+                        <span className="slider-table round"></span>
+                    </div>
+                );
+            },
+        }
     ];
 
     const numberedRows = categoryList?.map((row, index) => ({
@@ -157,13 +165,55 @@ const TourCategory = () => {
         }
     }
 
+    const handleUpdate = async (e) => {
+        e.preventDefault()
+        const cleanedData = normalizeEmptyFields(categoryData);
+        const isValide = validateDetails(cleanedData)
+        setValidation(isValide);
+        if (Object.values(isValide).every((data) => data?.status === true)) {
+            const response = await updateTourCategory(cleanedData)
+            if (response && response?.statusCode === 200) {
+                successMsg("Trip Category Updated Successsfully")
+                setcategoryData({})
+                setOpen(false)
+                setIsUpdate(false)
+                getAllTourCategory()
+            }
+        }
+
+    }
+
+    const handleStatusUpdate = async (_id, currentStatus) => {
+        const newStatus = currentStatus ? "inactive" : "active";
+        const Payload = {
+            _id,
+            status: newStatus,
+        };
+
+        const response = await updateTourCategory(Payload)
+        if (response && response?.statusCode === 200) {
+            successMsg("Status Updated Successsfully")
+            getAllTourCategory()
+        }
+
+    }
+
+    const handleDelete = async () => {
+        const response = await deleteTourCategory(deleteId)
+        console.log(response, "handleDelete")
+        if (response && response?.statusCode === 200) {
+            successMsg("Trip Category Deleted Successsfully")
+            setOpenDeleteModal(false)
+            getAllTourCategory()
+            setDeleteId('')
+        }
+
+    }
+
 
     useEffect(() => {
         getAllTourCategory()
     }, [])
-
-    console.log(categoryData, "categoryData")
-    console.log(`${BACKEND_DOMAIN}${categoryData?.image}`, "categoryData-image-image")
 
 
     return (
@@ -192,77 +242,112 @@ const TourCategory = () => {
                 }}
             >
                 <>
-                    <div className=''>
+                    <div className='Modal-View-Tour-Management'>
 
-                        <h4 className='mt-2 '>Add New Category</h4>
+                        <h4 className='mt-2 '>{isViewOnly ? "View Category" : isUpdate ? "Update Category" : "Add Category"}</h4>
 
-                        <form onSubmit={(e) => handleSubmit(e)}>
+                        {/* <form onSubmit={(e) => handleSubmit(e)}> */}
 
-                            <div className='model-input-div'>
-                                <label>Name  <span className='required-icon'>*</span></label>
-                                <input type="text" placeholder="Enter Name" name='name'
-                                    onChange={(e) => handleChange(e)}
-                                    value={categoryData?.name || ""}
-                                    onBlur={(e) => handleBlur(e.target.name, e.target.value)}
+                        <div className='model-input-div'>
+                            <label>Name  <span className='required-icon'>*</span></label>
+                            <input type="text" placeholder="Enter Name" name='name'
+                                onChange={(e) => handleChange(e)}
+                                value={categoryData?.name || ""}
+                                readOnly={isViewOnly}
+                                onBlur={(e) => handleBlur(e.target.name, e.target.value)}
+                            />
+                            {validation?.name?.status === false && validation?.name?.message && (
+                                <p className='error-para'>Name {validation.name.message}</p>
+                            )}
+                        </div>
+
+                        <div className='model-input-div'>
+                            <label>Slug  <span className='required-icon'>*</span></label>
+                            <input type="text" placeholder="Enter Slug" name='slug'
+                                onChange={(e) => handleChange(e)}
+                                value={categoryData?.slug || ""}
+                                readOnly={isViewOnly}
+                                onBlur={(e) => handleBlur(e.target.name, e.target.value)}
+                            />
+                            {validation?.slug?.status === false && validation?.slug?.message && (
+                                <p className='error-para'>Slug {validation.slug.message}</p>
+                            )}
+                        </div>
+
+                        <div className='model-input-div'>
+                            <label>Description  <span className='required-icon'>*</span></label>
+                            <textarea type="text" placeholder='Enter Description' name='description'
+                                onChange={(e) => handleChange(e)}
+                                value={categoryData?.description || ""}
+                                readOnly={isViewOnly}
+                                onBlur={(e) => handleBlur(e.target.name, e.target.value)}
+                            />
+                            {validation?.description?.status === false && validation?.description?.message && (
+                                <p className='error-para'>Description {validation.description.message}</p>
+                            )}
+                        </div>
+
+                        <div className='model-input-div'>
+                            <label>Image  <span className='required-icon'>*</span></label>
+                            {!isViewOnly && (
+                                <input
+                                    type="file"
+                                    // multiple
+                                    name='image'
+                                    accept='.png,.jpeg,.jpg,.pdf,.webp'
+                                    className="form-control"
+                                    onChange={(e) => { handleFileUpload(e, "image"); handleChange(e) }}
                                 />
-                                {validation?.name?.status === false && validation?.name?.message && (
-                                    <p className='error-para'>Name {validation.name.message}</p>
-                                )}
-                            </div>
+                            )}
+                            {validation?.image?.status === false && validation?.image?.message && (
+                                <p className='error-para'>Image {validation.image.message}</p>
+                            )}
+                            {categoryData?.image && (
+                                <div className='upload-image-div'>
+                                    <img src={`${BACKEND_DOMAIN}${categoryData?.image}`} alt="Category-Preview" />
+                                </div>
+                            )}
 
-                            <div className='model-input-div'>
-                                <label>Slug  <span className='required-icon'>*</span></label>
-                                <input type="text" placeholder="Enter Slug" name='slug'
-                                    onChange={(e) => handleChange(e)}
-                                    value={categoryData?.slug || ""}
-                                    onBlur={(e) => handleBlur(e.target.name, e.target.value)}
-                                />
-                                {validation?.slug?.status === false && validation?.slug?.message && (
-                                    <p className='error-para'>Slug {validation.slug.message}</p>
-                                )}
-                            </div>
+                        </div>
 
-                            <div className='model-input-div'>
-                                <label>Description  <span className='required-icon'>*</span></label>
-                                <textarea type="text" placeholder='Enter Description' name='description'
-                                    onChange={(e) => handleChange(e)}
-                                    value={categoryData?.description || ""}
-                                    onBlur={(e) => handleBlur(e.target.name, e.target.value)}
-                                />
-                                {validation?.description?.status === false && validation?.description?.message && (
-                                    <p className='error-para'>Description {validation.description.message}</p>
-                                )}
-                            </div>
+                        {!isViewOnly && !isUpdate && (
+                            <button className='model-submit-button' onClick={(e) => handleSubmit(e)}>Add Category</button>
+                        )}
 
-                            <div className='model-input-div'>
-                                <label>Image  <span className='required-icon'>*</span></label>
-                                {!isViewOnly && (
-                                    <input
-                                        type="file"
-                                        // multiple
-                                        name='image'
-                                        accept='.png,.jpeg,.jpg,.pdf'
-                                        className="form-control"
-                                        onChange={(e) => { handleFileUpload(e, "image"); handleChange(e) }}
-                                    />
-                                )}
-                                {validation?.image?.status === false && validation?.image?.message && (
-                                    <p className='error-para'>Image {validation.image.message}</p>
-                                )}
-                                {categoryData?.image && (
-                                    <div className='upload-image-div'>
-                                        <img src={`${BACKEND_DOMAIN}${categoryData?.image}`} alt="Category-Preview" />
-                                    </div>
-                                )}
+                        {isUpdate && (
+                            <button className='model-submit-button' onClick={(e) => handleUpdate(e)}>Update Category</button>
+                        )}
 
-                            </div>
-
-                            <button className='model-submit-button' type='submit'>Add Category</button>
-                        </form>
+                        {/* </form> */}
                     </div>
                 </>
 
             </CustomModal>
+
+            <CustomModal
+                open={openDeleteModal}
+                onClickOutside={() => {
+                    setOpenDeleteModal(false);
+                }}
+            >
+                <>
+                    <div className='delete-model-view-main'>
+                        <p className="text-center">
+                            Are you sure do you want to delete?
+                        </p>
+                        <div className="row">
+                            <div className="col-6">
+                                <button className="delete-btn yes" onClick={handleDelete}>Yes</button>
+                            </div>
+                            <div className="col-6">
+                                <button className="delete-btn no" onClick={() => setOpenDeleteModal(false)}>No</button>
+                            </div>
+                        </div>
+                    </div>
+                </>
+
+            </CustomModal>
+
         </div>
     )
 }

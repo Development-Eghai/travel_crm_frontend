@@ -43,11 +43,120 @@ export const GetSpecificTourCategory = async (_id) => {
         });
 };
 
+export const updateTourCategory = async (payload) => {
+    return await APIBaseUrl.put(`trip-categories/update`, payload)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
 
 
+export const deleteTourCategory = async (_id) => {
+    console.log(_id, "deleteTourCategory");
+    return await APIBaseUrl.delete(`trip-categories/delete`, {
+        data: { _id }
+    })
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
 
 
+// *************************************************  TOUR TYPE API  **********************************************
 
+export const CreateTourType = async (payload) => {
+    return await APIBaseUrl.post("/trip-types/create", payload)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+
+export const GetAllTourType = async () => {
+    return await APIBaseUrl.get("/trip-types/get_all")
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+export const GetSpecificTourType = async (_id) => {
+    return await APIBaseUrl.get(`trip-types/get_specific?_id=${_id}`)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+export const updateTourType = async (payload) => {
+    return await APIBaseUrl.put(`trip-types/update`, payload)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+
+export const deleteTourType = async (_id) => {
+    console.log(_id, "deleteTourCategory");
+    return await APIBaseUrl.delete(`trip-types/delete`, {
+        data: { _id }
+    })
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+
+// *************************************************  TOUR TYPE API  **********************************************
+
+export const CreateActivity = async (payload) => {
+    return await APIBaseUrl.post("/activities/create", payload)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+
+export const GetAllActivity = async () => {
+    return await APIBaseUrl.get("/activities/get_all")
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+export const GetSpecificActivity = async (_id) => {
+    return await APIBaseUrl.get(`activities/get_specific?_id=${_id}`)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+export const updateActivity = async (payload) => {
+    return await APIBaseUrl.put(`activities/update`, payload)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+
+export const deleteActivity = async (_id) => {
+    return await APIBaseUrl.delete(`activities/delete`, {
+        data: { _id }
+    })
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
 
 // ************************************************  SINGLE FILE UPLOAD API **********************************************
 

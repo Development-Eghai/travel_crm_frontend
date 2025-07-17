@@ -4,52 +4,73 @@ import MyDataTable from '../../../../component/MyDataTable';
 import CustomModal from '../../../../component/CustomModel';
 import { NonEmptyValidation, normalizeEmptyFields, StringValidation } from '../../../../common/Validation';
 import { errorMsg, successMsg } from '../../../../common/Toastify';
-import { CreateTourCategory, GetAllTourCategory, SingleFileUpload } from '../../../../common/api/ApiService';
+import { BACKEND_DOMAIN } from '../../../../common/api/ApiClient';
+import { CreateActivity, deleteActivity, GetAllActivity, GetSpecificActivity, SingleFileUpload, updateActivity } from '../../../../common/api/ApiService';
 
 
 
-const Activity = () => {
+const TourType = () => {
 
-    const navigate = useNavigate();
     const [open, setOpen] = useState(false)
-    const [categoryData, setcategoryData] = useState({})
-    const [categoryList, setcategoryList] = useState([])
+    const [activityData, setActivityData] = useState({})
+    const [activityList, setActivityList] = useState([])
     const [validation, setValidation] = useState({})
+    const [isViewOnly, setIsViewOnly] = useState(false);
+    const [isUpdate, setIsUpdate] = useState(false);
+    const [deleteId, setDeleteId] = useState("");
+    const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [isLoading, setIsLoading] = useState(true);
 
-
     const columns = [
-        { field: 'sno', headerName: 'SNO',flex:1 },
-        { field: 'name', headerName: 'Name',flex:1  },
-        { field: 'slug', headerName: 'Slug',flex:1  },
+        { field: 'sno', headerName: 'SNO', flex: 1 },
+        { field: 'activity_name', headerName: 'Name', flex: 1 },
+        { field: 'activity_slug', headerName: 'Slug', flex: 1 },
         {
             field: '_id',
             headerName: 'Actions',
-           flex:1 ,
+            flex: 1,
             sortable: false,
             filterable: false,
             disableColumnMenu: true,
             renderCell: (params) => (
                 <>
                     <div>
-                        <i className="fa-solid fa-pen-to-square muitable-action-icons" ></i>
-                        <i className="fa-solid fa-trash ms-3 muitable-action-icons" ></i>
-                        <i className="fa-solid fa-eye ms-3 muitable-action-icons" ></i>
+                        <div className='admin-actions'>
+                            <i className="fa-solid fa-pen-to-square" onClick={() => { setOpen(true); getSpecificActivity(params?.row?._id); setIsUpdate(true) }}></i>
+                            <i className="fa-solid fa-trash ms-3" onClick={() => { setDeleteId(params?.row?._id); setOpenDeleteModal(true) }}></i>
+                            <i className="fa-solid fa-eye ms-3" onClick={() => { setOpen(true); getSpecificActivity(params?.row?._id); setIsViewOnly(true) }} ></i>
+                        </div>
                     </div>
                 </>
             ),
         },
+        {
+            field: 'status',
+            headerName: 'Status',
+            flex: 1,
+            sortable: false,
+            filterable: false,
+            disableColumnMenu: true,
+            renderCell: (params) => {
+                const status = params.row.status === "active" ? true : false;
+                return (
+                    <div className="switch" onClick={() => handleStatusUpdate(params?.row?._id, status)}>
+                        <input type="checkbox" checked={status} readOnly />
+                        <span className="slider-table round"></span>
+                    </div>
+                );
+            },
+        }
     ];
 
-    const numberedRows = categoryList?.map((row, index) => ({
+    const numberedRows = activityList?.map((row, index) => ({
         ...row,
         sno: index + 1,
     }));
 
-
     const handleChange = (e) => {
         const { name, value } = e.target
-        setcategoryData({ ...categoryData, [name]: value })
+        setActivityData({ ...activityData, [name]: value })
         if (validation[name]) {
             setValidation({ ...validation, [name]: false })
         }
@@ -58,17 +79,17 @@ const Activity = () => {
     const validateDetails = (data) => {
         let validate = {};
 
-        validate.name = StringValidation(data?.name);
-        validate.slug = NonEmptyValidation(data?.slug);
-        validate.description = NonEmptyValidation(data?.description);
-        validate.image = NonEmptyValidation(data?.image);
+        validate.activity_name = StringValidation(data?.activity_name);
+        validate.activity_slug = NonEmptyValidation(data?.activity_slug);
+        validate.activity_description = NonEmptyValidation(data?.activity_description);
+        validate.activity_image = NonEmptyValidation(data?.activity_image);
 
         return validate;
     };
 
     const handleBlur = (fieldName, value) => {
         const updatedData = {
-            ...categoryData,
+            ...activityData,
             [fieldName]: value,
         };
 
@@ -83,19 +104,16 @@ const Activity = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const cleanedData = normalizeEmptyFields(categoryData);
+        const cleanedData = normalizeEmptyFields(activityData);
         const isValide = validateDetails(cleanedData)
         setValidation(isValide);
         if (Object.values(isValide).every((data) => data?.status === true)) {
-            const response = await CreateTourCategory(cleanedData)
-            console.log(response, "response")
+            const response = await CreateActivity(cleanedData)
             if (response && response?.statusCode === 200) {
-                successMsg("Agency employee created successsfully")
-                setAgencyEmployeeProfileData({})
-                navigate(-1)
-            }
-            else {
-                errorMsg(response?.err?.message)
+                successMsg("Activity created successsfully")
+                setActivityData({})
+                setOpen(false)
+                getAllActivity()
             }
         }
 
@@ -108,7 +126,7 @@ const Activity = () => {
         let image_name = e?.target?.files[0]?.name;
         let image_type = image_name?.split(".");
         let type = image_type?.pop();
-        if (type !== "jpeg" && type !== "png" && type !== "jpg" && type !== "pdf") {
+        if (type !== "jpeg" && type !== "png" && type !== "jpg" && type !== "pdf" && type !== "webp") {
             errorMsg("Unsupported file type")
             return;
         }
@@ -128,36 +146,86 @@ const Activity = () => {
         if (validation[key]) {
             setValidation({ ...validation, [key]: false })
         }
-        setcategoryData({ ...categoryData, [key]: path })
+        setActivityData({ ...activityData, [key]: path })
     };
 
-    const getAllTourCategory = async () => {
-        const response = await GetAllTourCategory()
-        if (response && response?.status === 200) {
-            setcategoryList(response?.data)
-            setIsLoading(false);
+    const getAllActivity = async () => {
+        const response = await GetAllActivity()
+        if (response && response?.statusCode === 200) {
+            setActivityList(response?.data),
+                setIsLoading(false);
         }
     }
 
+    const getSpecificActivity = async (_id) => {
+        const response = await GetSpecificActivity(_id)
+        if (response && response?.statusCode === 200) {
+            setActivityData(response?.data)
+        }
+    }
+
+    const handleUpdate = async (e) => {
+        e.preventDefault()
+        const cleanedData = normalizeEmptyFields(activityData);
+        const isValide = validateDetails(cleanedData)
+        setValidation(isValide);
+        if (Object.values(isValide).every((data) => data?.status === true)) {
+            const response = await updateActivity(cleanedData)
+            if (response && response?.statusCode === 200) {
+                successMsg("Activity Updated Successsfully")
+                setActivityData({})
+                setOpen(false)
+                setIsUpdate(false)
+                getAllActivity()
+            }
+        }
+
+    }
+
+    const handleStatusUpdate = async (_id, currentStatus) => {
+        const newStatus = currentStatus ? "inactive" : "active";
+        const Payload = {
+            _id,
+            status: newStatus,
+        };
+
+        const response = await updateActivity(Payload)
+        if (response && response?.statusCode === 200) {
+            successMsg("Status Updated Successsfully")
+            getAllActivity()
+        }
+
+    }
+
+    const handleDelete = async () => {
+        const response = await deleteActivity(deleteId)
+        if (response && response?.statusCode === 200) {
+            successMsg("Activity Deleted Successsfully")
+            setOpenDeleteModal(false)
+            getAllActivity()
+            setDeleteId('')
+        }
+
+    }
+
+
     useEffect(() => {
-        getAllTourCategory()
+        getAllActivity()
     }, [])
-
-
 
 
     return (
         <div className='admin-content-main'>
             <div className='d-flex justify-content-between'>
-                <h3 className='my-auto'>Activity</h3>
-                <button className='admin-add-button mt-0' onClick={() => setOpen(true)}>Add Activity</button>
+                <h4 className='my-auto admin-right-title'>Activity</h4>
+                <button className='admin-add-button mt-0' onClick={() => { setOpen(true) }}><i class="fa-solid fa-plus me-2"></i> Add Activity</button>
             </div>
 
             <div className='my-5'>
                 <MyDataTable
-                rows={numberedRows}
-                columns={columns}
-                getRowId={(row) => row._id}
+                    rows={numberedRows}
+                    columns={columns}
+                    getRowId={(row) => row._id}
                 // isLoading={isLoading}
                 />
             </div>
@@ -167,71 +235,119 @@ const Activity = () => {
                 onClickOutside={() => {
                     setOpen(false);
                     setValidation({})
-                    setcategoryData({})
+                    setActivityData({})
+                    setIsViewOnly(false)
                 }}
             >
                 <>
-                    <div className=''>
+                    <div className='Modal-View-Tour-Management'>
 
-                        <h4 className='mt-2'>Add New Activity</h4>
+                        <h4 className='mt-2 '>{isViewOnly ? "View Activity" : isUpdate ? "Update Activity" : "Add Activity"}</h4>
 
-                        <form onSubmit={(e) => handleSubmit(e)}>
-                            <div className='model-input-div'>
-                                <label>Name  <span className='required-icon'>*</span></label>
-                                <input type="text" placeholder="Enter Name" name='name'
-                                    onChange={(e) => handleChange(e)}
-                                    onBlur={(e) => handleBlur(e.target.name, e.target.value)}
-                                />
-                                {validation?.name?.status === false && validation?.name?.message && (
-                                    <p className='error-para'>Name {validation.name.message}</p>
-                                )}
-                            </div>
+                        {/* <form onSubmit={(e) => handleSubmit(e)}> */}
 
-                            <div className='model-input-div'>
-                                <label>Slug  <span className='required-icon'>*</span></label>
-                                <input type="text" placeholder="Enter Slug" name='slug'
-                                    onChange={(e) => handleChange(e)}
-                                    onBlur={(e) => handleBlur(e.target.name, e.target.value)}
-                                />
-                                {validation?.slug?.status === false && validation?.slug?.message && (
-                                    <p className='error-para'>Slug {validation.slug.message}</p>
-                                )}
-                            </div>
+                        <div className='model-input-div'>
+                            <label>Activity Name  <span className='required-icon'>*</span></label>
+                            <input type="text" placeholder="Enter Name" name='activity_name'
+                                onChange={(e) => handleChange(e)}
+                                value={activityData?.activity_name || ""}
+                                readOnly={isViewOnly}
+                                onBlur={(e) => handleBlur(e.target.name, e.target.value)}
+                            />
+                            {validation?.activity_name?.status === false && validation?.activity_name?.message && (
+                                <p className='error-para'>Activity Name {validation.activity_name.message}</p>
+                            )}
+                        </div>
 
-                            <div className='model-input-div'>
-                                <label>Description  <span className='required-icon'>*</span></label>
-                                <textarea type="text" placeholder='Enter Description' name='description'
-                                    onChange={(e) => handleChange(e)}
-                                    onBlur={(e) => handleBlur(e.target.name, e.target.value)}
-                                />
-                                {validation?.description?.status === false && validation?.description?.message && (
-                                    <p className='error-para'>Description {validation.description.message}</p>
-                                )}
-                            </div>
+                        <div className='model-input-div'>
+                            <label>Activity Slug  <span className='required-icon'>*</span></label>
+                            <input type="text" placeholder="Enter Activity Slug" name='activity_slug'
+                                onChange={(e) => handleChange(e)}
+                                value={activityData?.activity_slug || ""}
+                                readOnly={isViewOnly}
+                                onBlur={(e) => handleBlur(e.target.name, e.target.value)}
+                            />
+                            {validation?.activity_slug?.status === false && validation?.activity_slug?.message && (
+                                <p className='error-para'>Activity Slug {validation.activity_slug.message}</p>
+                            )}
+                        </div>
 
-                            <div className='model-input-div'>
-                                <label>Image  <span className='required-icon'>*</span></label>
+                        <div className='model-input-div'>
+                            <label>Activity Description  <span className='required-icon'>*</span></label>
+                            <textarea type="text" placeholder='Enter Activity Description' name='activity_description'
+                                onChange={(e) => handleChange(e)}
+                                value={activityData?.activity_description || ""}
+                                readOnly={isViewOnly}
+                                onBlur={(e) => handleBlur(e.target.name, e.target.value)}
+                            />
+                            {validation?.activity_description?.status === false && validation?.activity_description?.message && (
+                                <p className='error-para'>Activity Description {validation.activity_description.message}</p>
+                            )}
+                        </div>
+
+                        <div className='model-input-div'>
+                            <label>Activity Image  <span className='required-icon'>*</span></label>
+                            {!isViewOnly && (
                                 <input
                                     type="file"
                                     // multiple
-                                    name='image'
-                                    accept='.png,.jpeg,.jpg,.pdf'
+                                    name='activity_image'
+                                    accept='.png,.jpeg,.jpg,.pdf,.webp'
                                     className="form-control"
-                                    onChange={(e) => { handleFileUpload(e, "image"); handleChange(e) }}
+                                    onChange={(e) => { handleFileUpload(e, "activity_image"); handleChange(e) }}
                                 />
-                                {validation?.image?.status === false && validation?.image?.message && (
-                                    <p className='error-para'>Image {validation.image.message}</p>
-                                )}
-                            </div>
+                            )}
+                            {validation?.activity_image?.status === false && validation?.activity_image?.message && (
+                                <p className='error-para'>Activity Image {validation.activity_image.message}</p>
+                            )}
+                            {activityData?.activity_image && (
+                                <div className='upload-image-div'>
+                                    <img src={`${BACKEND_DOMAIN}${activityData?.activity_image}`} alt="Category-Preview" />
+                                </div>
+                            )}
 
-                            <button className='model-submit-button' type='submit'>Add Activity</button>
-                        </form>
+                        </div>
+
+                        {!isViewOnly && !isUpdate && (
+                            <button className='model-submit-button' onClick={(e) => handleSubmit(e)}>Add Activity Type</button>
+                        )}
+
+                        {isUpdate && (
+                            <button className='model-submit-button' onClick={(e) => handleUpdate(e)}>Update Activity Type</button>
+                        )}
+
+                        {/* </form> */}
                     </div>
                 </>
 
             </CustomModal>
+
+            <CustomModal
+                open={openDeleteModal}
+                onClickOutside={() => {
+                    setOpenDeleteModal(false);
+                }}
+            >
+                <>
+                    <div className='delete-model-view-main'>
+                        <p className="text-center">
+                            Are you sure do you want to delete?
+                        </p>
+                        <div className="row">
+                            <div className="col-6">
+                                <button className="delete-btn yes" onClick={handleDelete}>Yes</button>
+                            </div>
+                            <div className="col-6">
+                                <button className="delete-btn no" onClick={() => setOpenDeleteModal(false)}>No</button>
+                            </div>
+                        </div>
+                    </div>
+                </>
+
+            </CustomModal>
+
         </div>
     )
 }
 
-export default Activity
+export default TourType

@@ -3,6 +3,8 @@ import React from 'react'
 const AdminDashboard = () => {
     return (
         <>
+
+        <div className='px-4 py-4'>
             <div className=''>
                 <div className="row">
                     <div className="col-lg-3">
@@ -113,7 +115,7 @@ const AdminDashboard = () => {
                     </div>
                 </div>
             </div>
-
+            </div>
         </>
     )
 }

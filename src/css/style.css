@@ -1508,7 +1508,7 @@ button:focus:not(:focus-visible) {
 .header-div-main {
     padding: 15px 25px;
     /* border-radius: 5px; */
-    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
 .user-profile-main {
@@ -2375,14 +2375,32 @@ button:focus:not(:focus-visible) {
     z-index: 100;
     top: 12px;
     right: 12px;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
+    background-color: #EB662B;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer
 }
 
 .modal-close-btn:hover {
-    color: gray;
+    color: black;
 }
 
-.Modal-View {
+/* .Modal-View {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    padding: 30px 50px;
+    border-radius: 5px;
+    background-color: white;
+    height: 500px;
+    overflow-y: scroll;
+} */
+
+.Modal-View-Tour-Management {
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     padding: 30px 50px;
     border-radius: 5px;
@@ -2779,6 +2797,8 @@ input:checked+.slider:before {
     border-radius: 8px;
 }
 
+/* Muitable css */
+
 .css-147d4ti-MuiDataGrid-root .MuiDataGrid-columnHeaderTitleContainer {
     display: flex !important;
     justify-content: center !important;
@@ -2808,6 +2828,14 @@ input:checked+.slider:before {
     background-color: #f9fafb !important;
 }
 
+.css-147d4ti-MuiDataGrid-root .MuiDataGrid-columnHeader:focus,
+.css-147d4ti-MuiDataGrid-root .MuiDataGrid-cell:focus {
+    outline: none !important;
+}
+
+
+/* Muitable css ends*/
+
 .admin-panel-head-text {
     /* border-bottom: 1px solid #f1f1f1;
     padding-bottom: 20px; */
@@ -2826,6 +2854,10 @@ input:checked+.slider:before {
 
 .admin-actions i {
     cursor: pointer;
+}
+
+.admin-actions .fa-trash {
+    color: rgb(255, 83, 83);
 }
 
 .upload-image-div img {
@@ -2849,4 +2881,110 @@ input:checked+.slider:before {
     font-weight: 500;
     color: black;
     font-size: 13px;
+}
+
+
+.delete-btn {
+    color: white;
+    padding: 13px 0px 11px 0px;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+.delete-btn.yes {
+    background-color: red;
+    color: white;
+}
+
+.delete-btn.no {
+    background-color: green;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #EB662B;
+}
+
+.delete-btn:active {
+    background-color: black;
+}
+
+.delete-model-view-main {
+    padding: 30px 70px 60px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.delete-model-view-main p {
+    color: black;
+    font-weight: 600;
+    font-size: 22px;
+    margin: 20px 10px;
+}
+
+.form-check-input {
+    color: red;
+    font-size: 20px;
+}
+
+
+
+
+
+
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 45px;
+    height: 25px;
+    margin: auto 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider-table {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #767070;
+    transition: 0.4s;
+}
+
+.slider-table:before {
+    position: absolute;
+    content: "";
+    height: 17px;
+    width: 17px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+}
+
+input:checked+.slider-table {
+    background-color: #4ca363;
+}
+
+input:checked+.slider-table:before {
+    transform: translateX(19px);
+}
+
+.slider-table.round {
+    border-radius: 34px;
+}
+
+.slider-table.round:before {
+    border-radius: 50%;
 }
