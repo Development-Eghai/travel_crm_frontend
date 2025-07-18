@@ -60,7 +60,7 @@ const DestinationList = () => {
         <div className='admin-content-main'>
             <div className='d-flex justify-content-between'>
                 <h3 className='my-auto'>Destination</h3>
-                <button className='admin-add-button mt-0' onClick={() => navigate("/admin/destination-create")}>Add Destination</button>
+                <button className='admin-add-button mt-0' onClick={() => navigate("/admin/destination-create")}><i class="fa-solid fa-plus me-2"></i> Add Destination</button>
             </div>
 
             <div className='my-5'>
@@ -68,7 +68,7 @@ const DestinationList = () => {
                     rows={numberedRows}
                     columns={columns}
                     getRowId={(row) => row._id}
-                    isLoading={isLoading}
+                    // isLoading={isLoading}
                 />
             </div>
         </div>

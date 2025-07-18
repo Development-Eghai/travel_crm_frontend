@@ -29,6 +29,33 @@ export function NonEmptyValidation(value) {
     return { status: true, message: "" };
 }
 
+export function NonEmptyFaqArrayValidation(value) {
+    if (!Array.isArray(value) || value.length === 0) {
+        return { status: false, message: "FAQ list must not be empty" };
+    }
+
+    for (let i = 0; i < value.length; i++) {
+        const faq = value[i];
+        if (!faq.faq_question || faq.faq_question.trim() === "") {
+            return { status: false, message: `FAQ ${i + 1}: Question is required` };
+        }
+        if (!faq.faq_answer || faq.faq_answer.trim() === "") {
+            return { status: false, message: `FAQ ${i + 1}: Answer is required` };
+        }
+    }
+
+    return { status: true, message: "" };
+}
+
+export function NonEmptyArrayValidation(value) {
+    console.log(value,"value")
+    if (!Array.isArray(value) || value.length === 0) {
+        return { status: false, message: "must not be empty" };
+    }
+    return { status: true, message: "" };
+}
+
+
 export function normalizeEmptyFields(obj) {
     const cleaned = {};
     for (const key in obj) {

@@ -297,6 +297,7 @@ const TourCategory = () => {
                                     accept='.png,.jpeg,.jpg,.pdf,.webp'
                                     className="form-control"
                                     onChange={(e) => { handleFileUpload(e, "image"); handleChange(e) }}
+                                    // onBlur={(e) => handleBlur(e.target.name, e.target.value)}
                                 />
                             )}
                             {validation?.image?.status === false && validation?.image?.message && (

@@ -2861,7 +2861,7 @@ input:checked+.slider:before {
 }
 
 .upload-image-div img {
-    width: 270px;
+    width: 100px;
     height: 200px;
     border: 1px solid rgb(151, 151, 151);
     border-radius: 10px;
@@ -2881,6 +2881,15 @@ input:checked+.slider:before {
     font-weight: 500;
     color: black;
     font-size: 13px;
+}
+
+.destination-image-div img {
+    width: 120px !important;
+    height: 120px !important;
+    border: 1px solid rgb(151, 151, 151);
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-left: 15px;
 }
 
 
@@ -2987,4 +2996,8 @@ input:checked+.slider-table:before {
 
 .slider-table.round:before {
     border-radius: 50%;
+}
+
+.css-13cymwt-control {
+    padding: 3px 0px;
 }

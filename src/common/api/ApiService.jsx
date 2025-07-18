@@ -1,8 +1,12 @@
 
 import { APIBaseUrl } from "./ApiClient";
 
+// *************************************************  TOUR DESTINATION API  **********************************************
+
+
+
 export const CreateDestination = async (payload) => {
-    return await APIBaseUrl.post("/destination/create_destination", payload)
+    return await APIBaseUrl.post("/destinations/create", payload)
         .then((response) => response.data)
         .catch((err) => {
             return { err: err?.response?.data || err };

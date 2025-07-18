@@ -20,7 +20,6 @@ const TourType = () => {
     const [deleteId, setDeleteId] = useState("");
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [isLoading, setIsLoading] = useState(true);
-    console.log(tourTypeData, "tourTypeData-tourTypeData")
 
     const columns = [
         { field: 'sno', headerName: 'SNO', flex: 1 },
@@ -296,6 +295,7 @@ const TourType = () => {
                                     accept='.png,.jpeg,.jpg,.pdf,.webp'
                                     className="form-control"
                                     onChange={(e) => { handleFileUpload(e, "tour_image"); handleChange(e) }}
+                                    // onBlur={(e) => handleBlur(e.target.name, e.target.value)}
                                 />
                             )}
                             {validation?.tour_image?.status === false && validation?.tour_image?.message && (

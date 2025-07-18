@@ -295,6 +295,7 @@ const TourType = () => {
                                     accept='.png,.jpeg,.jpg,.pdf,.webp'
                                     className="form-control"
                                     onChange={(e) => { handleFileUpload(e, "activity_image"); handleChange(e) }}
+                                    // onBlur={(e) => handleBlur(e.target.name, e.target.value)}
                                 />
                             )}
                             {validation?.activity_image?.status === false && validation?.activity_image?.message && (
