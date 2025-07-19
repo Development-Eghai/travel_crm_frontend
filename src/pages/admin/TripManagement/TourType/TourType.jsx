@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import MyDataTable from '../../../../component/MyDataTable';
 import CustomModal from '../../../../component/CustomModel';
-import { NonEmptyValidation, normalizeEmptyFields, StringValidation } from '../../../../common/Validation';
+import { NonEmptyValidation, normalizeEmptyFields, SlugValidation, StringValidation } from '../../../../common/Validation';
 import { errorMsg, successMsg } from '../../../../common/Toastify';
 import { BACKEND_DOMAIN } from '../../../../common/api/ApiClient';
 import { CreateTourType, deleteTourType, GetAllTourType, GetSpecificTourType, SingleFileUpload, updateTourType } from '../../../../common/api/ApiService';
@@ -80,7 +80,7 @@ const TourType = () => {
         let validate = {};
 
         validate.tour_name = StringValidation(data?.tour_name);
-        validate.tour_slug = NonEmptyValidation(data?.tour_slug);
+        validate.tour_slug = SlugValidation(data?.tour_slug);
         validate.tour_description = NonEmptyValidation(data?.tour_description);
         validate.tour_image = NonEmptyValidation(data?.tour_image);
 
@@ -165,8 +165,9 @@ const TourType = () => {
     }
 
     const handleUpdate = async (e) => {
+        const { __v, createdAt, updatedAt, is_deleted,...removedObject } = tourTypeData;
         e.preventDefault()
-        const cleanedData = normalizeEmptyFields(tourTypeData);
+        const cleanedData = normalizeEmptyFields(removedObject);
         const isValide = validateDetails(cleanedData)
         setValidation(isValide);
         if (Object.values(isValide).every((data) => data?.status === true)) {
@@ -213,6 +214,7 @@ const TourType = () => {
         getAllTourTypes()
     }, [])
 
+    console.log(tourTypeData,"tourTypeData")
 
     return (
         <div className='admin-content-main'>

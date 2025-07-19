@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import MyDataTable from '../../../../component/MyDataTable';
 import CustomModal from '../../../../component/CustomModel';
-import { NonEmptyValidation, normalizeEmptyFields, StringValidation } from '../../../../common/Validation';
+import { NonEmptyValidation, normalizeEmptyFields, SlugValidation, StringValidation } from '../../../../common/Validation';
 import { errorMsg, successMsg } from '../../../../common/Toastify';
 import { BACKEND_DOMAIN } from '../../../../common/api/ApiClient';
 import { CreateActivity, deleteActivity, GetAllActivity, GetSpecificActivity, SingleFileUpload, updateActivity } from '../../../../common/api/ApiService';
@@ -80,7 +80,7 @@ const TourType = () => {
         let validate = {};
 
         validate.activity_name = StringValidation(data?.activity_name);
-        validate.activity_slug = NonEmptyValidation(data?.activity_slug);
+        validate.activity_slug = SlugValidation(data?.activity_slug);
         validate.activity_description = NonEmptyValidation(data?.activity_description);
         validate.activity_image = NonEmptyValidation(data?.activity_image);
 
@@ -165,8 +165,9 @@ const TourType = () => {
     }
 
     const handleUpdate = async (e) => {
+        const { __v, createdAt, updatedAt, is_deleted, ...removedObject } = activityData;
         e.preventDefault()
-        const cleanedData = normalizeEmptyFields(activityData);
+        const cleanedData = normalizeEmptyFields(removedObject);
         const isValide = validateDetails(cleanedData)
         setValidation(isValide);
         if (Object.values(isValide).every((data) => data?.status === true)) {
@@ -212,7 +213,7 @@ const TourType = () => {
     useEffect(() => {
         getAllActivity()
     }, [])
-
+console.log(activityData,'activityData')
 
     return (
         <div className='admin-content-main'>
@@ -295,7 +296,7 @@ const TourType = () => {
                                     accept='.png,.jpeg,.jpg,.pdf,.webp'
                                     className="form-control"
                                     onChange={(e) => { handleFileUpload(e, "activity_image"); handleChange(e) }}
-                                    // onBlur={(e) => handleBlur(e.target.name, e.target.value)}
+                                // onBlur={(e) => handleBlur(e.target.name, e.target.value)}
                                 />
                             )}
                             {validation?.activity_image?.status === false && validation?.activity_image?.message && (

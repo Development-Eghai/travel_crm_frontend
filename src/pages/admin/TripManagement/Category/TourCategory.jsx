@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import MyDataTable from '../../../../component/MyDataTable';
 import CustomModal from '../../../../component/CustomModel';
-import { NonEmptyValidation, normalizeEmptyFields, StringValidation } from '../../../../common/Validation';
+import { NonEmptyValidation, normalizeEmptyFields, SlugValidation, StringValidation } from '../../../../common/Validation';
 import { errorMsg, successMsg } from '../../../../common/Toastify';
 import { CreateTourCategory, deleteTourCategory, GetAllTourCategory, GetSpecificTourCategory, SingleFileUpload, updateTourCategory } from '../../../../common/api/ApiService';
 import { BACKEND_DOMAIN } from '../../../../common/api/ApiClient';
@@ -81,7 +81,7 @@ const TourCategory = () => {
         let validate = {};
 
         validate.name = StringValidation(data?.name);
-        validate.slug = NonEmptyValidation(data?.slug);
+        validate.slug = SlugValidation(data?.slug);
         validate.description = NonEmptyValidation(data?.description);
         validate.image = NonEmptyValidation(data?.image);
 
@@ -166,8 +166,9 @@ const TourCategory = () => {
     }
 
     const handleUpdate = async (e) => {
+        const { __v, createdAt, updatedAt, is_deleted, ...removedObject } = categoryData;
         e.preventDefault()
-        const cleanedData = normalizeEmptyFields(categoryData);
+        const cleanedData = normalizeEmptyFields(removedObject);
         const isValide = validateDetails(cleanedData)
         setValidation(isValide);
         if (Object.values(isValide).every((data) => data?.status === true)) {
@@ -297,7 +298,7 @@ const TourCategory = () => {
                                     accept='.png,.jpeg,.jpg,.pdf,.webp'
                                     className="form-control"
                                     onChange={(e) => { handleFileUpload(e, "image"); handleChange(e) }}
-                                    // onBlur={(e) => handleBlur(e.target.name, e.target.value)}
+                                // onBlur={(e) => handleBlur(e.target.name, e.target.value)}
                                 />
                             )}
                             {validation?.image?.status === false && validation?.image?.message && (
