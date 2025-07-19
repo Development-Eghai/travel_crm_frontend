@@ -13,7 +13,15 @@ export const CreateDestination = async (payload) => {
         });
 };
 export const GetAllDestination = async () => {
-    return await APIBaseUrl.get("/destination/getAll")
+    return await APIBaseUrl.get("/destinations/get_all")
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+export const GetSpecificDestination = async (_id) => {
+    return await APIBaseUrl.get(`/destinations/get_specific?_id=${_id}`)
         .then((response) => response.data)
         .catch((err) => {
             return { err: err?.response?.data || err };

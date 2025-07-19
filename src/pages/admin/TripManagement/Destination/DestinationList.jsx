@@ -2,58 +2,103 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import MyDataTable from '../../../../component/MyDataTable';
 import { GetAllDestination } from '../../../../common/api/ApiService';
+import { capitalizeWords } from '../../../../common/Validation';
 
 const DestinationList = () => {
-    const [getAll, setGetAll] = useState([])
+    const [destinationList, setDestinationList] = useState([])
 
     const navigate = useNavigate();
+    
+    const handlePreview = (slug, id) => {
+        const url = `/destination-preview/${slug}/${id}`;
+        window.open(url, '_blank');
+    };
 
     const columns = [
-        { field: 'sno', headerName: 'SNO', width:100 },
-        { field: 'destination_name', headerName: 'Destination Name', flex:1 },
-        { field: 'offer_description', headerName: 'Offer Description', width:400 },
-        { field: 'starting_price', headerName: 'Starting Price', flex:1 },
+        { field: 'sno', headerName: 'SNO', flex: 1 },
+        {
+            field: 'destination_name', headerName: 'Destination Name', flex: 1,
+            renderCell: (params) => {
+                const region = params.row?.destination_name || "";
+                return (
+                    <div className='admin-actions'>
+                        {capitalizeWords(region)}
+                    </div>
+                );
+            }
+        },
+        {
+            field: 'trip_region', headerName: 'Trip Region', flex: 1,
+            renderCell: (params) => {
+                const region = params.row?.trip_region || "";
+                return (
+                    <div className='admin-actions'>
+                        {capitalizeWords(region)}
+                    </div>
+                );
+            }
+        },
+        { field: 'slug', headerName: 'Slug', flex: 1 },
         {
             field: '_id',
             headerName: 'Actions',
-            flex:1,
+            flex: 1,
             sortable: false,
             filterable: false,
             disableColumnMenu: true,
-            renderCell: (params) => (
-                <>
-                    <div>
+            renderCell: (params) => {
+                const slug = params.row?.slug;
+                const id = params.row?._id;
 
-                        <i className="fa-solid fa-pen-to-square muitable-action-icons"></i>
+                return (
+                    <div className='admin-actions'>
+                        <i className="fa-solid fa-pen-to-square"></i>
 
-                        <i className="fa-solid fa-trash ms-3 muitable-action-icons"></i>
+                        <i className="fa-solid fa-trash ms-3"></i>
 
-                        <i className="fa-solid fa-eye ms-3 muitable-action-icons"></i>
-
+                        <i
+                            className="fa-solid fa-eye ms-3"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => handlePreview(slug, id)}
+                        ></i>
                     </div>
-                </>
-            ),
+                );
+            }
         },
+        {
+            field: 'status',
+            headerName: 'Status',
+            flex: 1,
+            sortable: false,
+            filterable: false,
+            disableColumnMenu: true,
+            renderCell: (params) => {
+                const status = params.row.status === "active" ? true : false;
+                return (
+                    <div className="switch">
+                        <input type="checkbox" checked={status} readOnly />
+                        <span className="slider-table round"></span>
+                    </div>
+                );
+            },
+        }
     ];
 
-    const [isLoading, setIsLoading] = useState(true);
-
-    const getAllDestination = async () => {
-        const response = await GetAllDestination()
-        if (response && response?.status === 200) {
-            setGetAll(response?.data)
-            setIsLoading(false);
-        }
-    }
-
-    const numberedRows = getAll?.length && getAll?.map((row, index) => ({
+    const numberedRows = destinationList?.length && destinationList?.map((row, index) => ({
         ...row,
         sno: index + 1,
     }));
 
+    const getAllDestination = async () => {
+        const response = await GetAllDestination()
+        if (response && response?.statusCode === 200) {
+            setDestinationList(response?.data)
+        }
+    }
+
     useEffect(() => {
         getAllDestination()
-    }, []);
+    }, [])
 
 
     return (
@@ -68,7 +113,7 @@ const DestinationList = () => {
                     rows={numberedRows}
                     columns={columns}
                     getRowId={(row) => row._id}
-                    // isLoading={isLoading}
+                // isLoading={isLoading}
                 />
             </div>
         </div>

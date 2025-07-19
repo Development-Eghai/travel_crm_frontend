@@ -48,11 +48,27 @@ export function NonEmptyFaqArrayValidation(value) {
 }
 
 export function NonEmptyArrayValidation(value) {
-    console.log(value,"value")
+    console.log(value, "value")
     if (!Array.isArray(value) || value.length === 0) {
         return { status: false, message: "must not be empty" };
     }
     return { status: true, message: "" };
+}
+
+export function SlugValidation(value) {
+    if (value === undefined || value === null || value === "" || value?.length === 0) {
+        return { status: false, message: "is required" };
+    } else if (typeof value !== "string") {
+        return { status: false, message: "must be a string" };
+    } else if (value.length < 3) {
+        return { status: false, message: "must be at least 3 characters" };
+    }
+
+    const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+    return !slugRegex.test(value)
+        ? { status: false, message: "must be lowercase, alphanumeric and hyphen-separated" }
+        : { status: true, message: "" };
 }
 
 
@@ -69,3 +85,8 @@ export function normalizeEmptyFields(obj) {
     return cleaned;
 };
 
+
+export function capitalizeWords(str) {
+    if (!str) return '';
+    return str.replace(/\b\w/g, char => char.toUpperCase());
+}

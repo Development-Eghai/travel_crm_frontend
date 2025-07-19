@@ -1,22 +1,26 @@
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import JoditEditor from "jodit-react";
-import { CreateDestination, MultipleFileUpload } from "../../../../common/api/ApiService";
+import { CreateDestination, GetAllDestination, MultipleFileUpload } from "../../../../common/api/ApiService";
 // import "jodit/build/jodit.min.css";
 import { data, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
-import { NonEmptyArrayValidation, NonEmptyFaqArrayValidation, NonEmptyValidation, normalizeEmptyFields, StringValidation } from "../../../../common/Validation";
+import { NonEmptyArrayValidation, NonEmptyFaqArrayValidation, NonEmptyValidation, normalizeEmptyFields, SlugValidation, StringValidation } from "../../../../common/Validation";
 import { errorMsg, successMsg } from "../../../../common/Toastify";
 import { BACKEND_DOMAIN } from "../../../../common/api/ApiClient";
+import MyDataTable from "../../../../component/MyDataTable";
 
 
 const DestinationCreation = () => {
     const navigate = useNavigate();
 
     const [createDestination, setCreateDestination] = useState({});
+  
     const [validation, setValidation] = useState({})
 
     const [faqs, setFaqs] = useState([{ faq_question: "", faq_answer: "" }]);
+
+   
 
     const addFaq = () => {
         setFaqs([...faqs, { faq_question: "", faq_answer: "" }]);
@@ -56,7 +60,6 @@ const DestinationCreation = () => {
             [fieldName]: fieldValidation[fieldName],
         }));
     };
-
 
     const handleFileUpload = async (e, key) => {
         const file = e.target.files[0];
@@ -111,6 +114,7 @@ const DestinationCreation = () => {
     const validateDetails = (data) => {
         let validate = {};
         validate.destination_name = StringValidation(data?.destination_name);
+        validate.slug = SlugValidation(data?.slug);
         validate.description = NonEmptyValidation(data?.description);
         validate.banner_images = NonEmptyArrayValidation(data?.banner_images);
         validate.trip_region = NonEmptyValidation(data?.trip_region);
@@ -138,6 +142,7 @@ const DestinationCreation = () => {
         }
 
     }
+
     const editor = useRef(null);
     const editor2 = useRef(null);
 
@@ -156,267 +161,274 @@ const DestinationCreation = () => {
         console.log("Selected options:", selected);
     };
 
-    console.log(createDestination, "createDestination")
-    console.log(validation, "validation")
-
 
     return (
-        <div className='admin-content-main'>
+        <>
 
-            <div className='d-flex justify-content-between mb-5'>
-                <h3 className='my-auto'>Create Destination</h3>
-                <button className='admin-add-button mt-0' onClick={() => navigate(-1)}><i class="fa-solid fa-arrow-left me-2"></i> Back</button>
-            </div>
-
-            <div className='row'>
-                <div className='col-lg-6'>
-                    <div className='admin-input-div'>
-                        <label>Destination Name <span className='required-icon'>*</span></label>
-                        <input type="text" value={createDestination?.destination_name || ""} placeholder="Enter Destination Name"
-                            onChange={(e) => handleChange("destination_name", e.target.value)}
-                            onBlur={(e) => handleBlur("destination_name", e.target.value)} />
-                        {validation?.destination_name?.status === false && validation?.destination_name?.message && (
-                            <p className='error-para'>Destination Name {validation.destination_name.message}</p>
-                        )}
-                    </div>
+            <div className='admin-content-main'>
+                <div className='d-flex justify-content-between mb-5'>
+                    <h3 className='my-auto'>Create Destination</h3>
+                    <button className='admin-add-button mt-0' onClick={() => navigate(-1)}><i class="fa-solid fa-arrow-left me-2"></i> Back</button>
                 </div>
 
-                <div className='col-lg-6'>
-                    <div className="admin-input-div">
-                        <label>Hero Banner Images <span className='required-icon'>*</span></label>
-                        {/* <input
-                            type="file"
-                            multiple
-                            accept="image/*"
-                            className="form-control"
-                            onChange={(e) => { handleFileUpload(e, "banner_images"); handleChange(e) }}
-                            onBlur={(e) => handleBlur("banner_images", e.target.value)}
-                        /> */
-                            <input
-                                type="file"
-                                multiple
-                                accept="image/*"
-                                className="form-control"
-                                onChange={(e) => handleFileUpload(e, "banner_images")} 
-                                // onBlur={(e) => handleBlur("banner_images", e.target.value)} 
+                <div className='row'>
+                    <div className='col-lg-6'>
+                        <div className='admin-input-div'>
+                            <label>Destination Name <span className='required-icon'>*</span></label>
+                            <input type="text" value={createDestination?.destination_name || ""} placeholder="Enter Destination Name"
+                                onChange={(e) => handleChange("destination_name", e.target.value)}
+                                onBlur={(e) => handleBlur("destination_name", e.target.value)} />
+                            {validation?.destination_name?.status === false && validation?.destination_name?.message && (
+                                <p className='error-para'>Destination Name {validation.destination_name.message}</p>
+                            )}
+                        </div>
+                    </div>
+                    <div className='col-lg-6'>
+                        <div className='admin-input-div'>
+                            <label>Slug <span className='required-icon'>*</span></label>
+                            <input type="text" value={createDestination?.slug || ""} placeholder="Enter Slug"
+                                onChange={(e) => handleChange("slug", e.target.value)}
+                                onBlur={(e) => handleBlur("slug", e.target.value)} />
+                            {validation?.slug?.status === false && validation?.slug?.message && (
+                                <p className='error-para'>Slug {validation.slug.message}</p>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className='col-lg-6'>
+                        <div className="admin-input-div">
+                            <label>Hero Banner Images <span className='required-icon'>*</span></label>
+                                <input
+                                    type="file"
+                                    multiple
+                                    accept="image/*"
+                                    className="form-control"
+                                    onChange={(e) => handleFileUpload(e, "banner_images")}
+                                />
+                            {validation?.banner_images?.status === false && validation?.banner_images?.message && (
+                                <p className='error-para'>Banner Images {validation.banner_images.message}</p>
+                            )}
+
+                            {createDestination?.banner_images && createDestination?.banner_images?.length > 0 && (
+                                <div className="d-flex flex-wrap">
+                                    {createDestination?.banner_images?.map((image, index) => (
+                                        <div className='upload-image-div destination-image-div'>
+                                            <div>
+                                                <img src={`${BACKEND_DOMAIN}${image}`} alt="Category-Preview" key={index} />
+                                            </div>
+                                        </div>
+                                    ))}
+
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className='col-lg-6'>
+                        <div className='admin-input-div'>
+                            <label>Description <span className='required-icon'>*</span></label>
+                            <textarea type="text" className="form-control" value={createDestination?.description || ""} placeholder="Enter Description"
+                                onChange={(e) => handleChange("description", e.target.value)}
+                                onBlur={(e) => handleBlur("description", e.target.value)}
                             />
-                        }
+                            {validation?.description?.status === false && validation?.description?.message && (
+                                <p className='error-para'>Description {validation.description.message}</p>
+                            )}
+                        </div>
+                    </div>
 
-                        {validation?.banner_images?.status === false && validation?.banner_images?.message && (
-                            <p className='error-para'>Banner Images {validation.banner_images.message}</p>
+                    <div className='col-lg-6'>
+                        <div className='admin-input-div'>
+                            <label>Domestic / International  <span className='required-icon'>*</span></label>
+                            <select onChange={(e) => handleChange("trip_region", e.target.value)}
+                                onBlur={(e) => handleBlur("trip_region", e.target.value)}>
+                                <option value="">Select Places</option>
+                                <option value="domestic">Domestic</option>
+                                <option value="international">International</option>
+                            </select>
+                            {validation?.trip_region?.status === false && validation?.trip_region?.message && (
+                                <p className='error-para'>Trip Region {validation.trip_region.message}</p>
+                            )}
+                        </div>
+                    </div>
+                    <div className='col-lg-6'>
+                        <div className='admin-input-div'>
+                            <label>Select Featured Hotels</label>
+                            <Select
+                                isMulti
+                                placeholder="Select Trip Packages"
+                                value={selectedOptions}
+                                onChange={handleDropdown}
+                                options={options}
+                            />
+                        </div>
+                    </div>
+                    <div className='col-lg-6'>
+                        <div className='admin-input-div'>
+                            <label>Select Popular Trip Packages</label>
+                            <Select
+                                isMulti
+                                placeholder="Select Trip Packages"
+                                value={selectedOptions}
+                                onChange={handleDropdown}
+                                options={options}
+                            />
+                        </div>
+                    </div>
+                    <div className='col-lg-6'>
+                        <div className='admin-input-div'>
+                            <label>Select Blogs Category</label>
+                            <select>
+                                <option value="">Select Category</option>
+                                <option value="Fixed Price">Blogs Category 1</option>
+                                <option value="Price Per Person">Blogs Category 2</option>
+                                <option value="Price Per Person">Blogs Category 3</option>
+                                <option value="Price Per Person">Blogs Category 4</option>
+                                <option value="Price Per Person">Blogs Category 5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className='col-lg-6'>
+                        <div className='admin-input-div'>
+                            <label>Select Featured Blogs</label>
+                            <Select
+                                isMulti
+                                value={selectedOptions}
+                                placeholder="Select Blogs"
+                                onChange={handleDropdown}
+                                options={options}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className='admin-input-div mt-5'>
+                    <label>About Tour Packages</label>
+
+                    <div className="mt-3">
+                        <JoditEditor
+                            ref={editor}
+                            value={createDestination?.about_destination || ""}
+                            config={{
+                                readonly: false,
+                                height: 300,
+                                toolbarButtonSize: "middle",
+                                askBeforePasteHTML: false,
+                                askBeforePasteFromWord: false,
+                                defaultActionOnPaste: "insert_clear_html",
+                                allowPaste: true
+                              }}
+                            tabIndex={1}
+                            onBlur={(newContent) => handleChange("about_destination", newContent)}
+                        />
+                        {validation?.about_destination?.status === false && validation?.about_destination?.message && (
+                            <p className='error-para'>About Destination {validation.about_destination.message}</p>
                         )}
 
-                        {createDestination?.banner_images && createDestination?.banner_images?.length > 0 && (
-                            <div className="d-flex">
-                                {createDestination?.banner_images?.map((image, index) => (
-                                    <div className='upload-image-div destination-image-div'>
-                                        <div>
-                                            <img src={`${BACKEND_DOMAIN}${image}`} alt="Category-Preview" key={index} />
-                                        </div>
-                                    </div>
-                                ))}
-
-                            </div>
-                        )}
                     </div>
                 </div>
 
-                <div className='col-lg-6'>
-                    <div className='admin-input-div'>
-                        <label>Description <span className='required-icon'>*</span></label>
-                        <textarea type="text" className="form-control" value={createDestination?.description || ""} placeholder="Enter Description"
-                            onChange={(e) => handleChange("description", e.target.value)}
-                            onBlur={(e) => handleBlur("description", e.target.value)}
-                        />
-                        {validation?.description?.status === false && validation?.description?.message && (
-                            <p className='error-para'>Description {validation.description.message}</p>
-                        )}
-                    </div>
+                <div className='admin-input-div'>
+                    <label>Frequently Asked Questions</label>
                 </div>
 
-                <div className='col-lg-6'>
-                    <div className='admin-input-div'>
-                        <label>Domestic / International  <span className='required-icon'>*</span></label>
-                        <select onChange={(e) => handleChange("trip_region", e.target.value)}
-                            onBlur={(e) => handleBlur("trip_region", e.target.value)}>
-                            <option value="">Select Places</option>
-                            <option value="domestic">Domestic</option>
-                            <option value="international">International</option>
-                        </select>
-                        {validation?.trip_region?.status === false && validation?.trip_region?.message && (
-                            <p className='error-para'>Trip Region {validation.trip_region.message}</p>
-                        )}
-                    </div>
-                </div>
-                <div className='col-lg-6'>
-                    <div className='admin-input-div'>
-                        <label>Select Featured Hotels</label>
-                        <Select
-                            isMulti
-                            placeholder="Select Trip Packages"
-                            value={selectedOptions}
-                            onChange={handleDropdown}
-                            options={options}
-                        />
-                    </div>
-                </div>
-                <div className='col-lg-6'>
-                    <div className='admin-input-div'>
-                        <label>Select Popular Trip Packages</label>
-                        <Select
-                            isMulti
-                            placeholder="Select Trip Packages"
-                            value={selectedOptions}
-                            onChange={handleDropdown}
-                            options={options}
-                        />
-                    </div>
-                </div>
-                <div className='col-lg-6'>
-                    <div className='admin-input-div'>
-                        <label>Select Blogs Category</label>
-                        <select>
-                            <option value="">Select Category</option>
-                            <option value="Fixed Price">Blogs Category 1</option>
-                            <option value="Price Per Person">Blogs Category 2</option>
-                            <option value="Price Per Person">Blogs Category 3</option>
-                            <option value="Price Per Person">Blogs Category 4</option>
-                            <option value="Price Per Person">Blogs Category 5</option>
-                        </select>
-                    </div>
-                </div>
-                <div className='col-lg-6'>
-                    <div className='admin-input-div'>
-                        <label>Select Featured Blogs</label>
-                        <Select
-                            isMulti
-                            value={selectedOptions}
-                            placeholder="Select Blogs"
-                            onChange={handleDropdown}
-                            options={options}
-                        />
-                    </div>
-                </div>
-            </div>
-
-            <div className='admin-input-div mt-5'>
-                <label>About Tour Packages</label>
-
-                <div className="mt-3">
-                    <JoditEditor
-                        ref={editor}
-                        value={createDestination?.about_destination || ""}
-                        config={{
-                            readonly: false,
-                            height: 300,
-                            toolbarButtonSize: "middle"
-                        }}
-                        tabIndex={1}
-                        onBlur={(newContent) => handleChange("about_destination", newContent)}
-                    />
-                    {validation?.about_destination?.status === false && validation?.about_destination?.message && (
-                        <p className='error-para'>About Destination {validation.about_destination.message}</p>
-                    )}
-
-                </div>
-            </div>
-
-            <div className='admin-input-div'>
-                <label>Frequently Asked Questions</label>
-            </div>
-
-            <div className="mt-3 destination-faq">
-                <div className="accordion" id="accordionExample">
-                    {faqs.map((faq, index) => (
-                        <div className='mt-4'>
-                            <div className="accordion-item" key={index} >
-                                <h2 className="accordion-header d-flex align-items-center justify-content-between">
-                                    <button
-                                        className="accordion-button flex-grow-1"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target={`#collapse${index}`}
-                                        aria-expanded="true"
-                                        aria-controls={`collapse${index}`}
-                                    >
-                                        FAQ {index + 1}
-                                    </button>
-                                    <div className="ms-3 d-flex gap-2">
-                                        <button className="destination-faq-add" onClick={addFaq}>
-                                            Add
-                                        </button>
+                <div className="mt-3 destination-faq">
+                    <div className="accordion" id="accordionExample">
+                        {faqs.map((faq, index) => (
+                            <div className='mt-4'>
+                                <div className="accordion-item" key={index} >
+                                    <h2 className="accordion-header d-flex align-items-center justify-content-between">
                                         <button
-                                            className="destination-faq-add faq-delete me-4"
-                                            onClick={() => deleteFaq(index)}
+                                            className="accordion-button flex-grow-1"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target={`#collapse${index}`}
+                                            aria-expanded="true"
+                                            aria-controls={`collapse${index}`}
                                         >
-                                            Delete
+                                            FAQ {index + 1}
                                         </button>
-                                    </div>
-                                </h2>
-
-                                <div
-                                    id={`collapse${index}`}
-                                    className="accordion-collapse collapse show"
-                                    data-bs-parent="#accordionExample"
-                                >
-                                    <div className="accordion-body">
-                                        <div className="admin-input-div mb-3">
-                                            <label>Faq Question</label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                value={faq?.faq_question}
-                                                onChange={(e) =>
-                                                    updateFaq(index, "faq_question", e.target.value)
-                                                }
-                                            />
+                                        <div className="ms-3 d-flex gap-2">
+                                            <button className="destination-faq-add" onClick={addFaq}>
+                                                Add
+                                            </button>
+                                            <button
+                                                className="destination-faq-add faq-delete me-4"
+                                                onClick={() => deleteFaq(index)}
+                                            >
+                                                Delete
+                                            </button>
                                         </div>
+                                    </h2>
 
-                                        <div className="admin-input-div admin-desti-faq">
-                                            <label>Faq Answer</label>
-                                            <textarea
-                                                className="form-control"
-                                                value={faq?.faq_answer}
-                                                onChange={(e) =>
-                                                    updateFaq(index, "faq_answer", e.target.value)
-                                                }
-                                            />
+                                    <div
+                                        id={`collapse${index}`}
+                                        className="accordion-collapse collapse show"
+                                        data-bs-parent="#accordionExample"
+                                    >
+                                        <div className="accordion-body">
+                                            <div className="admin-input-div mb-3">
+                                                <label>Faq Question</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    value={faq?.faq_question}
+                                                    onChange={(e) =>
+                                                        updateFaq(index, "faq_question", e.target.value)
+                                                    }
+                                                />
+                                            </div>
+
+                                            <div className="admin-input-div admin-desti-faq">
+                                                <label>Faq Answer</label>
+                                                <textarea
+                                                    className="form-control"
+                                                    value={faq?.faq_answer}
+                                                    onChange={(e) =>
+                                                        updateFaq(index, "faq_answer", e.target.value)
+                                                    }
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                {validation?.faqs?.status === false && validation?.faqs?.message && (
+                                    <p className='error-para'>{validation.faqs.message}</p>
+                                )}
                             </div>
-                            {validation?.faqs?.status === false && validation?.faqs?.message && (
-                                <p className='error-para'>{validation.faqs.message}</p>
-                            )}
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
-            </div>
 
-            <div className='admin-input-div mt-5'>
-                <label>Travel Guidelines</label>
+                <div className='admin-input-div mt-5'>
+                    <label>Travel Guidelines</label>
 
-                <div className="mt-3">
-                    <JoditEditor
-                        ref={editor2}
-                        value={createDestination?.guidance || ""}
-                        config={{
-                            readonly: false,
-                            height: 300,
-                            toolbarButtonSize: "middle"
-                        }}
-                        tabIndex={1}
-                        onBlur={(newContent) => handleChange("destination_guidance", newContent)}
-                    />
-                    {validation?.destination_guidance?.status === false && validation?.destination_guidance?.message && (
-                        <p className='error-para'>Destination Guidance{validation.destination_guidance.message}</p>
-                    )}
+                    <div className="mt-3">
+                        <JoditEditor
+                            ref={editor2}
+                            value={createDestination?.guidance || ""}
+                            config={{
+                                readonly: false,
+                                height: 300,
+                                toolbarButtonSize: "middle",
+                                askBeforePasteHTML: false,
+                                askBeforePasteFromWord: false,
+                                defaultActionOnPaste: "insert_clear_html",
+                                allowPaste: true
+                              }}
+                            tabIndex={1}
+                            onBlur={(newContent) => handleChange("destination_guidance", newContent)}
+                        />
+                        {validation?.destination_guidance?.status === false && validation?.destination_guidance?.message && (
+                            <p className='error-para'>Destination Guidance{validation.destination_guidance.message}</p>
+                        )}
+                    </div>
                 </div>
+
+                <button className="create-common-btn" onClick={(e) => handleSubmit(e)}>Create</button>
             </div>
-
-            <button className="create-common-btn" onClick={(e) => handleSubmit(e)}>Create</button>
-
-        </div>
+            
+        </>
     )
 }
 
