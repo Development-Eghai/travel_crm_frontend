@@ -8,7 +8,7 @@ import 'swiper/css/effect-fade';
 import 'swiper/css/navigation';
 import { Images } from "../../../../helpers/Images/images";
 import { useNavigate, useParams } from "react-router";
-import { GetSpecificDestination } from '../../../../common/api/ApiService';
+import { GetChildDestination, GetSpecificDestination } from '../../../../common/api/ApiService';
 import { BACKEND_DOMAIN } from '../../../../common/api/ApiClient';
 
 const DestinationPreview = () => {
@@ -16,6 +16,7 @@ const DestinationPreview = () => {
     const { id } = useParams();
     const [activeTab, setActiveTab] = useState(0);
     const [destinationContent, setDestinationContent] = useState({})
+    const [childDestination, setChildDestination] = useState({})
 
     const bannerImages = [
         Images?.destination_one,
@@ -60,9 +61,16 @@ const DestinationPreview = () => {
             setDestinationContent(response?.data)
         }
     }
+    const getChildDestination = async () => {
+        const response = await GetChildDestination(id)
+        if (response && response?.statusCode === 200) {
+            setChildDestination(response?.data)
+        }
+    }
 
     useEffect(() => {
         getSpecificDestination()
+        getChildDestination()
     }, [])
 
     const contentRef = useRef(null);
@@ -155,6 +163,42 @@ const DestinationPreview = () => {
                         </div>
 
                     </section>
+
+                    {childDestination?.length && (
+
+                        <section className='section-padding-bottom'>
+                            <div className="container">
+                                <div>
+                                    <h4 className='common-section-heading'>Cities in {destinationContent?.destination_name}</h4>
+                                </div>
+
+                                <div className='mt-4'>
+                                    <div className="row">
+                                        {childDestination?.map((childDestination, index) => (
+                                            <div className='col-lg-3 col-md-6' key={index}>
+                                                <div className="featured-card-main popular-card-main">
+                                                    <a href="destination-list" className='text-decoration-none'>
+                                                        <div>
+                                                            <img className="featured-card-img" src={BACKEND_DOMAIN + childDestination?.banner_images[0]} alt="featured" />
+                                                        </div>
+                                                        <div className="featured-content-main">
+                                                            <p className="featured-city-para">{childDestination?.destination_name} , {destinationContent?.destination_name}</p>
+                                                            <p className="featured-content">
+                                                                {childDestination?.description?.length > 80
+                                                                    ? childDestination.description.slice(0, 80) + "..."
+                                                                    : childDestination?.description}
+                                                            </p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                    )}
 
                     <section className='section-padding-bottom'>
                         <div className="container">
@@ -372,7 +416,7 @@ const DestinationPreview = () => {
                             </div>
 
                             <div className='destionation-travel-guidence'>
-                            <p dangerouslySetInnerHTML={{ __html: destinationContent?.destination_guidance || "<p>No Guidance available</p>" }}></p>
+                                <p dangerouslySetInnerHTML={{ __html: destinationContent?.destination_guidance || "<p>No Guidance available</p>" }}></p>
                             </div>
                         </div>
                     </section>

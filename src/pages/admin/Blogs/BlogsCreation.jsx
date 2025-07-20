@@ -69,7 +69,7 @@ const BlogsCreation = () => {
                 </div>
 
                 <div className='col-lg-4'>
-                    <div className='admin-input-div'>
+                    <div className='admin-input-div blogs-creation'>
                         <label>Featured Blog</label>
                         <label className="switch">
                             <input type="checkbox" />
@@ -79,7 +79,7 @@ const BlogsCreation = () => {
                 </div>
 
                 <div className='col-lg-4'>
-                    <div className='admin-input-div'>
+                    <div className='admin-input-div blogs-creation'>
                         <label>Latest Blog</label>
                         <label className="switch">
                             <input type="checkbox" />
@@ -89,7 +89,7 @@ const BlogsCreation = () => {
                 </div>
 
                 <div className='col-lg-4'>
-                    <div className='admin-input-div'>
+                    <div className='admin-input-div blogs-creation'>
                         <label>Popular Post</label>
                         <label className="switch">
                             <input type="checkbox" />
@@ -110,7 +110,7 @@ const BlogsCreation = () => {
                         // value={createDestination?.about_destination}
                         config={{
                             readonly: false,
-                            height: 300,
+                            height: 400,
                             toolbarButtonSize: "middle"
                         }}
                         tabIndex={1}

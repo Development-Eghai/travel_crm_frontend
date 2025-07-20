@@ -13,6 +13,7 @@ import HotelList from "../pages/admin/HotelManagement/HotelList";
 import HotelCreation from "../pages/admin/HotelManagement/HotelCreation";
 import ActivityBookingListing from "../pages/admin/ActivityBooking/ActivityBookingListing";
 import ActivityBookingCreation from "../pages/admin/ActivityBooking/ActivityBookingCreation";
+import BlogsTags from "../pages/admin/Blogs/Tags/BlogsTags";
 
 
 
@@ -50,15 +51,19 @@ export const routes = [
         component: TourType,
     },
     {
-        path: "/category-blog",
+        path: "/categories-blog",
         component: BlogsCategory,
     },
     {
-        path: "/blog-List",
+        path: "/tag-blogs",
+        component: BlogsTags,
+    },
+    {
+        path: "/blogs-List",
         component: BlogsList,
     },
     {
-        path: "/blog-create",
+        path: "/blogs-create",
         component: BlogsCreation,
     },
     {

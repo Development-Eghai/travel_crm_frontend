@@ -10,7 +10,7 @@ const BlogsList = () => {
         <div className='admin-content-main'>
             <div className='d-flex justify-content-between'>
                 <h3 className='my-auto'>Blogs List</h3>
-                <button className='admin-add-button mt-0' onClick={() => navigate("/admin/blog-create") }>Create New Blog</button>
+                <button className='admin-add-button mt-0' onClick={() => navigate("/admin/blogs-create") }><i class="fa-solid fa-plus me-2"></i> Create New Blog</button>
             </div>
 
             <div className='my-5'>

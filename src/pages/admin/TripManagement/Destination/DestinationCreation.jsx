@@ -15,12 +15,9 @@ const DestinationCreation = () => {
     const navigate = useNavigate();
 
     const [createDestination, setCreateDestination] = useState({});
-  
-    const [validation, setValidation] = useState({})
-
+    const [destinationList, setDestinationList] = useState([])
     const [faqs, setFaqs] = useState([{ faq_question: "", faq_answer: "" }]);
-
-   
+    const [validation, setValidation] = useState({})
 
     const addFaq = () => {
         setFaqs([...faqs, { faq_question: "", faq_answer: "" }]);
@@ -161,6 +158,18 @@ const DestinationCreation = () => {
         console.log("Selected options:", selected);
     };
 
+    const getAllDestination = async () => {
+        const response = await GetAllDestination()
+        if (response && response?.statusCode === 200) {
+            setDestinationList(response?.data)
+        }
+    }
+
+    useEffect(() => {
+        getAllDestination()
+    }, [])
+
+    console.log(createDestination,'createDestination')
 
     return (
         <>
@@ -198,13 +207,13 @@ const DestinationCreation = () => {
                     <div className='col-lg-6'>
                         <div className="admin-input-div">
                             <label>Hero Banner Images <span className='required-icon'>*</span></label>
-                                <input
-                                    type="file"
-                                    multiple
-                                    accept="image/*"
-                                    className="form-control"
-                                    onChange={(e) => handleFileUpload(e, "banner_images")}
-                                />
+                            <input
+                                type="file"
+                                multiple
+                                accept="image/*"
+                                className="form-control"
+                                onChange={(e) => handleFileUpload(e, "banner_images")}
+                            />
                             {validation?.banner_images?.status === false && validation?.banner_images?.message && (
                                 <p className='error-para'>Banner Images {validation.banner_images.message}</p>
                             )}
@@ -234,6 +243,19 @@ const DestinationCreation = () => {
                             {validation?.description?.status === false && validation?.description?.message && (
                                 <p className='error-para'>Description {validation.description.message}</p>
                             )}
+                        </div>
+                    </div>
+
+                    <div className='col-lg-6'>
+                        <div className='admin-input-div'>
+                            <label>Select Parent Destination  <span className='required-icon'>*</span></label>
+                            <select onChange={(e) => handleChange("parent_destination", e.target.value)}
+                                onBlur={(e) => handleBlur("parent_destination", e.target.value)}>
+                                <option value="null" defaultValue={null}>None (Main Destination)</option>
+                                {destinationList?.map((item, index) => (
+                                    <option key={index} value={item?._id}>{item?.destination_name}</option>
+                                ))}
+                            </select>
                         </div>
                     </div>
 
@@ -317,7 +339,7 @@ const DestinationCreation = () => {
                                 askBeforePasteFromWord: false,
                                 defaultActionOnPaste: "insert_clear_html",
                                 allowPaste: true
-                              }}
+                            }}
                             tabIndex={1}
                             onBlur={(newContent) => handleChange("about_destination", newContent)}
                         />
@@ -415,7 +437,7 @@ const DestinationCreation = () => {
                                 askBeforePasteFromWord: false,
                                 defaultActionOnPaste: "insert_clear_html",
                                 allowPaste: true
-                              }}
+                            }}
                             tabIndex={1}
                             onBlur={(newContent) => handleChange("destination_guidance", newContent)}
                         />
@@ -427,7 +449,7 @@ const DestinationCreation = () => {
 
                 <button className="create-common-btn" onClick={(e) => handleSubmit(e)}>Create</button>
             </div>
-            
+
         </>
     )
 }

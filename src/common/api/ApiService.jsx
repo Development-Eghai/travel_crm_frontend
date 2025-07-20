@@ -28,6 +28,14 @@ export const GetSpecificDestination = async (_id) => {
         });
 };
 
+export const GetChildDestination = async (_id) => {
+    return await APIBaseUrl.get(`/destinations/get_child_destination?_id=${_id}`)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
 // *************************************************  TOUR CATEGORY API  **********************************************
 
 export const CreateTourCategory = async (payload) => {

@@ -37,6 +37,29 @@ export const AdminMenu = [
         ],
     },
     {
+        path: "",
+        icon: <i className="fa-solid fa-suitcase-rolling"></i>,
+        name: "Blogs Management",
+        subMenu: [
+            {
+                path: "/admin/tag-blogs",
+                icon: <i className="fa-solid fa-location-dot"></i>,
+                name: "Add Blog Tag",
+            },
+            {
+                path: "/admin/categories-blog",
+                icon: <i className="fa-solid fa-location-dot"></i>,
+                name: "Add Blog Category",
+            },
+            {
+                path: "/admin/blogs-List",
+                icon: <i className="fa-solid fa-location-dot"></i>,
+                name: "Add Blogs",
+            },
+            
+        ],
+    },
+    {
         path: "/admin/hotel-List",
         icon:<i className="fa-solid fa-chart-line"></i>,
         name: "Hotel Management",

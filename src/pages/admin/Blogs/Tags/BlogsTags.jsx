@@ -4,14 +4,14 @@ import MyDataTable from '../../../../component/MyDataTable';
 import CustomModal from '../../../../component/CustomModel';
 
 
-const BlogsCategory = () => {
+const BlogsTags = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false)
   return (
     <div className='admin-content-main'>
       <div className='d-flex justify-content-between'>
-        <h3 className='my-auto'>Blog Category List</h3>
-        <button className='admin-add-button mt-0' onClick={() => setOpen(true)}><i class="fa-solid fa-plus me-2"></i>Add Blog Category</button>
+        <h3 className='my-auto'>Blog Tags List</h3>
+        <button className='admin-add-button mt-0' onClick={() => setOpen(true)}><i class="fa-solid fa-plus me-2"></i>Add Blog Tag</button>
       </div>
 
       <div className='my-5'>
@@ -32,17 +32,17 @@ const BlogsCategory = () => {
         <div className='Modal-View-Tour-Management'>
           <div className='model-input-div'>
             <label>Name</label>
-            <input type="text" placeholder='Enter Category Name' />
+            <input type="text" placeholder='Enter Tag Name' />
           </div>
           <div className='model-input-div'>
             <label>Slug</label>
-            <input type="text" placeholder='Enter Category Slug' />
+            <input type="text" placeholder='Enter Tag Slug' />
           </div>
           <div className='model-input-div'>
             <label>Description</label>
-            <textarea type="text" placeholder='Enter Category Description' />
+            <textarea type="text" placeholder='Enter Tag Description' />
           </div>
-          <button className='model-submit-button' onClick={() => setOpen(!open)}>Add Category</button>
+          <button className='model-submit-button' onClick={() => setOpen(!open)}>Add Tag</button>
         </div>
 
       </CustomModal>
@@ -52,4 +52,4 @@ const BlogsCategory = () => {
   )
 }
 
-export default BlogsCategory
+export default BlogsTags

@@ -10,7 +10,7 @@ const DestinationList = () => {
     const navigate = useNavigate();
     
     const handlePreview = (slug, id) => {
-        const url = `/destination-preview/${slug}/${id}`;
+        const url = `/destination/${slug}/${id}`;
         window.open(url, '_blank');
     };
 
