@@ -34,7 +34,7 @@ const AppRoutes = () => {
                     <Route path="/about-us" element={<AboutUs />} />
 
                     {/* Preview */}
-                    <Route path="/destination/:slug?/:id?" element={<DestinationDetail />} />
+                    <Route path="/destination/:slug?/:id?" element={<DestinationPreview />} />
                 </Routes>
             </Router>
         </div>
