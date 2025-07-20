@@ -178,6 +178,55 @@ export const deleteActivity = async (_id) => {
         });
 };
 
+
+
+// *************************************************  Blog Tag API  **********************************************
+
+export const CreateBlogTag = async (payload) => {
+    return await APIBaseUrl.post("/blog-tag/create", payload)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+
+export const GetAllBlogTag = async () => {
+    return await APIBaseUrl.get("/blog-tag/get_all")
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+export const GetSpecificBlogTag = async (_id) => {
+    return await APIBaseUrl.get(`blog-tag/get_specific?_id=${_id}`)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+export const UpdateBlogTag = async (payload) => {
+    return await APIBaseUrl.put(`blog-tag/update`, payload)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+
+export const DeleteBlogTag = async (_id) => {
+    return await APIBaseUrl.delete(`blog-tag/delete`, {
+        data: { _id }
+    })
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+
 // ************************************************  SINGLE FILE UPLOAD API **********************************************
 
 export const SingleFileUpload = async (payload) => {
