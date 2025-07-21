@@ -22,6 +22,21 @@ export function StringValidation(value) {
         : { status: true, message: "" };
 }
 
+export function NumberValidation(value) {
+    if (value === undefined || value === null || value === "" || (typeof value === "string" && value.trim().length === 0)) {
+        return { status: false, message: "is required" };
+    }
+    if (typeof value !== "number" && isNaN(Number(value))) {
+        return { status: false, message: "must be a valid number" };
+    }
+    if (Number(value) < 0) {
+        return { status: false, message: "must be positive" };
+    }
+
+    return { status: true, message: "" };
+}
+
+
 export function NonEmptyValidation(value) {
     if (value === null || value === undefined || value === "") {
         return { status: false, message: "is required" };

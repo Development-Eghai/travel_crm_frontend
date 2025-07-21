@@ -18,7 +18,7 @@ const BlogsCreation = () => {
                 <div className='col-lg-6'>
                     <div className='admin-input-div'>
                         <label>Heading <span className='required-icon'>*</span></label>
-                        <input type="text" />
+                        <input type="text" placeholder='Enter Blog Heading'/>
                     </div>
                 </div>
 
@@ -50,7 +50,7 @@ const BlogsCreation = () => {
                 <div className='col-lg-6'>
                     <div className='admin-input-div'>
                         <label>Featured Image Alt Tag <span className='required-icon'>*</span></label>
-                        <input type="text" />
+                        <input type="text" placeholder='Enter Image Alt Tag'/>
                     </div>
                 </div>
 
@@ -64,11 +64,24 @@ const BlogsCreation = () => {
                 <div className='col-lg-6'>
                     <div className='admin-input-div'>
                         <label>Author Name <span className='required-icon'>*</span></label>
-                        <input type="text" />
+                        <input type="text" placeholder='Enter Author Name'/>
                     </div>
                 </div>
 
-                <div className='col-lg-4'>
+                <div className='col-lg-6'>
+                    <div className='admin-input-div'>
+                        <label>Select Blog Tag</label>
+                        <select>
+                            <option value="">Select Tag</option>
+                            <option value="Fixed Price">Single Trip</option>
+                            <option value="Price Per Person">Family Trip</option>
+                            <option value="Price Per Person">Group Trip</option>
+                            <option value="Price Per Person">HoneyMoon</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div className='col-lg-3'>
                     <div className='admin-input-div blogs-creation'>
                         <label>Featured Blog</label>
                         <label className="switch">
@@ -77,27 +90,6 @@ const BlogsCreation = () => {
                         </label>
                     </div>
                 </div>
-
-                <div className='col-lg-4'>
-                    <div className='admin-input-div blogs-creation'>
-                        <label>Latest Blog</label>
-                        <label className="switch">
-                            <input type="checkbox" />
-                            <span className="slider round"></span>
-                        </label>
-                    </div>
-                </div>
-
-                <div className='col-lg-4'>
-                    <div className='admin-input-div blogs-creation'>
-                        <label>Popular Post</label>
-                        <label className="switch">
-                            <input type="checkbox" />
-                            <span className="slider round"></span>
-                        </label>
-                    </div>
-                </div>
-
 
             </div>
 
@@ -111,7 +103,11 @@ const BlogsCreation = () => {
                         config={{
                             readonly: false,
                             height: 400,
-                            toolbarButtonSize: "middle"
+                            toolbarButtonSize: "middle",
+                            askBeforePasteHTML: false,
+                            askBeforePasteFromWord: false,
+                            defaultActionOnPaste: "insert_clear_html",
+                            allowPaste: true
                         }}
                         tabIndex={1}
                     // onBlur={(newContent) => handleChange("about_destination", newContent)}
@@ -128,28 +124,28 @@ const BlogsCreation = () => {
                 <div className='col-lg-6'>
                     <div className='admin-input-div'>
                         <label>Meta Title <span className='required-icon'>*</span></label>
-                        <input type="text" />
+                        <input type="text" placeholder='Enter Meta Title'/>
                     </div>
                 </div>
 
                 <div className='col-lg-6'>
                     <div className='admin-input-div'>
                         <label>Meta Tag <span className='required-icon'>*</span></label>
-                        <input type="text" />
+                        <input type="text" placeholder='Enter Meta Tag'/>
                     </div>
                 </div>
 
                 <div className='col-lg-6'>
                     <div className='admin-input-div'>
                         <label>Meta Description <span className='required-icon'>*</span></label>
-                        <input type="text" />
+                        <input type="text" placeholder='Enter Meta Description'/>
                     </div>
                 </div>
 
                 <div className='col-lg-6'>
                     <div className='admin-input-div'>
                         <label>URL Slug <span className='required-icon'>*</span></label>
-                        <input type="text" />
+                        <input type="text" placeholder='Enter URL Slug'/>
                     </div>
                 </div>
 

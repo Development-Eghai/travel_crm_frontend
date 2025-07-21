@@ -225,7 +225,52 @@ export const DeleteBlogTag = async (_id) => {
             return { err: err?.response?.data || err };
         });
 };
+// *************************************************  Blog Category API  **********************************************
 
+export const CreateBlogCategory = async (payload) => {
+    console.log(payload)
+    return await APIBaseUrl.post("/blog-category/create", payload)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+
+export const GetAllBlogCategory = async () => {
+    return await APIBaseUrl.get("/blog-category/get_all")
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+export const GetSpecificBlogCategory = async (_id) => {
+    return await APIBaseUrl.get(`blog-category/get_specific?_id=${_id}`)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+export const UpdateBlogCategory = async (payload) => {
+    return await APIBaseUrl.put(`blog-category/update`, payload)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+
+export const DeleteBlogCategory = async (_id) => {
+    return await APIBaseUrl.delete(`blog-category/delete`, {
+        data: { _id }
+    })
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
 
 // ************************************************  SINGLE FILE UPLOAD API **********************************************
 
