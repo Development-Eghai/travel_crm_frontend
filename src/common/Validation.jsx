@@ -62,6 +62,10 @@ export function NonEmptyFaqArrayValidation(value) {
     return { status: true, message: "" };
 }
 
+
+
+
+
 export function NonEmptyArrayValidation(value) {
     console.log(value, "value")
     if (!Array.isArray(value) || value.length === 0) {

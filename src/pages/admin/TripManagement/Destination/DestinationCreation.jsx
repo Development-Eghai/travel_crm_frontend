@@ -214,6 +214,7 @@ const DestinationCreation = () => {
                                 className="form-control"
                                 onChange={(e) => handleFileUpload(e, "banner_images")}
                             />
+                            
                             {validation?.banner_images?.status === false && validation?.banner_images?.message && (
                                 <p className='error-para'>Banner Images {validation.banner_images.message}</p>
                             )}

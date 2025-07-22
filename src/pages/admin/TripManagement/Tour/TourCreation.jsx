@@ -4,8 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { NonEmptyValidation, normalizeEmptyFields, NumberValidation, SlugValidation, StringValidation } from '../../../../common/Validation';
-import { GetAllDestination, GetAllTourCategory } from '../../../../common/api/ApiService';
+import { NonEmptyArrayValidation, NonEmptyValidation, normalizeEmptyFields, NumberValidation, SlugValidation, StringValidation } from '../../../../common/Validation';
+import { GetAllDestination, GetAllTourCategory, MultipleFileUpload, SingleFileUpload } from '../../../../common/api/ApiService';
+import CreatableSelect from 'react-select/creatable';
+import { BACKEND_DOMAIN } from '../../../../common/api/ApiClient';
+import { errorMsg, successMsg } from '../../../../common/Toastify';
 
 const TourCreation = () => {
   const navigate = useNavigate();
@@ -16,6 +19,12 @@ const TourCreation = () => {
   const [customizedPackageData, setCustomizedPackageData] = useState({});
   const [destinationList, setDestinationList] = useState([])
   const [categoryList, setcategoryList] = useState([])
+
+
+
+  const [customPricePerPerson, setCustomPricePerPerson] = useState({})
+  const [fixedPricePerPerson, setFixedPricePerPerson] = useState({})
+  const [pricingValidation, setPricingValidation] = useState({})
 
   const sectionTabs = [
     {
@@ -88,10 +97,10 @@ const TourCreation = () => {
     },
   ]
 
-  const [itinerarys, setItinerary] = useState([{ day_title: "", description: "", images: [] }]);
+  const [itinerarys, setItinerary] = useState([{ day_title: "", day_description: "", day_images: [] }]);
 
   const addItinerary = () => {
-    setItinerary([...itinerarys, { day_title: "", description: "", images: [] }]);
+    setItinerary([...itinerarys, { day_title: "", day_description: "", day_images: [] }]);
   };
 
   const deleteItinerary = (indexToRemove) => {
@@ -107,18 +116,124 @@ const TourCreation = () => {
     setItinerary(updatedItinerary);
   };
 
-  const handleDropDownChange = (selectedOptions) => {
-    console.log("Selected Clients:", selectedOptions);
+
+  const handleFileUpload = async (e, key) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+    let image_name = e?.target?.files[0]?.name;
+    let image_type = image_name?.split(".");
+    let type = image_type?.pop();
+    if (type !== "jpeg" && type !== "png" && type !== "jpg" && type !== "pdf" && type !== "webp") {
+      errorMsg
+        ("Unsupported file type")
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("storage", "local");
+    const response = await SingleFileUpload(formData);
+
+    if (response?.statusCode !== 200) {
+      errorMsg("Failed to upload file")
+      return;
+    }
+    const path = response?.path;
+    successMsg("File upload successfully")
+    if (validation[key]) {
+      setValidation({ ...validation, [key]: false })
+    }
+    setCustomizedPackageData({ ...customizedPackageData, [key]: path })
+
+
   };
 
-  const handleImageUpload = (index, files) => {
-    const fileArray = Array.from(files);
-    // save the image file name only not the full file onject -** check this
-    const updated = [...itinerarys];
-    updated[index].images = [...updated[index].images, ...fileArray];
-    setItinerary(updated);
-  };
+  const handleMultipleFileUpload = async (e, key, index) => {
+    const file = e.target.files[0];
 
+    if (!file) return;
+    let image_name = e?.target?.files[0]?.name;
+    let image_type = image_name?.split(".");
+    let type = image_type?.pop();
+    if (type !== "jpeg" && type !== "png" && type !== "jpg" && type !== "pdf" && type !== "webp") {
+      errorMsg
+        ("Unsupported file type")
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("files", file);
+    formData.append("storage", "local");
+    const response = await MultipleFileUpload(formData);
+
+    if (response?.statusCode !== 200) {
+      errorMsg("Failed to upload Image")
+      return;
+    }
+
+    const path = response?.path;
+
+    if (key === "hero_slider_images") {
+      const existingImages = customizedPackageData?.hero_slider_images || [];
+
+      const newPaths = Array.isArray(path)
+        ? path.flat()
+        : [path];
+
+      const updatedImages = [...existingImages, ...newPaths];
+
+      if (validation?.hero_slider_images?.status === false) {
+        setValidation((prev) => ({
+          ...prev,
+          hero_slider_images: { status: true, message: "" },
+        }));
+      }
+
+      setCustomizedPackageData({
+        ...customizedPackageData,
+        hero_slider_images: updatedImages,
+      });
+    }
+
+    if (key === "gallery_images") {
+      const existingImages = customizedPackageData?.gallery_images || [];
+
+      const newPaths = Array.isArray(path)
+        ? path.flat()
+        : [path];
+
+      const updatedImages = [...existingImages, ...newPaths];
+
+      if (validation?.gallery_images?.status === false) {
+        setValidation((prev) => ({
+          ...prev,
+          gallery_images: { status: true, message: "" },
+        }));
+      }
+
+      setCustomizedPackageData({
+        ...customizedPackageData,
+        gallery_images: updatedImages,
+      });
+    }
+
+    if (key === "day_images") {
+      const existingDayImages = itinerarys[index].day_images || [];
+
+      const newPaths = Array.isArray(path) ? path.flat() : [path];
+
+      const updatedDayImages = [...existingDayImages, ...newPaths];
+
+      const updatedItinerary = [...itinerarys];
+      updatedItinerary[index].day_images = updatedDayImages;
+      setItinerary(updatedItinerary);
+    }
+
+    successMsg("Image uploaded successfully");
+
+
+  };
 
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -134,25 +249,6 @@ const TourCreation = () => {
 
   const editor = useRef(null);
 
-  const [faqs, setFaqs] = useState([{ question: "", answer: "" }]);
-
-  const addFaq = () => {
-    setFaqs([...faqs, { question: "", answer: "" }]);
-  };
-
-  const deleteFaq = (indexToRemove) => {
-    if (indexToRemove !== 0) {
-      const updatedFaqs = faqs.filter((_, index) => index !== indexToRemove);
-      setFaqs(updatedFaqs);
-    }
-  };
-
-  const updateFaq = (index, key, value) => {
-    const updatedFaqs = [...faqs];
-    updatedFaqs[index][key] = value;
-    setFaqs(updatedFaqs);
-  };
-
   const getAllDestination = async () => {
     const response = await GetAllDestination()
     if (response && response?.statusCode === 200) {
@@ -163,8 +259,7 @@ const TourCreation = () => {
   const getAllTourCategory = async () => {
     const response = await GetAllTourCategory()
     if (response && response?.statusCode === 200) {
-      setcategoryList(response?.data),
-        setIsLoading(false);
+      setcategoryList(response?.data);
     }
   }
 
@@ -174,9 +269,70 @@ const TourCreation = () => {
   }, [])
 
 
+  const handleBlurCustomizedItinerary = (index) => {
+    const current = itinerarys[index];
+    const title = current.day_title?.trim();
+    const desc = current.day_description?.trim();
 
+    let message = "";
 
+    if ((title && !desc) || (!title && desc)) {
+      message = `Both title and description are required if either is filled for Day ${index + 1}.`;
+    }
 
+    const isValid = message === "";
+
+    setValidation(prev => ({
+      ...prev,
+      [`itinerarys_${index}_day_title`]: {
+        status: isValid,
+        message,
+      },
+      [`itinerarys_${index}_day_description`]: {
+        status: isValid,
+        message,
+      },
+    }));
+  };
+
+  const handleBlurPricingDetails = (index) => {
+    const current = pricingDetail[index];
+
+    const start_date = current.start_date ? String(current.start_date).trim() : '';
+    const end_date = current.end_date ? String(current.end_date).trim() : '';
+    const season_price = current.season_price ? String(current.season_price).trim() : '';
+    const season_name = current.season_name ? String(current.season_name).trim() : '';
+
+    const anyFilled = start_date || end_date || season_price || season_name;
+    const allFilled = start_date && end_date && season_price && season_name;
+    const isValid = !anyFilled || allFilled;
+
+    const message = isValid
+      ? ""
+      : `All fields are required if any one is filled in Season ${index + 1}.`;
+
+    const status = Boolean(isValid);
+
+    setPricingValidation((prev) => ({
+      ...prev,
+      [`pricingDetail_${index}_start_date`]: {
+        status,
+        message,
+      },
+      [`pricingDetail_${index}_end_date`]: {
+        status,
+        message,
+      },
+      [`pricingDetail_${index}_season_price`]: {
+        status,
+        message,
+      },
+      [`pricingDetail_${index}_season_name`]: {
+        status,
+        message,
+      },
+    }));
+  };
 
   const handleBlurCustomized = (fieldName, value) => {
     const updatedData = {
@@ -201,6 +357,101 @@ const TourCreation = () => {
     }
   }
 
+  const handlePricePackageChange = (e, priceType) => {
+    const { name, value } = e.target
+    if (priceType === "per_person") {
+      setCustomPricePerPerson({ ...customPricePerPerson, [name]: value })
+      if (pricingValidation[name]) {
+        setPricingValidation({ ...pricingValidation, [name]: false })
+      }
+    }
+  }
+
+
+  const handleBlurPricing = (fieldName, value) => {
+    const updatedData = {
+      ...customPricePerPerson,
+      [fieldName]: value,
+    };
+
+    const cleanedData = normalizeEmptyFields(updatedData);
+    const fieldValidation = pricingValidationDetail(cleanedData);
+
+    setPricingValidation((prev) => ({
+      ...prev,
+      [fieldName]: fieldValidation[fieldName],
+    }));
+  };
+
+
+  const pricingValidationDetail = (data) => {
+    let validate = {};
+    const cleanedData = normalizeEmptyFields(data);
+
+    validate.base_price = NumberValidation(data?.base_price);
+    validate.currency = NonEmptyValidation(data?.currency);
+    cleanedData?.pricingDetail?.forEach((item, index) => {
+      const start_date = item.start_date?.trim();
+      const end_date = item.end_date?.trim();
+      const season_price = item.season_price?.trim();
+      const season_name = item.season_name?.trim();
+
+      if ((start_date && !end_date) || (!start_date && end_date) || (start_date && !end_date) || (!start_date && end_date)) {
+        const message = `Both title and description are required if either is filled for Day ${index + 1}.`;
+
+        validate[`itinerarys_${index}_day_title`] = {
+          status: false,
+          message,
+        };
+        validate[`itinerarys_${index}_day_description`] = {
+          status: false,
+          message,
+        };
+      } else {
+        validate[`itinerarys_${index}_day_title`] = {
+          status: true,
+          message: "",
+        };
+        validate[`itinerarys_${index}_day_description`] = {
+          status: true,
+          message: "",
+        };
+      }
+    });
+
+    validate.inclusion = NonEmptyValidation(data?.inclusion);
+    validate.exclusion = NonEmptyValidation(data?.exclusion);
+    validate.key_highlights = NonEmptyValidation(data?.key_highlights);
+    validate.cancellation_policy = NonEmptyValidation(data?.cancellation_policy);
+
+    return validate;
+  }
+
+  const [pricingDetail, setPricingDetail] = useState([{ start_date: "", end_date: "", season_price: "", season_name: "", }]);
+
+  const addPricingDetail = () => {
+    setPricingDetail([...pricingDetail, { start_date: "", end_date: "", season_price: "", season_name: "", }]);
+  };
+
+  const deletePricingDetail = (indexToRemove) => {
+    if (indexToRemove !== 0) {
+      const updatedItinerary = pricingDetail.filter((_, index) => index !== indexToRemove);
+      setPricingDetail(updatedItinerary);
+    }
+  };
+
+  const updatePricingDetail = (index, key, value) => {
+    const updatedItinerary = [...pricingDetail];
+    updatedItinerary[index][key] = value;
+    setPricingDetail(updatedItinerary);
+  };
+
+
+
+
+
+
+
   const validateDetails = (data) => {
     let validate = {};
 
@@ -211,20 +462,50 @@ const TourCreation = () => {
     validate.days = NumberValidation(data?.days);
     validate.short_description = StringValidation(data?.short_description);
     validate.long_description = StringValidation(data?.long_description);
+    validate.primary_trip_image = NonEmptyValidation(data?.primary_trip_image);
+    validate.hero_slider_images = NonEmptyArrayValidation(data?.hero_slider_images);
 
+
+    validate.meta_title = NonEmptyValidation(data?.meta_title);
+    validate.meta_description = NonEmptyValidation(data?.meta_description);
+    validate.meta_tags = NonEmptyValidation(data?.meta_tags);
+    validate.gallery_images = NonEmptyArrayValidation(data?.gallery_images);
 
     return validate;
   };
 
-  console.log(customizedPackageData, "customizedPackageData")
+
+  const [selectedCreatedTags, setCreatedTags] = useState([]);
+  const [options, setOptions] = useState([]);
+
+  const handleCreatedTags = (newValue) => {
+    setCreatedTags(newValue);
+  };
+
+  const handleCreateOption = (inputValue) => {
+    const formattedLabel =
+      inputValue.charAt(0).toUpperCase() + inputValue.slice(1).toLowerCase();
+
+    const newOption = {
+      label: formattedLabel,
+      value: inputValue.toLowerCase().replace(/\s+/g, '-'),
+    };
+
+    setOptions(prev => [...prev, newOption]);
+    setCreatedTags(prev => [...prev, newOption]);
+  };
+
+  // console.log(itinerarys, "itinerarys--itinerarys")
+  console.log(customizedPackageData, "customizedPackageData--customizedPackageData")
+
 
   return (
     <div className='admin-content-main'>
 
       <div className='d-flex justify-content-around mt-2'>
         {sectionTabs.map((item, index) => (
-          <div className='trip-creation-steps'>
-            <p className={`steps-main ${activeTab === item?.id ? 'active' : ''}`}>{item?.id}</p>
+          <div className='trip-creation-steps cursor'>
+            <p className={`steps-main ${activeTab === item?.id ? 'active' : ''}`} onClick={() => setActiveTab(item?.id)}>{item?.id}</p>
             <p className='step-para'>{item?.name}</p>
           </div>
         ))}
@@ -342,7 +623,7 @@ const TourCreation = () => {
                     onChange={(e) => handleCustomizedPackageChange(e)}
                     onBlur={(e) => handleBlurCustomized(e.target.name, e.target.value)}
                     onWheelCapture={e => { e.target.blur() }}
-                    onKeyDown={(evt) => ["e", "E", "+", "-", "0",].includes(evt.key) && evt.preventDefault()} />
+                    onKeyDown={(evt) => ["e", "E", "+", "-",].includes(evt.key) && evt.preventDefault()} />
                   {validation?.days?.status === false && validation?.days?.message && (
                     <p className='error-para'>Days {validation.days.message}</p>
                   )}
@@ -378,8 +659,11 @@ const TourCreation = () => {
               <div className='col-lg-6'>
                 <div className='admin-input-div'>
                   <label>Select Featured Trip Page </label>
-                  <select>
-                    <option value="">Select Featured Page</option>
+                  <select onChange={(e) => handleCustomizedPackageChange(e)}
+                    onBlur={(e) => handleBlurCustomized(e.target.name, e.target.value)}
+                    name="featured_trip_page"
+                    value={customizedPackageData?.featured_trip_page}>
+                    <option value="" defaultValue={""}>Select Featured Page</option>
                     <option value="Home">Home</option>
                     <option value="Destination">Destination</option>
                     <option value="Payment Page">Payment Page</option>
@@ -414,7 +698,7 @@ const TourCreation = () => {
                         allowPaste: true
                       }}
                       tabIndex={1}
-                      onBlur={(newContent) => handleChange("long_description", newContent)}
+                      onBlur={(newContent,e) => handleCustomizedPackageChange(e,"long_description", newContent)}
                     />
                     {validation?.long_description?.status === false && validation?.long_description?.message && (
                       <p className='error-para'>Long Description {validation.long_description.message}</p>
@@ -426,7 +710,14 @@ const TourCreation = () => {
               <div className='col-lg-6'>
                 <div className='admin-input-div'>
                   <label>Tags to be used in search </label>
-                  <input type="text" placeholder='Enter Tags' />
+                  <CreatableSelect
+                    isMulti
+                    placeholder="Type and Enter Tags"
+                    value={selectedCreatedTags}
+                    onChange={handleCreatedTags}
+                    onCreateOption={handleCreateOption}
+                    options={options}
+                  />
                 </div>
               </div>
 
@@ -438,7 +729,18 @@ const TourCreation = () => {
                     multiple
                     accept="image/*"
                     className="form-control"
+                    onChange={(e) => handleFileUpload(e, "primary_trip_image")}
                   />
+                  {validation?.primary_trip_image?.status === false && validation?.primary_trip_image?.message && (
+                    <p className='error-para'>Primary Trip Image {validation.primary_trip_image.message}</p>
+                  )}
+                  {customizedPackageData?.primary_trip_image && (
+                    <div className='upload-image-div destination-image-div'>
+                      <div className='upload-image-div'>
+                        <img src={`${BACKEND_DOMAIN}${customizedPackageData?.primary_trip_image}`} alt="Category-Preview" />
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -451,8 +753,25 @@ const TourCreation = () => {
                       multiple
                       accept="image/*"
                       className="form-control"
+                      onChange={(e) => handleMultipleFileUpload(e, "hero_slider_images")}
                     />
+                    {validation?.hero_slider_images?.status === false && validation?.hero_slider_images?.message && (
+                      <p className='error-para'>Hero Slider Images {validation.hero_slider_images.message}</p>
+                    )}
+
+                    {customizedPackageData?.hero_slider_images && customizedPackageData?.hero_slider_images?.length > 0 && (
+                      <div className="d-flex flex-wrap">
+                        {customizedPackageData?.hero_slider_images?.map((image, index) => (
+                          <div className='upload-image-div destination-image-div'>
+                            <div>
+                              <img src={`${BACKEND_DOMAIN}${image}`} alt="Category-Preview" key={index} />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
+
                 </div>
               </div>
 
@@ -469,13 +788,10 @@ const TourCreation = () => {
                     <h5 className='text-center'>Itinerary Builder</h5>
                     <p className='text-center'>Create day-by-day itinerary for your customized package</p>
                   </div>
-                  {/* <div className='d-flex justify-content-center'>
-                  <button className='admin-add-button'>Add Day <i className="fa-solid fa-plus ms-2"></i></button>
-                </div> */}
 
                   <div className="destination-faq">
                     <div className="accordion" id="accordionExample">
-                      {itinerarys.map((faq, index) => (
+                      {itinerarys.map((itinerary, index) => (
                         <div className='mt-4'>
                           <div className="accordion-item" key={index} >
                             <h2 className="accordion-header d-flex align-items-center justify-content-between">
@@ -511,28 +827,40 @@ const TourCreation = () => {
                             >
                               <div className="accordion-body">
                                 <div className="admin-input-div mb-3">
-                                  <label className=''>Day Title</label>
+                                  <label className=''>Day Title <span className='required-icon'>*</span></label>
                                   <input
                                     type="text"
                                     className="form-control"
-                                    value={faq.question}
+                                    value={itinerary?.day_title}
                                     placeholder="Enter Day Title"
                                     onChange={(e) =>
                                       updateItinerary(index, "day_title", e.target.value)
                                     }
+                                    onBlur={() => handleBlurCustomizedItinerary(index)}
                                   />
+                                  {validation[`itinerarys_${index}_day_title`]?.status === false && (
+                                    <div className="text-danger small">
+                                      {validation[`itinerarys_${index}_day_title`].message}
+                                    </div>
+                                  )}
                                 </div>
 
                                 <div className="admin-input-div admin-desti-faq">
-                                  <label>Day Description</label>
+                                  <label>Day Description <span className='required-icon'>*</span></label>
                                   <textarea
                                     className="form-control"
                                     placeholder="Enter Day Description"
-                                    value={faq.answer}
+                                    value={itinerary?.day_description}
                                     onChange={(e) =>
                                       updateItinerary(index, "day_description", e.target.value)
                                     }
+                                    onBlur={(e) => handleBlurCustomizedItinerary(index, "day_description", e.target.value)}
                                   />
+                                  {validation[`itinerarys_${index}_day_description`]?.status === false && (
+                                    <div className="text-danger small">
+                                      {validation[`itinerarys_${index}_day_description`].message}
+                                    </div>
+                                  )}
                                 </div>
 
                                 <div className="admin-input-div admin-desti-faq">
@@ -542,7 +870,21 @@ const TourCreation = () => {
                                     multiple
                                     accept="image/*"
                                     className="form-control"
+                                    onBlur={() => handleBlurCustomizedItinerary(index)}
                                   />
+
+
+                                  {itinerary?.day_images && itinerary?.day_images?.length > 0 && (
+                                    <div className="d-flex flex-wrap">
+                                      {itinerary?.day_images?.map((image, index) => (
+                                        <div className='upload-image-div destination-image-div'>
+                                          <div>
+                                            <img src={`${BACKEND_DOMAIN}${image}`} alt="Category-Preview" key={index} />
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
                                 </div>
 
                               </div>
@@ -696,7 +1038,6 @@ const TourCreation = () => {
               </div>
             )}
 
-
             {activeTripTab == 2 && (
               <div className='d-flex mb-4'>
                 <div className={`trip-type-card ${activePricingTab === 1 ? 'active' : ''} pricing-tab-card`} onClick={() => setActivePricingTab(1)}>
@@ -708,255 +1049,505 @@ const TourCreation = () => {
               </div>
             )}
 
-            <div className='itenary-main my-5'>
+            {activeTripTab == 1 && activePricingTab === 1 && (
+              <>
+                <h3>Customized Package - Price Per Person</h3>
+                <div className='itenary-main my-5'>
+                  <h5 className='fw-bold mb-4'>Price Configuration</h5>
+                  <div className='row'>
 
-              <h5 className='fw-bold mb-4'>Price Configuration</h5>
-
-              <div className='row'>
-
-                <div className='col-lg-6'>
-                  <div className='admin-input-div mt-0'>
-                    <label>Base Price <span className='required-icon'>*</span></label>
-                    <input type="number" placeholder='Enter Base Price' />
-                  </div>
-                </div>
-
-
-                <div className='col-lg-6'>
-                  <div className='admin-input-div mt-0'>
-                    <label>Currency  <span className='required-icon'>*</span></label>
-                    <select>
-                      <option value="">Select Currency</option>
-                      <option value="INR">INR (₹)</option>
-                      <option value="USD">USD ($)</option>
-                      <option value="EURO">EURO (€)</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className='col-lg-6'>
-                  <div className='admin-input-div'>
-                    <label>Discounted Price (Optional)</label>
-                    <input type="number" placeholder='Enter Discounted Price' />
-                  </div>
-                </div>
-
-
-                <div className='col-lg-4'>
-                  <div className='admin-input-div'>
-                    <label>Display as "Starts From" Price</label>
-                    <label className="switch">
-                      <input type="checkbox" />
-                      <span className="slider round"></span>
-                    </label>
-                  </div>
-                </div>
-
-                {activeTripTab == 2 && (
-                  <>
                     <div className='col-lg-6'>
-                      <div className='admin-input-div'>
-                        <label>Double Occupancy <span className='required-icon'>*</span></label>
-                        <input type="number" placeholder='Enter Price' />
+                      <div className='admin-input-div mt-0'>
+                        <label>Base Price <span className='required-icon'>*</span></label>
+                        <input type="number" placeholder='Base Price' name="base_price"
+                          value={customPricePerPerson?.base_price}
+                          onChange={(e) => handlePricePackageChange(e, "per_person")}
+                          onBlur={(e) => handleBlurPricing(e.target.name, e.target.value)}
+                          onWheelCapture={e => { e.target.blur() }}
+                          onKeyDown={(evt) => ["e", "E", "+", "-", "0",].includes(evt.key) && evt.preventDefault()}
+                        />
+                        {pricingValidation?.base_price?.status === false && pricingValidation?.base_price?.message && (
+                          <p className='error-para'>Base Pricing {pricingValidation.base_price.message}</p>
+                        )}
                       </div>
                     </div>
+
                     <div className='col-lg-6'>
-                      <div className='admin-input-div'>
-                        <label>Triple Occupancy <span className='required-icon'>*</span></label>
-                        <input type="number" placeholder='Enter Price' />
+                      <div className='admin-input-div mt-0'>
+                        <label>Currency  <span className='required-icon'>*</span></label>
+                        <select name="currency" value={customPricePerPerson?.currency}
+                          onChange={(e) => handlePricePackageChange(e, "per_person")}
+                          onBlur={(e) => handleBlurPricing(e.target.name, e.target.value)}>
+                          <option value="" defaultValue={""}>Select Currency</option>
+                          <option value="INR">INR (₹)</option>
+                          <option value="USD">USD ($)</option>
+                          <option value="EURO">EURO (€)</option>
+                        </select>
+                        {pricingValidation?.currency?.status === false && pricingValidation?.currency?.message && (
+                          <p className='error-para'>Currency {pricingValidation.currency.message}</p>
+                        )}
                       </div>
                     </div>
+
                     <div className='col-lg-6'>
                       <div className='admin-input-div'>
-                        <label>Quad Occupancy <span className='required-icon'>*</span></label>
-                        <input type="number" placeholder='Enter Price' />
+                        <label>Discounted Price (Optional)</label>
+                        <input type="number" placeholder='Enter Discounted Price' name="discount_price"
+                          value={customPricePerPerson?.discount_price}
+                          onChange={(e) => handlePricePackageChange(e, "per_person")}
+                          onWheelCapture={e => { e.target.blur() }}
+                          onKeyDown={(evt) => ["e", "E", "+", "-", "0",].includes(evt.key) && evt.preventDefault()} />
+                        {pricingValidation?.discount_price?.status === false && pricingValidation?.discount_price?.message && (
+                          <p className='error-para'>Discounted Price {pricingValidation.discount_price.message}</p>
+                        )}
                       </div>
                     </div>
-                  </>
-                )}
 
+                    <div className='col-lg-4'>
+                      <div className='admin-input-div'>
+                        <label>Display as "Starts From" Price (Optional)</label>
+                        <select name="start_from" value={customPricePerPerson?.start_from}
+                          onChange={(e) => handlePricePackageChange(e, "per_person")}
+                          onBlur={(e) => handleBlurPricing(e.target.name, e.target.value)}>
+                          <option value="" defaultValue={""}>Select Dispay Type</option>
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option>
+                        </select>
+                      </div>
+                    </div>
 
-              </div>
+                    <div>
+                      {/* <div className='col-lg-4'>
+                      <div className='admin-input-div'>
+                        <label>Display as "Starts From" Price (Optional)</label>
+                        <label className="switch">
+                          <input type="checkbox" checked={customPricePerPerson?.start_from}
+                            onChange={(e) => handlePricePackageChange(e.target.checked)} name='start_from' />
+                          <span className="slider-table round"></span>
+                        </label>
+                      </div>
+                    </div> */}
+                    </div>
 
-              {activeTripTab == 1 && (
-                <div className='itenary-list-main mt-4 '>
-                  <div className='itenary-content mb-5'>
-                    <h5 className='text-center'>Seasonal Pricing (Optional)</h5>
-                    <p className='text-center'>Add different prices for different seasons or dates</p>
                   </div>
-                  {/* <div className='d-flex justify-content-center'>
-                  <button className='admin-add-button'>Add Day <i className="fa-solid fa-plus ms-2"></i></button>
-                </div> */}
 
-                  <div className="destination-faq">
-                    <div className="accordion" id="accordionExample">
-                      {itinerarys.map((faq, index) => (
-                        <div className='mt-4'>
-                          <div className="accordion-item" key={index} >
-                            <h2 className="accordion-header d-flex align-items-center justify-content-between">
-                              <button
-                                className="accordion-button flex-grow-1 fw-bold"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target={`#collapse${index}`}
-                                aria-expanded="true"
-                                aria-controls={`collapse${index}`}
-                              >
-                                Season {index + 1}
-                              </button>
-                              <div className="ms-3 d-flex gap-2">
-                                <button className="destination-faq-add" onClick={addItinerary}>
-                                  Add
-                                </button>
-                                {/* {index !== 0 && ( */}
-                                <button
-                                  className="destination-faq-add faq-delete me-4"
-                                  onClick={() => deleteItinerary(index)}
+                  {activeTripTab == 1 && (
+                    <div className='itenary-list-main mt-4 '>
+                      <div className='itenary-content mb-5'>
+                        <h5 className='text-center'>Seasonal Pricing (Optional)</h5>
+                        <p className='text-center'>Add different prices for different seasons or dates</p>
+                      </div>
+
+                      <div className="destination-faq">
+                        <div className="accordion" id="accordionExample">
+                          {pricingDetail.map((pricing, index) => (
+                            <div className='mt-4'>
+                              <div className="accordion-item" key={index} >
+                                <h2 className="accordion-header d-flex align-items-center justify-content-between">
+                                  <button
+                                    className="accordion-button flex-grow-1 fw-bold"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target={`#collapse${index}`}
+                                    aria-expanded="true"
+                                    aria-controls={`collapse${index}`}
+                                  >
+                                    Season {index + 1}
+                                  </button>
+                                  <div className="ms-3 d-flex gap-2">
+
+                                    <button className="destination-faq-add me-4" onClick={addPricingDetail}>
+                                      Add
+                                    </button>
+
+                                    {index !== 0 && (
+                                      <button
+                                        className="destination-faq-add faq-delete me-4"
+                                        onClick={() => deletePricingDetail(index)}
+                                      >
+                                        Delete
+                                      </button>
+                                    )}
+                                  </div>
+                                </h2>
+
+                                <div
+                                  id={`collapse${index}`}
+                                  className="accordion-collapse collapse show"
+                                  data-bs-parent="#accordionExample"
                                 >
-                                  Delete
-                                </button>
-                                {/* )} */}
-                              </div>
-                            </h2>
+                                  <div className="accordion-body">
 
-                            <div
-                              id={`collapse${index}`}
-                              className="accordion-collapse collapse show"
-                              data-bs-parent="#accordionExample"
-                            >
-                              <div className="accordion-body">
+                                    <div className='row'>
+                                      <div className='col-lg-6'>
+                                        <div className='admin-input-div mt-0'>
+                                          <label>Start Date<span className='required-icon'>*</span></label>
+                                          <DatePicker
+                                            selected={pricingDetail[index].start_date ? new Date(pricingDetail[index].start_date) : null}
+                                            onChange={(date) => updatePricingDetail(index, "start_date", date)}
+                                            onBlur={() => handleBlurPricingDetails(index)}
+                                            placeholderText="Select Start Date"
+                                            minDate={new Date()}
+                                            className="w-100"
+                                          />
+                                          {pricingValidation[`pricingDetail_${index}_start_date`]?.status === false && (
+                                            <div className="text-danger small">
+                                              {pricingValidation[`pricingDetail_${index}_start_date`].message}
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
 
-                                <div className='row'>
-                                  <div className='col-lg-6'>
-                                    <div className='admin-input-div mt-0'>
-                                      <label>Start Date<span className='required-icon'>*</span></label>
-                                      <DatePicker
-                                        selected={startDate}
-                                        onChange={(date) => setStartDate(date)}
-                                        placeholderText="Select Start Date"
-                                        className='w-100'
-                                      />
-                                    </div>
-                                  </div>
+                                      <div className='col-lg-6 '>
+                                        <div className='admin-input-div mt-0'>
+                                          <label>End Date <span className='required-icon'>*</span></label>
+                                          <DatePicker
+                                            selected={pricingDetail[index].end_date ? new Date(pricingDetail[index].end_date) : null}
+                                            onChange={(date) => updatePricingDetail(index, "end_date", date)}
+                                            onBlur={() => handleBlurPricingDetails(index)}
+                                            placeholderText="Select End Date"
+                                            minDate={new Date()}
+                                            className="w-100"
+                                          />
+                                          {pricingValidation[`pricingDetail_${index}_end_date`]?.status === false && (
+                                            <div className="text-danger small">
+                                              {pricingValidation[`pricingDetail_${index}_end_date`].message}
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
 
-                                  <div className='col-lg-6 '>
-                                    <div className='admin-input-div mt-0'>
-                                      <label>End Date <span className='required-icon'>*</span></label>
-                                      <DatePicker
-                                        selected={endDate}
-                                        readOnly
-                                        disabled
-                                        placeholderText="End Date"
-                                        className='w-100'
-                                      />
-                                    </div>
-                                  </div>
+                                      <div className='col-lg-6'>
+                                        <div className='admin-input-div'>
+                                          <label>Season Price <span className='required-icon'>*</span></label>
+                                          <input type="number" placeholder='Enter Discounted Price' name="season_price"
+                                            value={customPricePerPerson?.season_price}
+                                            onChange={(e) => updatePricingDetail(index, "season_price", e.target.value)}
+                                            onWheelCapture={e => { e.target.blur() }}
+                                            onBlur={() => handleBlurPricingDetails(index)}
+                                            onKeyDown={(evt) => ["e", "E", "+", "-", "0",].includes(evt.key) && evt.preventDefault()} />
+                                        </div>
+                                        {pricingValidation[`pricingDetail_${index}_season_price`]?.status === false && (
+                                          <div className="text-danger small">
+                                            {pricingValidation[`pricingDetail_${index}_season_price`].message}
+                                          </div>
+                                        )}
+                                      </div>
 
-                                  <div className='col-lg-6'>
-                                    <div className='admin-input-div'>
-                                      <label>Season Price <span className='required-icon'>*</span></label>
-                                      <input type="number" placeholder='Enter Season Price' />
-                                    </div>
-                                  </div>
-
-                                  <div className='col-lg-6'>
-                                    <div className='admin-input-div'>
-                                      <label>Season Name <span className='required-icon'>*</span></label>
-                                      <input type="number" placeholder='e.g.., Summer, Winter' />
+                                      <div className='col-lg-6'>
+                                        <div className='admin-input-div'>
+                                          <label>Season Name <span className='required-icon'>*</span></label>
+                                          <input type="text" placeholder='Enter Discounted Price' name="season_name"
+                                            value={customPricePerPerson?.season_name}
+                                            onBlur={() => handleBlurPricingDetails(index)}
+                                            onChange={(e) => updatePricingDetail(index, "season_name", e.target.value)}
+                                          />
+                                          {pricingValidation[`pricingDetail_${index}_season_name`]?.status === false && (
+                                            <div className="text-danger small">
+                                              {pricingValidation[`pricingDetail_${index}_season_name`].message}
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
-
-
-
                               </div>
                             </div>
-                          </div>
+                          ))}
                         </div>
-                      ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className='row'>
+                    <div className='col-lg-12'>
+                      <div className='admin-input-div'>
+                        <label className='text-area-label'>Inclusion <span className='required-icon'>*</span></label>
+                        <div className="mt-2">
+                          <JoditEditor
+                            ref={editor}
+                            value={customPricePerPerson?.inclusion}
+                            config={{
+                              readonly: false,
+                              height: 350,
+                              toolbarButtonSize: "middle",
+                              askBeforePasteHTML: false,
+                              askBeforePasteFromWord: false,
+                              defaultActionOnPaste: "insert_clear_html",
+                              allowPaste: true
+                            }}
+                            tabIndex={1}
+                            onBlur={(newContent) => handlePricePackageChange("inclusion", newContent, per_person)}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className='col-lg-12'>
+                      <div className='admin-input-div'>
+                        <label className='text-area-label'>Exclusion <span className='required-icon'>*</span></label>
+                        <div className="mt-2">
+                          <JoditEditor
+                            ref={editor}
+                            value={customPricePerPerson?.exclusion}
+                            config={{
+                              readonly: false,
+                              height: 350,
+                              toolbarButtonSize: "middle",
+                              askBeforePasteHTML: false,
+                              askBeforePasteFromWord: false,
+                              defaultActionOnPaste: "insert_clear_html",
+                              allowPaste: true
+                            }}
+                            tabIndex={1}
+                            onBlur={(newContent) => handlePricePackageChange("exclusion", newContent, per_person)}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className='col-lg-12'>
+                      <div className='admin-input-div'>
+                        <label className='text-area-label'>Key Highlights/Features <span className='required-icon'>*</span></label>
+                        <div className="mt-2">
+                          <JoditEditor
+                            ref={editor}
+                            value={customPricePerPerson?.key_highlights}
+                            config={{
+                              readonly: false,
+                              height: 350,
+                              toolbarButtonSize: "middle",
+                              askBeforePasteHTML: false,
+                              askBeforePasteFromWord: false,
+                              defaultActionOnPaste: "insert_clear_html",
+                              allowPaste: true
+                            }}
+                            tabIndex={1}
+                            onBlur={(newContent) => handlePricePackageChange("key_highlights", newContent, per_person)}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className='col-lg-12'>
+                      <div className='admin-input-div'>
+                        <label className='text-area-label'>Cancellation Policy <span className='required-icon'>*</span></label>
+                        <div className="mt-2">
+                          <JoditEditor
+                            ref={editor}
+                            value={customPricePerPerson?.cancellation_policy}
+                            config={{
+                              readonly: false,
+                              height: 350,
+                              toolbarButtonSize: "middle",
+                              askBeforePasteHTML: false,
+                              askBeforePasteFromWord: false,
+                              defaultActionOnPaste: "insert_clear_html",
+                              allowPaste: true
+                            }}
+                            tabIndex={1}
+                            onBlur={(newContent) => handlePricePackageChange("cancellation_policy", newContent, per_person)}
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
+
                 </div>
-              )}
+              </>
+            )}
+
+            {activeTripTab == 1 && activePricingTab === 2 && (
+              <>
+                <h3>Customized Package - Price Per Package</h3>
+                <div className='itenary-main my-5'>
+                  <h5 className='fw-bold mb-4'>Price Configuration</h5>
+                  <div className='row'>
+
+                    <div className='col-lg-6'>
+                      <div className='admin-input-div mt-0'>
+                        <label>Base Price <span className='required-icon'>*</span></label>
+                        <input type="number" placeholder='Enter Base Price' />
+                      </div>
+                    </div>
+
+
+                    <div className='col-lg-6'>
+                      <div className='admin-input-div mt-0'>
+                        <label>Currency  <span className='required-icon'>*</span></label>
+                        <select>
+                          <option value="">Select Currency</option>
+                          <option value="INR">INR (₹)</option>
+                          <option value="USD">USD ($)</option>
+                          <option value="EURO">EURO (€)</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className='col-lg-6'>
+                      <div className='admin-input-div'>
+                        <label>Discounted Price (Optional)</label>
+                        <input type="number" placeholder='Enter Discounted Price' />
+                      </div>
+                    </div>
+
+
+                    <div className='col-lg-4'>
+                      <div className='admin-input-div'>
+                        <label>Display as "Starts From" Price</label>
+                        <label className="switch">
+                          <input type="checkbox" />
+                          <span className="slider-table round"></span>
+                        </label>
+                      </div>
+                    </div>
+
+                    {activeTripTab == 2 && (
+                      <>
+                        <div className='col-lg-6'>
+                          <div className='admin-input-div'>
+                            <label>Double Occupancy <span className='required-icon'>*</span></label>
+                            <input type="number" placeholder='Enter Price' />
+                          </div>
+                        </div>
+                        <div className='col-lg-6'>
+                          <div className='admin-input-div'>
+                            <label>Triple Occupancy <span className='required-icon'>*</span></label>
+                            <input type="number" placeholder='Enter Price' />
+                          </div>
+                        </div>
+                        <div className='col-lg-6'>
+                          <div className='admin-input-div'>
+                            <label>Quad Occupancy <span className='required-icon'>*</span></label>
+                            <input type="number" placeholder='Enter Price' />
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+
+                  </div>
+
+                  {activeTripTab == 1 && (
+                    <div className='itenary-list-main mt-4 '>
+                      <div className='itenary-content mb-5'>
+                        <h5 className='text-center'>Seasonal Pricing (Optional)</h5>
+                        <p className='text-center'>Add different prices for different seasons or dates</p>
+                      </div>
+                      <div className="destination-faq">
+                        <div className="accordion" id="accordionExample">
+                          {itinerarys.map((faq, index) => (
+                            <div className='mt-4'>
+                              <div className="accordion-item" key={index} >
+                                <h2 className="accordion-header d-flex align-items-center justify-content-between">
+                                  <button
+                                    className="accordion-button flex-grow-1 fw-bold"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target={`#collapse${index}`}
+                                    aria-expanded="true"
+                                    aria-controls={`collapse${index}`}
+                                  >
+                                    Season {index + 1}
+                                  </button>
+                                  <div className="ms-3 d-flex gap-2">
+                                    <button className="destination-faq-add" onClick={addItinerary}>
+                                      Add
+                                    </button>
+                                    {/* {index !== 0 && ( */}
+                                    <button
+                                      className="destination-faq-add faq-delete me-4"
+                                      onClick={() => deleteItinerary(index)}
+                                    >
+                                      Delete
+                                    </button>
+                                    {/* )} */}
+                                  </div>
+                                </h2>
+
+                                <div
+                                  id={`collapse${index}`}
+                                  className="accordion-collapse collapse show"
+                                  data-bs-parent="#accordionExample"
+                                >
+                                  <div className="accordion-body">
+
+                                    <div className='row'>
+                                      <div className='col-lg-6'>
+                                        <div className='admin-input-div mt-0'>
+                                          <label>Start Date<span className='required-icon'>*</span></label>
+                                          <DatePicker
+                                            selected={startDate}
+                                            onChange={(date) => setStartDate(date)}
+                                            placeholderText="Select Start Date"
+                                            className='w-100'
+                                          />
+                                        </div>
+                                      </div>
+
+                                      <div className='col-lg-6 '>
+                                        <div className='admin-input-div mt-0'>
+                                          <label>End Date <span className='required-icon'>*</span></label>
+                                          <DatePicker
+                                            selected={endDate}
+                                            onChange={(date) => setEndDate(date)}
+                                            placeholderText="Select End Date"
+                                            className='w-100'
+                                          />
+                                        </div>
+                                      </div>
+
+                                      <div className='col-lg-6'>
+                                        <div className='admin-input-div'>
+                                          <label>Season Price <span className='required-icon'>*</span></label>
+                                          <input type="number" placeholder='Enter Season Price' />
+                                        </div>
+                                      </div>
+
+                                      <div className='col-lg-6'>
+                                        <div className='admin-input-div'>
+                                          <label>Season Name <span className='required-icon'>*</span></label>
+                                          <input type="number" placeholder='e.g.., Summer, Winter' />
+                                        </div>
+                                      </div>
+                                    </div>
 
 
 
-            </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
-            <div className='row'>
-              <div className='col-lg-6'>
-                <div className='admin-input-div'>
-                  <label className='text-area-label'>Inclusion <span className='required-icon'>*</span></label>
-                  <div className="mt-2">
-                    <JoditEditor
-                      ref={editor}
-                      // value={createDestination?.about_destination}
-                      config={{
-                        readonly: false,
-                        height: 300,
-                        toolbarButtonSize: "middle"
-                      }}
-                      tabIndex={1}
-                    // onBlur={(newContent) => handleChange("about_destination", newContent)}
-                    />
+                </div>
+              </>
+            )}
+
+            {activeTripTab == 2 && (
+              <>
+                <div className='col-lg-6'>
+                  <div className='admin-input-div'>
+                    <label>Double Occupancy <span className='required-icon'>*</span></label>
+                    <input type="number" placeholder='Enter Price' />
                   </div>
                 </div>
-              </div>
-              <div className='col-lg-6'>
-                <div className='admin-input-div'>
-                  <label className='text-area-label'>Exclusion <span className='required-icon'>*</span></label>
-                  <div className="mt-2">
-                    <JoditEditor
-                      ref={editor}
-                      // value={createDestination?.about_destination}
-                      config={{
-                        readonly: false,
-                        height: 300,
-                        toolbarButtonSize: "middle"
-                      }}
-                      tabIndex={1}
-                    // onBlur={(newContent) => handleChange("about_destination", newContent)}
-                    />
+                <div className='col-lg-6'>
+                  <div className='admin-input-div'>
+                    <label>Triple Occupancy <span className='required-icon'>*</span></label>
+                    <input type="number" placeholder='Enter Price' />
                   </div>
                 </div>
-              </div>
-              <div className='col-lg-6'>
-                <div className='admin-input-div'>
-                  <label className='text-area-label'>Key Highlights/Features <span className='required-icon'>*</span></label>
-                  <div className="mt-2">
-                    <JoditEditor
-                      ref={editor}
-                      // value={createDestination?.about_destination}
-                      config={{
-                        readonly: false,
-                        height: 300,
-                        toolbarButtonSize: "middle"
-                      }}
-                      tabIndex={1}
-                    // onBlur={(newContent) => handleChange("about_destination", newContent)}
-                    />
+                <div className='col-lg-6'>
+                  <div className='admin-input-div'>
+                    <label>Quad Occupancy <span className='required-icon'>*</span></label>
+                    <input type="number" placeholder='Enter Price' />
                   </div>
                 </div>
-              </div>
-              <div className='col-lg-6'>
-                <div className='admin-input-div'>
-                  <label className='text-area-label'>Cancellation Policy <span className='required-icon'>*</span></label>
-                  <div className="mt-2">
-                    <JoditEditor
-                      ref={editor}
-                      // value={createDestination?.about_destination}
-                      config={{
-                        readonly: false,
-                        height: 300,
-                        toolbarButtonSize: "middle"
-                      }}
-                      tabIndex={1}
-                    // onBlur={(newContent) => handleChange("about_destination", newContent)}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+              </>
+            )}
 
           </>
         )}
@@ -966,31 +1557,58 @@ const TourCreation = () => {
             <h3 className='my-3 mt-4 text-decoration-underline'>Customized Package</h3>
             <div className='row'>
               <div className='col-lg-6'>
-                <h5 className='my-3'>Customized Package</h5>
                 <div className='admin-input-div'>
                   <label>Meta Title <span className='required-icon'>*</span></label>
-                  <input type="text" placeholder='SEO Meta Title' />
+                  <input type="text" placeholder='Enter Meta Title' name="meta_title"
+                    value={customizedPackageData?.meta_title}
+                    onChange={(e) => handleCustomizedPackageChange(e)}
+                    onBlur={(e) => handleBlurCustomized(e.target.name, e.target.value)}
+                  />
+                  {validation?.meta_title?.status === false && validation?.meta_title?.message && (
+                    <p className='error-para'>Meta Title {validation.meta_title.message}</p>
+                  )}
                 </div>
               </div>
 
               <div className='col-lg-6'>
                 <div className='admin-input-div'>
                   <label>Meta Tag <span className='required-icon'>*</span></label>
-                  <input type="text" placeholder='SEO Meta Tag' />
+                  <input type="text" placeholder='Enter Meta Title' name="meta_tags"
+                    value={customizedPackageData?.meta_tags}
+                    onChange={(e) => handleCustomizedPackageChange(e)}
+                    onBlur={(e) => handleBlurCustomized(e.target.name, e.target.value)}
+                  />
+                  {validation?.meta_tags?.status === false && validation?.meta_tags?.message && (
+                    <p className='error-para'>Meta Tag {validation.meta_tags.message}</p>
+                  )}
+
                 </div>
               </div>
 
               <div className='col-lg-6'>
                 <div className='admin-input-div'>
                   <label>Meta Description <span className='required-icon'>*</span></label>
-                  <input type="text" placeholder='SEO Meta Description' />
+                  <input type="text" placeholder='Enter Meta Title' name="meta_description"
+                    value={customizedPackageData?.meta_description}
+                    onChange={(e) => handleCustomizedPackageChange(e)}
+                    onBlur={(e) => handleBlurCustomized(e.target.name, e.target.value)}
+                  />
+                  {validation?.meta_description?.status === false && validation?.meta_description?.message && (
+                    <p className='error-para'>Meta Description {validation.meta_description.message}</p>
+                  )}
                 </div>
               </div>
 
               <div className='col-lg-6'>
                 <div className='admin-input-div'>
-                  <label>Video Links <span className='required-icon'>*</span></label>
-                  <input type="text" placeholder='Enter Video Links' />
+                  <label>Video Links </label>
+                  <input type="text" placeholder='Enter Meta Title' name="video_link"
+                    value={customizedPackageData?.video_link}
+                    onChange={(e) => handleCustomizedPackageChange(e)}
+                  />
+                  {validation?.video_link?.status === false && validation?.video_link?.message && (
+                    <p className='error-para'>Video Link {validation.video_link.message}</p>
+                  )}
                 </div>
               </div>
 
@@ -1002,7 +1620,23 @@ const TourCreation = () => {
                     multiple
                     accept="image/*"
                     className="form-control"
+                    onChange={(e) => handleMultipleFileUpload(e, "gallery_images")}
                   />
+                  {validation?.gallery_images?.status === false && validation?.gallery_images?.message && (
+                    <p className='error-para'>Hero Slider Images {validation.gallery_images.message}</p>
+                  )}
+
+                  {customizedPackageData?.gallery_images && customizedPackageData?.gallery_images?.length > 0 && (
+                    <div className="d-flex flex-wrap">
+                      {customizedPackageData?.gallery_images?.map((image, index) => (
+                        <div className='upload-image-div destination-image-div'>
+                          <div>
+                            <img src={`${BACKEND_DOMAIN}${image}`} alt="Category-Preview" key={index} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
 
