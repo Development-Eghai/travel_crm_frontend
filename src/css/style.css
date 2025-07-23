@@ -2726,6 +2726,7 @@ input:checked+.slider:before {
     color: white;
 }
 
+
 .trip-type-card input {
     border-radius: 50% !important;
 }

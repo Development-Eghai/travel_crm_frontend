@@ -122,7 +122,6 @@ const DestinationCreation = () => {
     };
 
     const handleSubmit = async (e) => {
-        console.log("handleSubmit--handleSubmit")
         e.preventDefault()
         createDestination.faqs = faqs
         const cleanedData = normalizeEmptyFields(createDestination);
