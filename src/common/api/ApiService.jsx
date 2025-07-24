@@ -272,6 +272,25 @@ export const DeleteBlogCategory = async (_id) => {
         });
 };
 
+
+// *************************************************  Blog Category API  **********************************************
+
+export const CreateTripPackage = async (payload) => {
+    return await APIBaseUrl.post("/trips/create", payload)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+export const GetAllTrip = async () => {
+    return await APIBaseUrl.get("/trips/get_all")
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
 // ************************************************  SINGLE FILE UPLOAD API **********************************************
 
 export const SingleFileUpload = async (payload) => {

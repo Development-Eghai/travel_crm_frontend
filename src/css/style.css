@@ -3038,3 +3038,10 @@ input[type=number]::-webkit-outer-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.accordion-button:not(.collapsed)::after{
+    background-image: none !important;
+}
+.accordion-button::after{
+    background-image: none !important;
+}

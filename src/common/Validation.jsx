@@ -67,7 +67,6 @@ export function NonEmptyFaqArrayValidation(value) {
 
 
 export function NonEmptyArrayValidation(value) {
-    console.log(value, "value")
     if (!Array.isArray(value) || value.length === 0) {
         return { status: false, message: "must not be empty" };
     }

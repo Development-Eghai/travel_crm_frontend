@@ -22,7 +22,7 @@ export const AdminMenu = [
             {
                 path: "/admin/tour-list",
                 icon: <i className="fa-regular fa-paper-plane"></i>,
-                name: " Add Tour",
+                name: " Add Trip",
             },
             {
                 path: "/admin/category-create",
@@ -32,7 +32,7 @@ export const AdminMenu = [
             {
                 path: "/admin/create-tour-type",
                 icon: <i className="fa-regular fa-paper-plane"></i>,
-                name: " Add Tour Type",
+                name: " Add Trip Type",
             },
         ],
     },
