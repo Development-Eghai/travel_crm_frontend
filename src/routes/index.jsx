@@ -23,7 +23,7 @@ export const routes = [
         component: AdminDashboard,
     },
     {
-        path: "/destination-create",
+        path: "/destination-create/:id?",
         component: DestinationCreation,
     },
     {

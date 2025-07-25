@@ -1,9 +1,9 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import JoditEditor from "jodit-react";
-import { CreateDestination, GetAllDestination, MultipleFileUpload } from "../../../../common/api/ApiService";
+import { CreateDestination, GetAllDestination, GetSpecificDestination, MultipleFileUpload, UpdateDestination } from "../../../../common/api/ApiService";
 // import "jodit/build/jodit.min.css";
-import { data, useNavigate } from 'react-router-dom';
+import { data, useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { NonEmptyArrayValidation, NonEmptyFaqArrayValidation, NonEmptyValidation, normalizeEmptyFields, SlugValidation, StringValidation } from "../../../../common/Validation";
 import { errorMsg, successMsg } from "../../../../common/Toastify";
@@ -13,11 +13,14 @@ import MyDataTable from "../../../../component/MyDataTable";
 
 const DestinationCreation = () => {
     const navigate = useNavigate();
+    const { id } = useParams();
 
     const [createDestination, setCreateDestination] = useState({});
     const [destinationList, setDestinationList] = useState([])
-    const [faqs, setFaqs] = useState([{ faq_question: "", faq_answer: "" }]);
+
     const [validation, setValidation] = useState({})
+
+    const [faqs, setFaqs] = useState([{ faq_question: "", faq_answer: "" }]);
 
     const addFaq = () => {
         setFaqs([...faqs, { faq_question: "", faq_answer: "" }]);
@@ -139,6 +142,34 @@ const DestinationCreation = () => {
 
     }
 
+    const handleUpdate = async (e) => {
+        e.preventDefault();
+
+        const { __v, createdAt, updatedAt, is_deleted, ...removedObject } = createDestination;
+
+        const newData = {
+            ...removedObject,
+            faqs: faqs.map(({ _id, ...rest }) => rest),
+        };
+
+        const cleanedData = normalizeEmptyFields(newData);
+        const isValide = validateDetails(cleanedData);
+        setValidation(isValide);
+
+        if (Object.values(isValide).every((data) => data?.status === true)) {
+            const response = await UpdateDestination(cleanedData);
+            if (response?.statusCode === 200) {
+                navigate(-1);
+                successMsg("Destination Updated successfully");
+                setCreateDestination({});
+                setFaqs([{ faq_question: "", faq_answer: "" }]);
+            }
+        }
+    };
+
+
+
+
     const editor = useRef(null);
     const editor2 = useRef(null);
 
@@ -164,11 +195,22 @@ const DestinationCreation = () => {
         }
     }
 
+    const getSpecificDestination = async (_id) => {
+        const response = await GetSpecificDestination(_id)
+        if (response && response?.statusCode === 200) {
+            setCreateDestination(response?.data)
+            setFaqs(response?.data?.faqs || [{ faq_question: "", faq_answer: "" }])
+        }
+    }
+
     useEffect(() => {
         getAllDestination()
+        if (id) {
+            getSpecificDestination(id)
+        }
     }, [])
 
-    console.log(createDestination,'createDestination')
+    console.log(createDestination, 'createDestination')
 
     return (
         <>
@@ -213,7 +255,7 @@ const DestinationCreation = () => {
                                 className="form-control"
                                 onChange={(e) => handleFileUpload(e, "banner_images")}
                             />
-                            
+
                             {validation?.banner_images?.status === false && validation?.banner_images?.message && (
                                 <p className='error-para'>Banner Images {validation.banner_images.message}</p>
                             )}
@@ -250,7 +292,8 @@ const DestinationCreation = () => {
                         <div className='admin-input-div'>
                             <label>Select Parent Destination  <span className='required-icon'>*</span></label>
                             <select onChange={(e) => handleChange("parent_destination", e.target.value)}
-                                onBlur={(e) => handleBlur("parent_destination", e.target.value)}>
+                                onBlur={(e) => handleBlur("parent_destination", e.target.value)}
+                                value={createDestination?.parent_destination}>
                                 <option value="null" defaultValue={null}>None (Main Destination)</option>
                                 {destinationList?.map((item, index) => (
                                     <option key={index} value={item?._id}>{item?.destination_name}</option>
@@ -263,7 +306,8 @@ const DestinationCreation = () => {
                         <div className='admin-input-div'>
                             <label>Domestic / International  <span className='required-icon'>*</span></label>
                             <select onChange={(e) => handleChange("trip_region", e.target.value)}
-                                onBlur={(e) => handleBlur("trip_region", e.target.value)}>
+                                onBlur={(e) => handleBlur("trip_region", e.target.value)}
+                                value={createDestination?.trip_region}>
                                 <option value="">Select Places</option>
                                 <option value="domestic">Domestic</option>
                                 <option value="international">International</option>
@@ -371,15 +415,17 @@ const DestinationCreation = () => {
                                             FAQ {index + 1}
                                         </button>
                                         <div className="ms-3 d-flex gap-2">
-                                            <button className="destination-faq-add" onClick={addFaq}>
+                                            <button className={`destination-faq-add ${index === 0 && "me-3"}`} onClick={addFaq}>
                                                 Add
                                             </button>
-                                            <button
-                                                className="destination-faq-add faq-delete me-4"
-                                                onClick={() => deleteFaq(index)}
-                                            >
-                                                Delete
-                                            </button>
+                                            {index !== 0 && (
+                                                <button
+                                                    className="destination-faq-add faq-delete me-3"
+                                                    onClick={() => deleteFaq(index)}
+                                                >
+                                                    Delete
+                                                </button>
+                                            )}
                                         </div>
                                     </h2>
 
@@ -428,7 +474,7 @@ const DestinationCreation = () => {
                     <div className="mt-3">
                         <JoditEditor
                             ref={editor2}
-                            value={createDestination?.guidance || ""}
+                            value={createDestination?.destination_guidance || ""}
                             config={{
                                 readonly: false,
                                 height: 300,
@@ -447,7 +493,10 @@ const DestinationCreation = () => {
                     </div>
                 </div>
 
-                <button className="create-common-btn" onClick={(e) => handleSubmit(e)}>Create</button>
+                {id ? <button className="create-common-btn" onClick={(e) => handleUpdate(e)}>Update</button> :
+                    <button className="create-common-btn" onClick={(e) => handleSubmit(e)}>Create</button>}
+
+
             </div>
 
         </>

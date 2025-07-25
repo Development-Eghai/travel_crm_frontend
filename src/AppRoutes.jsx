@@ -11,6 +11,7 @@ import TermsAndConditions from "./pages/user/TermsAndConditions";
 import PrivacyPolicy from "./pages/user/PrivacyPolicy";
 import AboutUs from "./pages/user/AboutUs";
 import DestinationPreview from "./pages/admin/TripManagement/Destination/DestinationPreview";
+import DestinationCreation from "./pages/admin/TripManagement/Destination/DestinationCreation";
 
 const DestinationDetail = lazy(() => import("./pages/user/DestinationDetail"));
 const Homepage = lazy(() => import("./pages/user/Homepage"));
@@ -35,6 +36,10 @@ const AppRoutes = () => {
 
                     {/* Preview */}
                     <Route path="/destination/:slug?/:id?" element={<DestinationPreview />} />
+
+                    <Route path="/admin" element={<Layout />}>
+                        <Route path="destination-create/:id?" element={<DestinationCreation />} />
+                    </Route>
                 </Routes>
             </Router>
         </div>

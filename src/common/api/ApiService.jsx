@@ -36,6 +36,25 @@ export const GetChildDestination = async (_id) => {
         });
 };
 
+export const UpdateDestination = async (payload) => {
+    return await APIBaseUrl.put(`/destinations/update`, payload)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+export const DeleteDestination = async (_id) => {
+    return await APIBaseUrl.delete(`/destinations/delete`, {
+        data: { _id }
+    })
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+
 // *************************************************  TOUR CATEGORY API  **********************************************
 
 export const CreateTourCategory = async (payload) => {

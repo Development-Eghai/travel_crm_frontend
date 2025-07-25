@@ -213,7 +213,7 @@ const TourType = () => {
     useEffect(() => {
         getAllActivity()
     }, [])
-console.log(activityData,'activityData')
+    console.log(activityData, 'activityData')
 
     return (
         <div className='admin-content-main'>
