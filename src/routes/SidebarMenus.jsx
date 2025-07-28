@@ -69,7 +69,11 @@ export const AdminMenu = [
         icon:<i className="fa-solid fa-chart-line"></i>,
         name: "Activity Management",
     },
-
+    {
+        path: "/admin/lead-management",
+        icon: <i className="fa-solid fa-user-plus"></i>,
+        name: "Lead Management",
+    },
 ]
 
 export const UserMenu = [

@@ -24,7 +24,7 @@ const Sidebar = ({ role = "admin" }) => {
             <h4 className="mb-4 text-white admin-panel-head-text">Admin Panel</h4>
             <ul className="nav flex-column">
                 {menus.map((item, index) => (
-                    <li key={index} className="nav-item">
+                    <li key={item.path || index} className="nav-item">
                         {item.subMenu ? (
                             <>
                                 <button
@@ -48,9 +48,9 @@ const Sidebar = ({ role = "admin" }) => {
                                             const isActive = pathname.startsWith(basePath);
                                             return (
                                                 <NavLink
-                                                    to={sub.path} className={`text-decoration-none`}>
+                                                    to={sub.path} className={`text-decoration-none`} key={sub.path || subIndex}>
                                                     <li className={`nav-item submenu-menus ${isActive ? "active" : ""
-                                                        }`} key={subIndex}>
+                                                        }`} key={sub.path || subIndex}>
 
                                                         <span className="me-2">{sub.icon}</span>
                                                         <span> {sub.name}</span>

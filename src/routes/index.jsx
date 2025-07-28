@@ -14,7 +14,10 @@ import HotelCreation from "../pages/admin/HotelManagement/HotelCreation";
 import ActivityBookingListing from "../pages/admin/ActivityBooking/ActivityBookingListing";
 import ActivityBookingCreation from "../pages/admin/ActivityBooking/ActivityBookingCreation";
 import BlogsTags from "../pages/admin/Blogs/Tags/BlogsTags";
-
+import LeadManagement from "../pages/admin/LeadManagement";
+import QuoteBuilder from "../pages/admin/QuoteBuilder";
+import ItineraryBuilder from "../pages/admin/ItineraryBuilder";
+import ComprehensiveQuoteBuilder from "../pages/admin/ComprehensiveQuoteBuilder";
 
 
 export const routes = [
@@ -81,5 +84,21 @@ export const routes = [
     {
         path: "/Activity-create",
         component: ActivityBookingCreation,
-    }
+    },
+    {
+        path: "/lead-management",
+        component: LeadManagement,
+    },
+    {
+        path: "/quote-builder",
+        component: QuoteBuilder,
+    },
+    // {
+    //     path: "/itinerary-builder",
+    //     component: ItineraryBuilder,
+    // },
+    // {
+    //     path: "/comprehensive-quote-builder",
+    //     component: ComprehensiveQuoteBuilder,
+    // }
 ]
