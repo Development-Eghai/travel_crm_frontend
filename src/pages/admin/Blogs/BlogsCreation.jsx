@@ -81,15 +81,17 @@ const BlogsCreation = () => {
                     </div>
                 </div>
 
-                <div className='col-lg-3'>
-                    <div className='admin-input-div blogs-creation'>
-                        <label>Featured Blog</label>
-                        <label className="switch">
-                            <input type="checkbox" />
-                            <span className="slider round"></span>
-                        </label>
+                <div className='col-lg-4'>
+                      <div className='admin-input-div'>
+                        <label>Featured  Blogs</label>
+                        <select 
+                        >
+                          <option value="" defaultValue={""}>Select Dispay Type</option>
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option>
+                        </select>
+                      </div>
                     </div>
-                </div>
 
             </div>
 
