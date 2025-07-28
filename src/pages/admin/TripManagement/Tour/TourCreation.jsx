@@ -498,9 +498,9 @@ const TourCreation = () => {
     if (dataValue === "pricingPerPerson") {
       setPricingDetail([...pricingDetail, { start_date: "", end_date: "", season_price: "", season_name: "", }]);
     }
-    if (dataValue === "pricingPerPackage") {
-      setPricingDetailPackage([...pricingDetailPackage, { start_date: "", end_date: "", season_price: "", season_name: "", }]);
-    }
+    // if (dataValue === "pricingPerPackage") {
+    //   setPricingDetailPackage([...pricingDetailPackage, { start_date: "", end_date: "", season_price: "", season_name: "", }]);
+    // }
   };
 
   const deletePricingDetail = (indexToRemove, dataValue) => {
@@ -510,12 +510,13 @@ const TourCreation = () => {
         setPricingDetail(updatedItinerary);
       }
     }
-    if (dataValue === "pricingPerPackage") {
-      if (indexToRemove !== 0) {
-        const updatedItinerary = pricingDetailPackage.filter((_, index) => index !== indexToRemove);
-        setPricingDetailPackage(updatedItinerary);
-      }
-    }
+
+    // if (dataValue === "pricingPerPackage") {
+    //   if (indexToRemove !== 0) {
+    //     const updatedItinerary = pricingDetailPackage.filter((_, index) => index !== indexToRemove);
+    //     setPricingDetailPackage(updatedItinerary);
+    //   }
+    // }
 
 
   };
@@ -526,11 +527,11 @@ const TourCreation = () => {
       updatedItinerary[index][key] = value;
       setPricingDetail(updatedItinerary);
     }
-    if (dataValue === "pricingPerPackage") {
-      const updatedItinerary = [...pricingDetailPackage];
-      updatedItinerary[index][key] = value;
-      setPricingDetailPackage(updatedItinerary);
-    }
+    // if (dataValue === "pricingPerPackage") {
+    //   const updatedItinerary = [...pricingDetailPackage];
+    //   updatedItinerary[index][key] = value;
+    //   setPricingDetailPackage(updatedItinerary);
+    // }
 
   };
 
@@ -539,6 +540,8 @@ const TourCreation = () => {
 
   const [customPricePerPerson, setCustomPricePerPerson] = useState({})
   const [pricingValidation, setPricingValidation] = useState({})
+
+
 
   const [customPricePerPackage, setCustomPricePerPackage] = useState({})
 
@@ -582,18 +585,18 @@ const TourCreation = () => {
   };
 
   const handlePricePackageChange = (key, value, priceType) => {
-    if (priceType === "per_person") {
-      setCustomPricePerPerson({ ...customPricePerPerson, [key]: value })
-      if (pricingValidation[key]) {
-        setPricingValidation({ ...pricingValidation, [key]: false })
-      }
+    // if (priceType === "per_person") {
+    setCustomPricePerPerson({ ...customPricePerPerson, [key]: value })
+    if (pricingValidation[key]) {
+      setPricingValidation({ ...pricingValidation, [key]: false })
     }
-    if (priceType === "per_package") {
-      setCustomPricePerPackage({ ...customPricePerPackage, [key]: value })
-      if (pricingValidation[key]) {
-        setPricingValidation({ ...pricingValidation, [key]: false })
-      }
-    }
+    // }
+    // if (priceType === "per_package") {
+    //   setCustomPricePerPackage({ ...customPricePerPackage, [key]: value })
+    //   if (pricingValidation[key]) {
+    //     setPricingValidation({ ...pricingValidation, [key]: false })
+    //   }
+    // }
   }
 
   const handleBlurPricing = (fieldName, value) => {
@@ -677,41 +680,69 @@ const TourCreation = () => {
     setCreatedTags(prev => [...prev, newOption]);
   };
 
+  const isFullyFilled = (obj) => {
+    for (const [key, value] of Object.entries(obj)) {
+      if (key === "seasonal_pricing") {
+        if (!Array.isArray(value) || value.length === 0) return false;
+
+        for (const item of value) {
+          if (
+            !item.start_date ||
+            !item.end_date ||
+            !item.season_price ||
+            !item.season_name
+          ) {
+            return false;
+          }
+        }
+      } else {
+        if (!value || (typeof value === "string" && value.trim() === "")) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  };
+
+
 
   // handleCustomPackageSubmit
 
   const handleCustomPackageSubmit = async (e) => {
     customizedPackageData.day_wise_itenary = itinerarys
+    // customPricePerPerson.seasonal_pricing = pricingDetail
     customPricePerPerson.seasonal_pricing = pricingDetail
-    customPricePerPackage.seasonal_pricing = pricingDetailPackage
-    customizedPackageData.price_per_person = customPricePerPerson
-    customizedPackageData.price_per_package = customPricePerPackage
+
+    // if (isFullyFilled(customPricePerPerson)) {
+    //   customizedPackageData.price_per_person = customPricePerPerson
+    // }
+
+    if (isFullyFilled(customPricePerPerson)) {
+      activePricingTab === 1 ? customizedPackageData.price_per_person = customPricePerPerson : customizedPackageData.price_per_package = customPricePerPerson
+    }
+
     customizedPackageData.nights = (customizedPackageData?.days - 1).toString()
     delete customizedPackageData.undefined
 
     const cleanedData = normalizeEmptyFields(customizedPackageData);
+    console.log(cleanedData)
     const isValideFirst = validateDetails(cleanedData)
-    const isValidePricePerPerson = pricingValidationDetail(cleanedData?.price_per_person)
-    const isValidePricePerPackage = pricingValidationDetail(cleanedData?.price_per_package)
-    // console.log(isValideFirst, "isValideFirst", isValidePricePerPerson, "isValidePricePerPerson", isValidePricePerPackage, "isValidePricePerPackage")
-    // console.log(cleanedData, "cleanedData")
+    let isValidePrice = {}
+    activePricingTab === 1 ? isValidePrice = pricingValidationDetail(cleanedData?.price_per_package) : isValidePrice = pricingValidationDetail(cleanedData?.price_per_person)
 
     if (Object.values(isValideFirst).every((data) => data.status === true) &&
-      Object.values(isValidePricePerPerson).every((data) => data.status === true) &&
-      Object.values(isValidePricePerPackage).every((data) => data.status === true)) {
-      // console.log("validate success")
+      Object.values(isValidePrice).every((data) => data.status === true)) {
+
     }
     const response = await CreateTripPackage({ customizePackage: cleanedData })
     if (response && response?.statusCode === 200) {
-      // console.log(response?.data, "response")
       navigate(-1)
       successMsg("Trip created successsfully")
     }
 
-
-    // console.log(customizedPackageData, "customizedPackageData-customizedPackageData")
-
   }
+
   const handleFixedPackageSubmit = async (e) => {
     fixedPackageData.departure_Slots = departureSlots
     fixedPackageData.nights = (fixedPackageData?.days - 1).toString()
@@ -731,7 +762,7 @@ const TourCreation = () => {
     const response = await CreateTripPackage({ fixedPackage: cleanedData })
     // console.log(response,"response")
     if (response && response?.statusCode === 200) {
-      // console.log(response?.data, "response")
+      // console.log(response?.data, "response-FixedPackageSubmit")
       navigate(-1)
       successMsg("Trip created successsfully")
     }
@@ -1182,75 +1213,74 @@ const TourCreation = () => {
               </div>
             )}
 
-            {activeTripTab == 1 && activePricingTab === 1 && (
-              <>
-                <h3>Customized Package - Price Per Person</h3>
-                <div className='itenary-main my-5'>
-                  <h5 className='fw-bold mb-4'>Price Configuration</h5>
-                  <div className='row'>
-
-                    <div className='col-lg-6'>
-                      <div className='admin-input-div mt-0'>
-                        <label>Base Price <span className='required-icon'>*</span></label>
-                        <input type="number" placeholder='Base Price' name='base_price'
-                          value={customPricePerPerson?.base_price}
-                          onChange={(e) => handlePricePackageChange("base_price", e.target.value, "per_person")}
-                          onBlur={(e) => handleBlurPricing(e.target.name, e.target.value)}
-                          onWheelCapture={e => { e.target.blur() }}
-                          onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
-                        />
-                        {pricingValidation?.base_price?.status === false && pricingValidation?.base_price?.message && (
-                          <p className='error-para'>Base Pricing {pricingValidation.base_price.message}</p>
-                        )}
-                      </div>
+            {/* {activeTripTab == 1 && activePricingTab === 1 && ( */}
+            <>
+              <h3>Customized Package - Price Per Person</h3>
+              <div className='itenary-main my-5'>
+                <h5 className='fw-bold mb-4'>Price Configuration</h5>
+                <div className='row'>
+                  <div className='col-lg-6'>
+                    <div className='admin-input-div mt-0'>
+                      <label>Base Price <span className='required-icon'>*</span></label>
+                      <input type="number" placeholder='Base Price' name='base_price'
+                        value={customPricePerPerson?.base_price}
+                        onChange={(e) => handlePricePackageChange("base_price", e.target.value, "per_person")}
+                        onBlur={(e) => handleBlurPricing(e.target.name, e.target.value)}
+                        onWheelCapture={e => { e.target.blur() }}
+                        onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
+                      />
+                      {pricingValidation?.base_price?.status === false && pricingValidation?.base_price?.message && (
+                        <p className='error-para'>Base Pricing {pricingValidation.base_price.message}</p>
+                      )}
                     </div>
+                  </div>
 
-                    <div className='col-lg-6'>
-                      <div className='admin-input-div mt-0'>
-                        <label>Currency  <span className='required-icon'>*</span></label>
-                        <select value={customPricePerPerson?.currency} name='currency'
-                          onChange={(e) => handlePricePackageChange("currency", e.target.value, "per_person")}
-                          onBlur={(e) => handleBlurPricing(e.target.name, e.target.value)}>
-                          <option value="" defaultValue={""}>Select Currency</option>
-                          <option value="INR">INR (₹)</option>
-                          <option value="USD">USD ($)</option>
-                          <option value="EURO">EURO (€)</option>
-                        </select>
-                        {pricingValidation?.currency?.status === false && pricingValidation?.currency?.message && (
-                          <p className='error-para'>Currency {pricingValidation.currency.message}</p>
-                        )}
-                      </div>
+                  <div className='col-lg-6'>
+                    <div className='admin-input-div mt-0'>
+                      <label>Currency  <span className='required-icon'>*</span></label>
+                      <select value={customPricePerPerson?.currency} name='currency'
+                        onChange={(e) => handlePricePackageChange("currency", e.target.value, "per_person")}
+                        onBlur={(e) => handleBlurPricing(e.target.name, e.target.value)}>
+                        <option value="" defaultValue={""}>Select Currency</option>
+                        <option value="INR">INR (₹)</option>
+                        <option value="USD">USD ($)</option>
+                        <option value="EURO">EURO (€)</option>
+                      </select>
+                      {pricingValidation?.currency?.status === false && pricingValidation?.currency?.message && (
+                        <p className='error-para'>Currency {pricingValidation.currency.message}</p>
+                      )}
                     </div>
+                  </div>
 
-                    <div className='col-lg-6'>
-                      <div className='admin-input-div'>
-                        <label>Discounted Price (Optional)</label>
-                        <input type="number" placeholder='Enter Discounted Price'
-                          value={customPricePerPerson?.discount_price} name='discount_price'
-                          onChange={(e) => handlePricePackageChange("discount_price", e.target.value, "per_person")}
-                          onWheelCapture={e => { e.target.blur() }}
-                          onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()} />
-                        {pricingValidation?.discount_price?.status === false && pricingValidation?.discount_price?.message && (
-                          <p className='error-para'>Discounted Price {pricingValidation.discount_price.message}</p>
-                        )}
-                      </div>
+                  <div className='col-lg-6'>
+                    <div className='admin-input-div'>
+                      <label>Discounted Price (Optional)</label>
+                      <input type="number" placeholder='Enter Discounted Price'
+                        value={customPricePerPerson?.discount_price} name='discount_price'
+                        onChange={(e) => handlePricePackageChange("discount_price", e.target.value, "per_person")}
+                        onWheelCapture={e => { e.target.blur() }}
+                        onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()} />
+                      {pricingValidation?.discount_price?.status === false && pricingValidation?.discount_price?.message && (
+                        <p className='error-para'>Discounted Price {pricingValidation.discount_price.message}</p>
+                      )}
                     </div>
+                  </div>
 
-                    <div className='col-lg-4'>
-                      <div className='admin-input-div'>
-                        <label>Display as "Starts From" Price (Optional)</label>
-                        <select value={customPricePerPerson?.start_from} name='start_from'
-                          onChange={(e) => handlePricePackageChange("start_from", e.target.value, "per_person")}
-                        >
-                          <option value="" defaultValue={""}>Select Dispay Type</option>
-                          <option value="yes">Yes</option>
-                          <option value="no">No</option>
-                        </select>
-                      </div>
+                  <div className='col-lg-4'>
+                    <div className='admin-input-div'>
+                      <label>Display as "Starts From" Price (Optional)</label>
+                      <select value={customPricePerPerson?.start_from} name='start_from'
+                        onChange={(e) => handlePricePackageChange("start_from", e.target.value, "per_person")}
+                      >
+                        <option value="" defaultValue={""}>Select Dispay Type</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                      </select>
                     </div>
+                  </div>
 
-                    <div>
-                      {/* <div className='col-lg-4'>
+                  <div>
+                    {/* <div className='col-lg-4'>
                       <div className='admin-input-div'>
                         <label>Display as "Starts From" Price (Optional)</label>
                         <label className="switch">
@@ -1260,235 +1290,233 @@ const TourCreation = () => {
                         </label>
                       </div>
                     </div> */}
-                    </div>
-
                   </div>
 
-                  {activeTripTab == 1 && (
-                    <div className='itenary-list-main mt-4 '>
-                      <div className='itenary-content mb-5'>
-                        <h5 className='text-center'>Seasonal Pricing (Optional)</h5>
-                        <p className='text-center'>Add different prices for different seasons or dates</p>
-                      </div>
+                </div>
 
-                      <div className="destination-faq">
-                        <div className="accordion" id="accordionExample">
-                          {pricingDetail.map((pricing, index) => (
-                            <div className='mt-4'>
-                              <div className="accordion-item" key={index} >
-                                <h2 className="accordion-header d-flex align-items-center justify-content-between">
-                                  <button
-                                    className="accordion-button flex-grow-1 fw-bold"
-                                    type="button"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target={`#collapse${index}`}
-                                    aria-expanded="true"
-                                    aria-controls={`collapse${index}`}
-                                  >
-                                    Season {index + 1}
-                                  </button>
-                                  <div className="ms-3 d-flex gap-2">
+                {activeTripTab == 1 && (
+                  <div className='itenary-list-main mt-4 '>
+                    <div className='itenary-content mb-5'>
+                      <h5 className='text-center'>Seasonal Pricing (Optional)</h5>
+                      <p className='text-center'>Add different prices for different seasons or dates</p>
+                    </div>
 
-                                    <button className="destination-faq-add me-4" onClick={() => addPricingDetail("pricingPerPerson")}>
-                                      Add
-                                    </button>
-
-                                    {index !== 0 && (
-                                      <button
-                                        className="destination-faq-add faq-delete me-4"
-                                        onClick={() => deletePricingDetail(index)}
-                                      >
-                                        Delete
-                                      </button>
-                                    )}
-                                  </div>
-                                </h2>
-
-                                <div
-                                  id={`collapse${index}`}
-                                  className="accordion-collapse collapse show"
-                                  data-bs-parent="#accordionExample"
+                    <div className="destination-faq">
+                      <div className="accordion" id="accordionExample">
+                        {pricingDetail.map((pricing, index) => (
+                          <div className='mt-4'>
+                            <div className="accordion-item" key={index} >
+                              <h2 className="accordion-header d-flex align-items-center justify-content-between">
+                                <button
+                                  className="accordion-button flex-grow-1 fw-bold"
+                                  type="button"
+                                  data-bs-toggle="collapse"
+                                  data-bs-target={`#collapse${index}`}
+                                  aria-expanded="true"
+                                  aria-controls={`collapse${index}`}
                                 >
-                                  <div className="accordion-body">
+                                  Season {index + 1}
+                                </button>
+                                <div className="ms-3 d-flex gap-2">
 
-                                    <div className='row'>
-                                      <div className='col-lg-6'>
-                                        <div className='admin-input-div mt-0'>
-                                          <label>Start Date<span className='required-icon'>*</span></label>
-                                          <DatePicker
-                                            selected={pricingDetail[index].start_date ? new Date(pricingDetail[index].start_date) : null}
-                                            onChange={(date) => updatePricingDetail(index, "start_date", date, "pricingPerPerson")}
-                                            onBlur={() => handleBlurPricingDetails(index)}
-                                            placeholderText="Select Start Date"
-                                            minDate={new Date()}
-                                            className="w-100"
-                                          />
-                                          {pricingValidation[`pricingDetail_${index}_start_date`]?.status === false && (
-                                            <div className="text-danger small">
-                                              {pricingValidation[`pricingDetail_${index}_start_date`].message}
-                                            </div>
-                                          )}
-                                        </div>
-                                      </div>
+                                  <button className="destination-faq-add me-4" onClick={() => addPricingDetail("pricingPerPerson")}>
+                                    Add
+                                  </button>
 
-                                      <div className='col-lg-6 '>
-                                        <div className='admin-input-div mt-0'>
-                                          <label>End Date <span className='required-icon'>*</span></label>
-                                          <DatePicker
-                                            selected={pricingDetail[index].end_date ? new Date(pricingDetail[index].end_date) : null}
-                                            onChange={(date) => updatePricingDetail(index, "end_date", date, "pricingPerPerson")}
-                                            onBlur={() => handleBlurPricingDetails(index)}
-                                            placeholderText="Select End Date"
-                                            minDate={new Date()}
-                                            className="w-100"
-                                          />
-                                          {pricingValidation[`pricingDetail_${index}_end_date`]?.status === false && (
-                                            <div className="text-danger small">
-                                              {pricingValidation[`pricingDetail_${index}_end_date`].message}
-                                            </div>
-                                          )}
-                                        </div>
-                                      </div>
+                                  {index !== 0 && (
+                                    <button
+                                      className="destination-faq-add faq-delete me-4"
+                                      onClick={() => deletePricingDetail(index, "pricingPerPerson")}
+                                    >
+                                      Delete
+                                    </button>
+                                  )}
+                                </div>
+                              </h2>
 
-                                      <div className='col-lg-6'>
-                                        <div className='admin-input-div'>
-                                          <label>Season Price <span className='required-icon'>*</span></label>
-                                          <input type="number" placeholder='Enter Discounted Price' name="season_price"
-                                            value={pricing?.season_price}
-                                            onChange={(e) => updatePricingDetail(index, "season_price", e.target.value, "pricingPerPerson")}
-                                            onWheelCapture={e => { e.target.blur() }}
-                                            onBlur={() => handleBlurPricingDetails(index)}
-                                            onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()} />
-                                        </div>
-                                        {pricingValidation[`pricingDetail_${index}_season_price`]?.status === false && (
+                              <div
+                                id={`collapse${index}`}
+                                className="accordion-collapse collapse show"
+                                data-bs-parent="#accordionExample"
+                              >
+                                <div className="accordion-body">
+
+                                  <div className='row'>
+                                    <div className='col-lg-6'>
+                                      <div className='admin-input-div mt-0'>
+                                        <label>Start Date<span className='required-icon'>*</span></label>
+                                        <DatePicker
+                                          selected={pricingDetail[index].start_date ? new Date(pricingDetail[index].start_date) : null}
+                                          onChange={(date) => updatePricingDetail(index, "start_date", date, "pricingPerPerson")}
+                                          onBlur={() => handleBlurPricingDetails(index)}
+                                          placeholderText="Select Start Date"
+                                          minDate={new Date()}
+                                          className="w-100"
+                                        />
+                                        {pricingValidation[`pricingDetail_${index}_start_date`]?.status === false && (
                                           <div className="text-danger small">
-                                            {pricingValidation[`pricingDetail_${index}_season_price`].message}
+                                            {pricingValidation[`pricingDetail_${index}_start_date`].message}
                                           </div>
                                         )}
                                       </div>
+                                    </div>
 
-                                      <div className='col-lg-6'>
-                                        <div className='admin-input-div'>
-                                          <label>Season Name <span className='required-icon'>*</span></label>
-                                          <input type="text" placeholder='Enter Discounted Price' name="season_name"
-                                            value={pricing?.season_name}
-                                            onBlur={() => handleBlurPricingDetails(index)}
-                                            onChange={(e) => updatePricingDetail(index, "season_name", e.target.value, "pricingPerPerson")}
-                                          />
-                                          {pricingValidation[`pricingDetail_${index}_season_name`]?.status === false && (
-                                            <div className="text-danger small">
-                                              {pricingValidation[`pricingDetail_${index}_season_name`].message}
-                                            </div>
-                                          )}
+                                    <div className='col-lg-6 '>
+                                      <div className='admin-input-div mt-0'>
+                                        <label>End Date <span className='required-icon'>*</span></label>
+                                        <DatePicker
+                                          selected={pricingDetail[index].end_date ? new Date(pricingDetail[index].end_date) : null}
+                                          onChange={(date) => updatePricingDetail(index, "end_date", date, "pricingPerPerson")}
+                                          onBlur={() => handleBlurPricingDetails(index)}
+                                          placeholderText="Select End Date"
+                                          minDate={new Date()}
+                                          className="w-100"
+                                        />
+                                        {pricingValidation[`pricingDetail_${index}_end_date`]?.status === false && (
+                                          <div className="text-danger small">
+                                            {pricingValidation[`pricingDetail_${index}_end_date`].message}
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
+
+                                    <div className='col-lg-6'>
+                                      <div className='admin-input-div'>
+                                        <label>Season Price <span className='required-icon'>*</span></label>
+                                        <input type="number" placeholder='Enter Discounted Price' name="season_price"
+                                          value={pricing?.season_price}
+                                          onChange={(e) => updatePricingDetail(index, "season_price", e.target.value, "pricingPerPerson")}
+                                          onWheelCapture={e => { e.target.blur() }}
+                                          onBlur={() => handleBlurPricingDetails(index)}
+                                          onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()} />
+                                      </div>
+                                      {pricingValidation[`pricingDetail_${index}_season_price`]?.status === false && (
+                                        <div className="text-danger small">
+                                          {pricingValidation[`pricingDetail_${index}_season_price`].message}
                                         </div>
+                                      )}
+                                    </div>
+
+                                    <div className='col-lg-6'>
+                                      <div className='admin-input-div'>
+                                        <label>Season Name <span className='required-icon'>*</span></label>
+                                        <input type="text" placeholder='Enter Discounted Price' name="season_name"
+                                          value={pricing?.season_name}
+                                          onBlur={() => handleBlurPricingDetails(index)}
+                                          onChange={(e) => updatePricingDetail(index, "season_name", e.target.value, "pricingPerPerson")}
+                                        />
+                                        {pricingValidation[`pricingDetail_${index}_season_name`]?.status === false && (
+                                          <div className="text-danger small">
+                                            {pricingValidation[`pricingDetail_${index}_season_name`].message}
+                                          </div>
+                                        )}
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  <div className='row'>
-                    <div className='col-lg-12'>
-                      <div className='admin-input-div'>
-                        <label className='text-area-label'>Inclusion <span className='required-icon'>*</span></label>
-                        <div className="mt-2">
-                          <JoditEditor
-                            ref={editor}
-                            value={customPricePerPerson?.inclusion}
-                            config={{
-                              readonly: false,
-                              height: 350,
-                              toolbarButtonSize: "middle",
-                              askBeforePasteHTML: false,
-                              askBeforePasteFromWord: false,
-                              defaultActionOnPaste: "insert_clear_html",
-                              allowPaste: true
-                            }}
-                            tabIndex={1}
-                            onBlur={(newContent) => handlePricePackageChange("inclusion", newContent, "per_person")}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className='col-lg-12'>
-                      <div className='admin-input-div'>
-                        <label className='text-area-label'>Exclusion <span className='required-icon'>*</span></label>
-                        <div className="mt-2">
-                          <JoditEditor
-                            ref={editor}
-                            value={customPricePerPerson?.exclusion}
-                            config={{
-                              readonly: false,
-                              height: 350,
-                              toolbarButtonSize: "middle",
-                              askBeforePasteHTML: false,
-                              askBeforePasteFromWord: false,
-                              defaultActionOnPaste: "insert_clear_html",
-                              allowPaste: true
-                            }}
-                            tabIndex={1}
-                            onBlur={(newContent) => handlePricePackageChange("exclusion", newContent, "per_person")}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className='col-lg-12'>
-                      <div className='admin-input-div'>
-                        <label className='text-area-label'>Key Highlights/Features <span className='required-icon'>*</span></label>
-                        <div className="mt-2">
-                          <JoditEditor
-                            ref={editor}
-                            value={customPricePerPerson?.key_highlights}
-                            config={{
-                              readonly: false,
-                              height: 350,
-                              toolbarButtonSize: "middle",
-                              askBeforePasteHTML: false,
-                              askBeforePasteFromWord: false,
-                              defaultActionOnPaste: "insert_clear_html",
-                              allowPaste: true
-                            }}
-                            tabIndex={1}
-                            onBlur={(newContent) => handlePricePackageChange("key_highlights", newContent, "per_person")}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className='col-lg-12'>
-                      <div className='admin-input-div'>
-                        <label className='text-area-label'>Cancellation Policy <span className='required-icon'>*</span></label>
-                        <div className="mt-2">
-                          <JoditEditor
-                            ref={editor}
-                            value={customPricePerPerson?.cancellation_policy}
-                            config={{
-                              readonly: false,
-                              height: 350,
-                              toolbarButtonSize: "middle",
-                              askBeforePasteHTML: false,
-                              askBeforePasteFromWord: false,
-                              defaultActionOnPaste: "insert_clear_html",
-                              allowPaste: true
-                            }}
-                            tabIndex={1}
-                            onBlur={(newContent) => handlePricePackageChange("cancellation_policy", newContent, "per_person")}
-                          />
-                        </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
-
+                )}
+              </div>
+              <div className='row'>
+                <div className='col-lg-12'>
+                  <div className='admin-input-div'>
+                    <label className='text-area-label'>Inclusion <span className='required-icon'>*</span></label>
+                    <div className="mt-2">
+                      <JoditEditor
+                        ref={editor}
+                        value={customPricePerPerson?.inclusion}
+                        config={{
+                          readonly: false,
+                          height: 350,
+                          toolbarButtonSize: "middle",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                          defaultActionOnPaste: "insert_clear_html",
+                          allowPaste: true
+                        }}
+                        tabIndex={1}
+                        onBlur={(newContent) => handlePricePackageChange("inclusion", newContent, "per_person")}
+                      />
+                    </div>
+                  </div>
                 </div>
-              </>
-            )}
+                <div className='col-lg-12'>
+                  <div className='admin-input-div'>
+                    <label className='text-area-label'>Exclusion <span className='required-icon'>*</span></label>
+                    <div className="mt-2">
+                      <JoditEditor
+                        ref={editor}
+                        value={customPricePerPerson?.exclusion}
+                        config={{
+                          readonly: false,
+                          height: 350,
+                          toolbarButtonSize: "middle",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                          defaultActionOnPaste: "insert_clear_html",
+                          allowPaste: true
+                        }}
+                        tabIndex={1}
+                        onBlur={(newContent) => handlePricePackageChange("exclusion", newContent, "per_person")}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className='col-lg-12'>
+                  <div className='admin-input-div'>
+                    <label className='text-area-label'>Key Highlights/Features <span className='required-icon'>*</span></label>
+                    <div className="mt-2">
+                      <JoditEditor
+                        ref={editor}
+                        value={customPricePerPerson?.key_highlights}
+                        config={{
+                          readonly: false,
+                          height: 350,
+                          toolbarButtonSize: "middle",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                          defaultActionOnPaste: "insert_clear_html",
+                          allowPaste: true
+                        }}
+                        tabIndex={1}
+                        onBlur={(newContent) => handlePricePackageChange("key_highlights", newContent, "per_person")}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className='col-lg-12'>
+                  <div className='admin-input-div'>
+                    <label className='text-area-label'>Cancellation Policy <span className='required-icon'>*</span></label>
+                    <div className="mt-2">
+                      <JoditEditor
+                        ref={editor}
+                        value={customPricePerPerson?.cancellation_policy}
+                        config={{
+                          readonly: false,
+                          height: 350,
+                          toolbarButtonSize: "middle",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                          defaultActionOnPaste: "insert_clear_html",
+                          allowPaste: true
+                        }}
+                        tabIndex={1}
+                        onBlur={(newContent) => handlePricePackageChange("cancellation_policy", newContent, "per_person")}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+            {/* )} */}
 
-            {activeTripTab == 1 && activePricingTab === 2 && (
+            {/* {activeTripTab == 1 && activePricingTab === 2 && (
               <>
                 <h3>Customized Package - Price Per Package</h3>
                 <div className='itenary-main my-5'>
@@ -1554,20 +1582,6 @@ const TourCreation = () => {
                         </select>
                       </div>
                     </div>
-
-                    <div>
-                      {/* <div className='col-lg-4'>
-                     <div className='admin-input-div'>
-                       <label>Display as "Starts From" Price (Optional)</label>
-                       <label className="switch">
-                         <input type="checkbox" checked={customPricePerPackage?.start_from}
-                           onChange={(e) => handlePricePackageChange(e.target.checked)} name='start_from' />
-                         <span className="slider-table round"></span>
-                       </label>
-                     </div>
-                    </div> */}
-                    </div>
-
                   </div>
 
                   {activeTripTab == 1 && (
@@ -1698,101 +1712,99 @@ const TourCreation = () => {
                       </div>
                     </div>
                   )}
-
-                  <div className='row'>
-                    <div className='col-lg-12'>
-                      <div className='admin-input-div'>
-                        <label className='text-area-label'>Inclusion <span className='required-icon'>*</span></label>
-                        <div className="mt-2">
-                          <JoditEditor
-                            ref={editor}
-                            value={customPricePerPackage?.inclusion}
-                            config={{
-                              readonly: false,
-                              height: 350,
-                              toolbarButtonSize: "middle",
-                              askBeforePasteHTML: false,
-                              askBeforePasteFromWord: false,
-                              defaultActionOnPaste: "insert_clear_html",
-                              allowPaste: true
-                            }}
-                            tabIndex={1}
-                            onBlur={(newContent) => handlePricePackageChange("inclusion", newContent, "per_package")}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className='col-lg-12'>
-                      <div className='admin-input-div'>
-                        <label className='text-area-label'>Exclusion <span className='required-icon'>*</span></label>
-                        <div className="mt-2">
-                          <JoditEditor
-                            ref={editor}
-                            value={customPricePerPackage?.exclusion}
-                            config={{
-                              readonly: false,
-                              height: 350,
-                              toolbarButtonSize: "middle",
-                              askBeforePasteHTML: false,
-                              askBeforePasteFromWord: false,
-                              defaultActionOnPaste: "insert_clear_html",
-                              allowPaste: true
-                            }}
-                            tabIndex={1}
-                            onBlur={(newContent) => handlePricePackageChange("exclusion", newContent, "per_package")}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className='col-lg-12'>
-                      <div className='admin-input-div'>
-                        <label className='text-area-label'>Key Highlights/Features <span className='required-icon'>*</span></label>
-                        <div className="mt-2">
-                          <JoditEditor
-                            ref={editor}
-                            value={customPricePerPackage?.key_highlights}
-                            config={{
-                              readonly: false,
-                              height: 350,
-                              toolbarButtonSize: "middle",
-                              askBeforePasteHTML: false,
-                              askBeforePasteFromWord: false,
-                              defaultActionOnPaste: "insert_clear_html",
-                              allowPaste: true
-                            }}
-                            tabIndex={1}
-                            onBlur={(newContent) => handlePricePackageChange("key_highlights", newContent, "per_package")}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className='col-lg-12'>
-                      <div className='admin-input-div'>
-                        <label className='text-area-label'>Cancellation Policy <span className='required-icon'>*</span></label>
-                        <div className="mt-2">
-                          <JoditEditor
-                            ref={editor}
-                            value={customPricePerPackage?.cancellation_policy}
-                            config={{
-                              readonly: false,
-                              height: 350,
-                              toolbarButtonSize: "middle",
-                              askBeforePasteHTML: false,
-                              askBeforePasteFromWord: false,
-                              defaultActionOnPaste: "insert_clear_html",
-                              allowPaste: true
-                            }}
-                            tabIndex={1}
-                            onBlur={(newContent) => handlePricePackageChange("cancellation_policy", newContent, "per_package")}
-                          />
-                        </div>
+                </div>
+                <div className='row'>
+                  <div className='col-lg-12'>
+                    <div className='admin-input-div'>
+                      <label className='text-area-label'>Inclusion <span className='required-icon'>*</span></label>
+                      <div className="mt-2">
+                        <JoditEditor
+                          ref={editor}
+                          value={customPricePerPackage?.inclusion}
+                          config={{
+                            readonly: false,
+                            height: 350,
+                            toolbarButtonSize: "middle",
+                            askBeforePasteHTML: false,
+                            askBeforePasteFromWord: false,
+                            defaultActionOnPaste: "insert_clear_html",
+                            allowPaste: true
+                          }}
+                          tabIndex={1}
+                          onBlur={(newContent) => handlePricePackageChange("inclusion", newContent, "per_package")}
+                        />
                       </div>
                     </div>
                   </div>
-
+                  <div className='col-lg-12'>
+                    <div className='admin-input-div'>
+                      <label className='text-area-label'>Exclusion <span className='required-icon'>*</span></label>
+                      <div className="mt-2">
+                        <JoditEditor
+                          ref={editor}
+                          value={customPricePerPackage?.exclusion}
+                          config={{
+                            readonly: false,
+                            height: 350,
+                            toolbarButtonSize: "middle",
+                            askBeforePasteHTML: false,
+                            askBeforePasteFromWord: false,
+                            defaultActionOnPaste: "insert_clear_html",
+                            allowPaste: true
+                          }}
+                          tabIndex={1}
+                          onBlur={(newContent) => handlePricePackageChange("exclusion", newContent, "per_package")}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className='col-lg-12'>
+                    <div className='admin-input-div'>
+                      <label className='text-area-label'>Key Highlights/Features <span className='required-icon'>*</span></label>
+                      <div className="mt-2">
+                        <JoditEditor
+                          ref={editor}
+                          value={customPricePerPackage?.key_highlights}
+                          config={{
+                            readonly: false,
+                            height: 350,
+                            toolbarButtonSize: "middle",
+                            askBeforePasteHTML: false,
+                            askBeforePasteFromWord: false,
+                            defaultActionOnPaste: "insert_clear_html",
+                            allowPaste: true
+                          }}
+                          tabIndex={1}
+                          onBlur={(newContent) => handlePricePackageChange("key_highlights", newContent, "per_package")}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className='col-lg-12'>
+                    <div className='admin-input-div'>
+                      <label className='text-area-label'>Cancellation Policy <span className='required-icon'>*</span></label>
+                      <div className="mt-2">
+                        <JoditEditor
+                          ref={editor}
+                          value={customPricePerPackage?.cancellation_policy}
+                          config={{
+                            readonly: false,
+                            height: 350,
+                            toolbarButtonSize: "middle",
+                            askBeforePasteHTML: false,
+                            askBeforePasteFromWord: false,
+                            defaultActionOnPaste: "insert_clear_html",
+                            allowPaste: true
+                          }}
+                          tabIndex={1}
+                          onBlur={(newContent) => handlePricePackageChange("cancellation_policy", newContent, "per_package")}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </>
-            )}
+            )} */}
           </>
         )}
 
@@ -2641,10 +2653,7 @@ const TourCreation = () => {
         )}
 
       </div>
-
-
-
-    </div >
+    </div>
   )
 }
 
