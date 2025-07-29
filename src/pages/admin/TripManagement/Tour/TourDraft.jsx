@@ -681,6 +681,7 @@ const TourCreation = () => {
   const handleCustomPackageSubmit = async (e) => {
     customizedPackageData.day_wise_itenary = itinerarys
     const isValidePricingDetail = pricingValidationDetail(customPricePerPerson)
+   console.log(isValidePricingDetail, "isValidePricingDetail")
     // customPricePerPerson.seasonal_pricing = pricingDetail
     customPricePerPerson.seasonal_pricing = pricingDetail
     // console.log(customPricePerPerson, 'customPricePerPerson')
@@ -699,19 +700,18 @@ const TourCreation = () => {
     const cleanedData = normalizeEmptyFields(customizedPackageData);
     // console.log(cleanedData, "cleanedData")
     const isValideFirst = validateDetails(cleanedData)
+    let isValidePrice = {}
+    activePricingTab === 1 ? isValidePrice = pricingValidationDetail(cleanedData?.price_per_package) : isValidePrice = pricingValidationDetail(cleanedData?.price_per_person)
 
-    if (Object.values(isValideFirst).every((data) => data.status === true) &&
-      Object.values(isValidePricingDetail).every((data) => data.status === true)) {
-      const response = await CreateTripPackage({ customizePackage: cleanedData })
-      if (response && response?.statusCode === 200) {
-        navigate(-1)
-        successMsg("Trip created successsfully")
-      }
-    }
-    else {
-      errorMsg("Please fill all the required fields")
-    }
+    // if (Object.values(isValideFirst).every((data) => data.status === true) &&
+    //   Object.values(isValidePrice).every((data) => data.status === true)) {
 
+    // }
+    // const response = await CreateTripPackage({ customizePackage: cleanedData })
+    // if (response && response?.statusCode === 200) {
+    //   navigate(-1)
+    //   successMsg("Trip created successsfully")
+    // }
 
   }
 
