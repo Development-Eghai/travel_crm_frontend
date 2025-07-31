@@ -12,6 +12,11 @@ import PrivacyPolicy from "./pages/user/PrivacyPolicy";
 import AboutUs from "./pages/user/AboutUs";
 import DestinationPreview from "./pages/admin/TripManagement/Destination/DestinationPreview";
 import DestinationCreation from "./pages/admin/TripManagement/Destination/DestinationCreation";
+import TripsDetail from "./pages/user/TripsDetail";
+import TripBookings from "./pages/user/TripBookings";
+
+import TourPreview from "./pages/admin/TripManagement/Tour/TourPreview";
+import TourBookingPreview from "./pages/admin/TripManagement/Tour/TourBookingPreview";
 
 const DestinationDetail = lazy(() => import("./pages/user/DestinationDetail"));
 const Homepage = lazy(() => import("./pages/user/Homepage"));
@@ -33,9 +38,13 @@ const AppRoutes = () => {
                     <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
                     <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                     <Route path="/about-us" element={<AboutUs />} />
+                    <Route path="/trips-detail" element={<TripsDetail />} />
+                    <Route path="/trips-bookings" element={<TripBookings />} />
 
                     {/* Preview */}
                     <Route path="/destination/:slug?/:id?" element={<DestinationPreview />} />
+                    <Route path="/trip-preview/:slug?/:id?" element={<TourPreview />} />
+                    <Route path="/booking/:slug?/:id?" element={<TourBookingPreview />} />
 
                     <Route path="/admin" element={<Layout />}>
                         <Route path="destination-create/:id?" element={<DestinationCreation />} />
