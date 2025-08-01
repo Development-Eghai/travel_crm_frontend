@@ -1,22 +1,111 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, EffectFade, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/navigation';
 import { Images } from "../../../../helpers/Images/images";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Header from '../../../user/component/Header';
+import { TourPreviewDetails } from '../../../../common/api/ApiService';
+import { BACKEND_DOMAIN } from '../../../../common/api/ApiClient';
 
 
 const TourPreview = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const [specificTourData, setSpecificTourData] = useState()
+    const [isFixedPackage, setIsFixedPackage] = useState(false)
+    const [showReadMore, setShowReadMore] = useState(false);
+    const [activeTab, setActiveTab] = useState(1);
 
-    const bannerImages = [
-        Images?.destination_one,
-        Images?.destination_two,
-        Images?.destination_three
-    ];
+    const TripTab = [
+        {
+            id: 1,
+            title: "Overview"
+        },
+        {
+            id: 2,
+            title: "Itinerary"
+        },
+        {
+            id: 3,
+            title: "Inclusion"
+        },
+        {
+            id: 4,
+            title: "Exclusion"
+        },
+        {
+            id: 5,
+            title: "Highlights"
+        },]
+
+    const itineraryRef = useRef(null);
+    const inclusionRef = useRef(null);
+    const exclusionRef = useRef(null);
+    const highlightsRef = useRef(null);
+    const overviewRef = useRef(null);
+
+    const scrollToSection = (id) => {
+        setActiveTab(id);
+        let ref = null;
+        switch (id) {
+            case 1:
+                ref = overviewRef;
+                break;
+            case 2:
+                ref = itineraryRef;
+                break;
+            case 3:
+                ref = inclusionRef;
+                break;
+            case 4:
+                ref = exclusionRef;
+                break;
+            case 5:
+                ref = highlightsRef;
+                break;
+            default:
+                break;
+        }
+
+        if (ref && ref.current) {
+            ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
+
+
+    const getSpecificTour = async () => {
+        const response = await TourPreviewDetails(id)
+
+        if (response && response.statusCode === 200) {
+            const fixedPackage = response.data?.fixedPackage;
+            const customizePackage = response.data?.customizePackage;
+
+            const isFixed = fixedPackage && Object.keys(fixedPackage).length > 0;
+            const isCustom = customizePackage && Object.keys(customizePackage).length > 0;
+
+            if (isFixed) {
+                setSpecificTourData(fixedPackage);
+                setIsFixedPackage(true);
+            } else if (isCustom) {
+                setSpecificTourData(customizePackage);
+                setIsFixedPackage(false);
+            }
+        }
+    }
+
+    const handlePreview = (id) => {
+        const url = `/booking/${specificTourData?.slug}/${id}`;
+        window.location.href = url; // Opens in the same tab
+    };
+
+    console.log(specificTourData, "specificTourData-specificTourData")
+
+    useEffect(() => {
+        getSpecificTour()
+    }, [])
 
     return (
         <div className=''>
@@ -33,21 +122,21 @@ const TourPreview = () => {
                     loop={true}
                     className="destination-swiper"
                 >
-                    {bannerImages.map((imageUrl, index) => (
+                    {specificTourData?.hero_slider_images.map((imageUrl, index) => (
                         <SwiperSlide key={index}>
                             <div
                                 className="destination-slide"
                                 style={{
-                                    backgroundImage: `url(${imageUrl})`,
+                                    backgroundImage: `url(${BACKEND_DOMAIN}${imageUrl})`,
                                 }}
                             >
-                                <div className="destination-overlay"></div>
+                                {/* <div className="destination-overlay"></div>
                                 <div className='destination-slide-content'>
                                     <h1 className="dest-package-name">Europe Tour Packages</h1>
                                     <p className="dest-package-para">
                                         Explore the nature-kissed beauty of Thailand
                                     </p>
-                                </div>
+                                </div> */}
                             </div>
                         </SwiperSlide>
                     ))}
@@ -59,7 +148,7 @@ const TourPreview = () => {
                     <div className='row'>
                         <div className='col-lg-8'>
                             <div className='trip-detail-left'>
-                                <h2 className='trip-detail-heading'>11 Days European Pathways Community Trip - France, Netherlands, Germany, Czechia</h2>
+                                <h2 className='trip-detail-heading'>{specificTourData?.short_description}</h2>
 
                                 <div className='d-flex trip-pickup-parent'>
                                     <div className='trip-pickup-drop me-4'>
@@ -68,7 +157,7 @@ const TourPreview = () => {
                                         </div>
                                         <div className='d-flex flex-column'>
                                             <p>Pickup & Drop</p>
-                                            <h3>Paris Airport - Prague Airport</h3>
+                                            <h3>{specificTourData?.pickup_location} - {specificTourData?.drop_location}</h3>
                                         </div>
                                     </div>
                                     <div className='trip-pickup-drop'>
@@ -77,142 +166,190 @@ const TourPreview = () => {
                                         </div>
                                         <div className='d-flex flex-column'>
                                             <p>Duration </p>
-                                            <h3>10N - 11D</h3>
+                                            <h3>{specificTourData?.days}D - {specificTourData?.nights}N</h3>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className='trip-detail-tabs-main'>
-                                    <div className='tip-detail-tabs active'>
-                                        <p>Overview & Highlights</p>
-                                    </div>
-                                    <div className='tip-detail-tabs'>
-                                        <p>Itinerary</p>
-                                    </div>
-                                    <div className='tip-detail-tabs'>
-                                        <p>Inclusions</p>
-                                    </div>
-                                    <div className='tip-detail-tabs'>
-                                        <p>Exclusions</p>
-                                    </div>
-                                    <div className='tip-detail-tabs'>
-                                        <p>Other Info</p>
-                                    </div>
+                                    {TripTab.map((item, index) => (
+                                        <div className={`tip-detail-tabs ${activeTab === item.id ? 'active' : ''}`} key={index}
+                                            onClick={() => scrollToSection(item.id)}>
+                                            <p>{item.title}</p>
+                                        </div>
+                                    ))}
                                 </div>
 
-                                <div className='trip-detail-section'>
+                                <div className='trip-detail-section' ref={overviewRef}>
                                     <h3>Overview & Highlights</h3>
-                                    <p className='mt-3'>
-                                        Join us as we take you to some of the dreamiest places in the world. We are talking about our amazing Backpacking Trip to Europe, covering Czechia, Germany, the Netherlands, and France in 11 days!
-                                        This unforgettable adventure offers the perfect blend of guided tours and leisure time, ensuring you experience the best of each destination. Explore iconic cities with hop-on-hop-off bus tours, giving you a brief look at landmarks like the Eiffel Tower, and Prague’s Astronomical Clock.
-                                        Soak in the charm of Paris with a peaceful Seine River cruise, offering mesmerizing views of historic landmarks such as Notre Dame and the Louvre. Experience the vibrant nightlife with pub crawls in Amsterdam and Prague, immersing yourself in the local culture and making new friends along the way. Marvel at the picturesque Zaanse Schans village, famous for its historic windmills and quaint wooden houses.
-                                        Discover Amsterdam's rich brewing heritage with a fascinating tour of the Heineken Brewery, complete with a tasting session. Enjoy a classic canal cruise through the heart of Amsterdam, taking in the city's unique architecture and lively atmosphere. Wander through the streets of Paris, Berlin and Amsterdam at your own pace, indulging in local delicacies, visiting charming cafes, and shopping for souvenirs.
-                                        This meticulously crafted itinerary by WanderOn promises an adventure filled with culture, history, and unforgettable memories. Join us on this journey and create stories that you’ll cherish for a lifetime!
-                                    </p>
-                                    <p className='read-more'>Read More</p>
+                                    <div className={showReadMore ? "trip-detail-overview-more" : 'trip-detail-overview'}>
+                                        <div>
+                                            <p dangerouslySetInnerHTML={{ __html: specificTourData?.long_description || "<p>No description available</p>" }}></p>
+                                        </div>
+                                    </div>
+                                    <p className='read-more' onClick={() => setShowReadMore(!showReadMore)}>{showReadMore ? "Read Less" : "Read More"}</p>
                                 </div>
 
-                                <div className='trip-detail-section'>
+                                <div className='trip-detail-section' ref={itineraryRef}>
                                     <h3>Itinerary</h3>
                                     <div className="container">
                                         <div className='trip-detail-faqs mt-4'>
                                             <div className="accordion" id="accordionExample">
-                                                <div className="accordion-item">
-                                                    <h2 className="accordion-header" id="headingOne">
-                                                        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                            <p className='trip-faq-accordion'>Day 1</p>  Can I get the refund?
-                                                        </button>
-                                                    </h2>
-                                                    <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                                        <div className="accordion-body">
-                                                            <p>Phang Nga Bay Sea Cave Canoeing & James Bond Island w/ Buffet Lunch by Big Boat cancellation policy: For a full
-                                                                refund, cancel at least 24 hours in advance of the start date of the experience. Discover and book Phang Nga Bay
-                                                                Sea Cave Canoeing & James Bond Island w/ Buffet Lunch by Big Boat.</p>
+
+                                                {specificTourData?.day_wise_itenary.map((item, index) => (
+                                                    <div className="accordion-item" key={index}>
+                                                        <h2 className="accordion-header" id={`day_wise_itenary${index}`}>
+                                                            <button className="accordion-button" type="button" data-bs-toggle="collapse"
+                                                                data-bs-target={`#itenarys${index}`} aria-expanded={index === 0 ? 'true' : 'false'}
+                                                                aria-controls={`itenarys${index}`}>
+                                                                <p className='trip-faq-accordion'>Day {index + 1}</p>  {item?.day_title}
+                                                            </button>
+                                                        </h2>
+                                                        <div id={`itenarys${index}`}
+                                                            className={`accordion-collapse collapse ${index === 0 ? 'show' : ''}`}
+                                                            aria-labelledby={`day_wise_itenary${index}`}
+                                                            data-bs-parent="#accordionExample">
+                                                            <div className="accordion-body">
+                                                                <p>{item?.day_description}</p>
+
+                                                                <div className='d-flex flex-wrap'>
+                                                                    {item?.day_images?.map((img, index) => (
+                                                                        <div key={index} className='trip-day-image'>
+                                                                            <img src={`${BACKEND_DOMAIN}${img}`} alt={`Day Image ${index + 1}`} />
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div className="accordion-item">
-                                                    <h2 className="accordion-header" id="headingTwo">
-                                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                            Can I change the travel date?
-                                                        </button>
-                                                    </h2>
-                                                    <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                                        <div className="accordion-body">
-                                                            <p>Phang Nga Bay Sea Cave Canoeing & James Bond Island w/ Buffet Lunch by Big Boat cancellation policy: For a full
-                                                                refund, cancel at least 24 hours in advance of the start date of the experience. Discover and book Phang Nga Bay
-                                                                Sea Cave Canoeing & James Bond Island w/ Buffet Lunch by Big Boat.</p>                                    </div>
-                                                    </div>
-                                                </div>
-                                                <div className="accordion-item">
-                                                    <h2 className="accordion-header" id="headingThree">
-                                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                            When and where does the tour end?
-                                                        </button>
-                                                    </h2>
-                                                    <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                                                        <div className="accordion-body">
-                                                            <p>Phang Nga Bay Sea Cave Canoeing & James Bond Island w/ Buffet Lunch by Big Boat cancellation policy: For a full
-                                                                refund, cancel at least 24 hours in advance of the start date of the experience. Discover and book Phang Nga Bay
-                                                                Sea Cave Canoeing & James Bond Island w/ Buffet Lunch by Big Boat.</p>                                           </div>
-                                                    </div>
-                                                </div>
+                                                ))}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className='trip-detail-section inclusion'>
+                                <div className='trip-detail-section inclusion' ref={inclusionRef}>
                                     <h3>Inclusions</h3>
-                                    <p className='mt-4'>
-                                        Join us as we take you to some of the dreamiest places in the world. We are talking about our amazing Backpacking Trip to Europe, covering Czechia, Germany, the Netherlands, and France in 11 days!
-                                        This unforgettable adventure offers the perfect blend of guided tours and leisure time, ensuring you experience the best of each destination. Explore iconic cities with hop-on-hop-off bus tours, giving you a brief look at landmarks like the Eiffel Tower, and Prague’s Astronomical Clock.
-                                        Soak in the charm of Paris with a peaceful Seine River cruise, offering mesmerizing views of historic landmarks such as Notre Dame and the Louvre. Experience the vibrant nightlife with pub crawls in Amsterdam and Prague, immersing yourself in the local culture and making new friends along the way. Marvel at the picturesque Zaanse Schans village, famous for its historic windmills and quaint wooden houses.
-                                        Discover Amsterdam's rich brewing heritage with a fascinating tour of the Heineken Brewery, complete with a tasting session. Enjoy a classic canal cruise through the heart of Amsterdam, taking in the city's unique architecture and lively atmosphere. Wander through the streets of Paris, Berlin and Amsterdam at your own pace, indulging in local delicacies, visiting charming cafes, and shopping for souvenirs.
-                                        This meticulously crafted itinerary by WanderOn promises an adventure filled with culture, history, and unforgettable memories. Join us on this journey and create stories that you’ll cherish for a lifetime!
-                                    </p>
+
+                                    <div className='mt-4'>
+                                        <p dangerouslySetInnerHTML={{ __html: specificTourData?.price_per_package?.inclusion || "<p>No description available</p>" }}></p>
+                                    </div>
+
                                 </div>
 
-                                <div className='trip-detail-section exclusions'>
-                                    <h3>Inclusions</h3>
-                                    <p className='mt-4'>
-                                        Join us as we take you to some of the dreamiest places in the world. We are talking about our amazing Backpacking Trip to Europe, covering Czechia, Germany, the Netherlands, and France in 11 days!
-                                        This unforgettable adventure offers the perfect blend of guided tours and leisure time, ensuring you experience the best of each destination. Explore iconic cities with hop-on-hop-off bus tours, giving you a brief look at landmarks like the Eiffel Tower, and Prague’s Astronomical Clock.
-                                        Soak in the charm of Paris with a peaceful Seine River cruise, offering mesmerizing views of historic landmarks such as Notre Dame and the Louvre. Experience the vibrant nightlife with pub crawls in Amsterdam and Prague, immersing yourself in the local culture and making new friends along the way. Marvel at the picturesque Zaanse Schans village, famous for its historic windmills and quaint wooden houses.
-                                        Discover Amsterdam's rich brewing heritage with a fascinating tour of the Heineken Brewery, complete with a tasting session. Enjoy a classic canal cruise through the heart of Amsterdam, taking in the city's unique architecture and lively atmosphere. Wander through the streets of Paris, Berlin and Amsterdam at your own pace, indulging in local delicacies, visiting charming cafes, and shopping for souvenirs.
-                                        This meticulously crafted itinerary by WanderOn promises an adventure filled with culture, history, and unforgettable memories. Join us on this journey and create stories that you’ll cherish for a lifetime!
-                                    </p>
+                                <div className='trip-detail-section' ref={exclusionRef}>
+                                    <h3>Exclusions</h3>
+                                    <div className='mt-4'>
+                                        <p dangerouslySetInnerHTML={{ __html: specificTourData?.price_per_package?.exclusion || "<p>No description available</p>" }}></p>
+                                    </div>
+                                </div>
+
+                                <div className='trip-detail-section' ref={highlightsRef}>
+                                    <h3>Key Highlights</h3>
+                                    <div className='mt-4'>
+                                        <p dangerouslySetInnerHTML={{ __html: specificTourData?.price_per_package?.key_highlights || "<p>No description available</p>" }}></p>
+                                    </div>
                                 </div>
 
                                 <div className='trip-detail-section'>
-                                    <h3>Other Info </h3>
-                                    <p className='mt-3'>
-                                        Join us as we take you to some of the dreamiest places in the world. We are talking about our amazing Backpacking Trip to Europe, covering Czechia, Germany, the Netherlands, and France in 11 days!
-                                        This unforgettable adventure offers the perfect blend of guided tours and leisure time, ensuring you experience the best of each destination. Explore iconic cities with hop-on-hop-off bus tours, giving you a brief look at landmarks like the Eiffel Tower, and Prague’s Astronomical Clock.
-                                        Soak in the charm of Paris with a peaceful Seine River cruise, offering mesmerizing views of historic landmarks such as Notre Dame and the Louvre. Experience the vibrant nightlife with pub crawls in Amsterdam and Prague, immersing yourself in the local culture and making new friends along the way. Marvel at the picturesque Zaanse Schans village, famous for its historic windmills and quaint wooden houses.
-                                        Discover Amsterdam's rich brewing heritage with a fascinating tour of the Heineken Brewery, complete with a tasting session. Enjoy a classic canal cruise through the heart of Amsterdam, taking in the city's unique architecture and lively atmosphere. Wander through the streets of Paris, Berlin and Amsterdam at your own pace, indulging in local delicacies, visiting charming cafes, and shopping for souvenirs.
-                                        This meticulously crafted itinerary by WanderOn promises an adventure filled with culture, history, and unforgettable memories. Join us on this journey and create stories that you’ll cherish for a lifetime!
-                                    </p>
+                                    <h3>Cancellation Policy</h3>
+                                    <div className='mt-4'>
+                                        <p dangerouslySetInnerHTML={{ __html: specificTourData?.price_per_package?.cancellation_policy || "<p>No description available</p>" }}></p>
+                                    </div>
                                 </div>
 
                             </div>
                         </div>
+
                         <div className='col-lg-4'>
+                            {isFixedPackage && (
+                                <div className='trip-detail-right'>
+                                    <div className='trip-detail-price-card'>
+                                        <p className='mb-1'>Starting from</p>
 
-                            <div className='trip-detail-right'>
-                                <div className='trip-detail-price-card'>
-                                    <p className='mb-1'>Starting from</p>
+                                        <div className='d-flex'>
+                                            <p className='trip-price'>₹ {specificTourData?.price_per_package?.base_price}/-</p>
+                                            <p className='trip-price-per'>Per Person</p>
+                                        </div>
 
-                                    <div className='d-flex'>
-                                        <p className='trip-price'>₹ 10,000/-</p>
-                                        <p className='trip-price-per'>Per Person</p>
+                                        <button onClick={() => handlePreview(id)}>Dates & Pricing</button>
                                     </div>
-
-                                    <button onClick={() => navigate('/trips-bookings')}>Dates & Pricing</button>
                                 </div>
-                            </div>
+                            )}
 
                             <div className='trip-detail-right'>
+                                {!isFixedPackage && (
+                                    <div className='trip-detail-contact-form'>
+                                        <div className='trip-detail-contact-form-head'>
+                                            <p className='head-1'>Enquiry Now !</p>
+                                            <p className='head-2'>Allow Us to Call You Back!</p>
+                                        </div>
+
+                                        <div className='trip-detail-contact-input-container'>
+                                            <div className='trip-detail-contact-input'>
+                                                <label>Your Name</label>
+                                                <input type='text' placeholder='eg. John Doe' />
+                                            </div>
+
+                                            <div className='trip-detail-contact-input'>
+                                                <label>Your Phone Number</label>
+                                                <input type='number' placeholder='eg. 123456789' />
+                                            </div>
+
+                                            <div className='trip-detail-contact-input'>
+                                                <label>Your Email Id</label>
+                                                <input type='email' placeholder='eg. JohnDoe@gmail.com' />
+                                            </div>
+
+
+                                            <div className='trip-detail-contact-input'>
+                                                <label>No Of People</label>
+                                                <input type='number' placeholder='eg. 5' />
+                                            </div>
+
+                                            <div className='trip-detail-contact-input'>
+                                                <label>No Of Days</label>
+                                                <input type='number' placeholder='eg. 10' />
+                                            </div>
+
+                                            <div className='trip-detail-contact-input'>
+                                                <div className='admin-input-div mt-0'>
+                                                    <label>Select Prepared Hotel </label>
+                                                    <select
+                                                        name="featured_trip_page">
+                                                        <option value="">Select Hotel</option>
+                                                        <option value="Five Star">⭐ ⭐ ⭐ ⭐ ⭐</option>
+                                                        <option value="Four Star">⭐ ⭐ ⭐ ⭐</option>
+                                                        <option value="Three Star">⭐ ⭐ ⭐</option>
+                                                        <option value="Two Star">⭐ ⭐</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div className='trip-detail-contact-input'>
+                                                <div className='admin-input-div mt-0'>
+                                                    <label>Select Destination</label>
+                                                    <select
+                                                        name="featured_trip_page">
+                                                        <option value="">Select Destination</option>
+                                                        <option value="Five Star">Chennai</option>
+                                                        <option value="Four Star">India</option>
+                                                        <option value="Three Star">Mumbai</option>
+                                                        <option value="Two Star">Keral</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div className='trip-detail-contact-input'>
+                                                <div className='admin-input-div mt-0'>
+                                                    <label>Wite Some Message</label>
+                                                    <textarea style={{ height: "100px" }}></textarea>
+                                                </div>
+                                            </div>
+                                            <button>Submit</button>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
 
                         </div>

@@ -329,13 +329,15 @@ const TourCreation = () => {
   const validateDetails = (data) => {
     let validate = {};
 
-    validate.trip_title = StringValidation(data?.trip_title);
+    validate.trip_title = NonEmptyValidation(data?.trip_title);
     validate.trip_category = NonEmptyValidation(data?.trip_category);
     validate.destination = NonEmptyValidation(data?.destination);
     validate.slug = SlugValidation(data?.slug);
     validate.days = NumberValidation(data?.days);
     validate.nights = NumberValidation(data?.nights);
     validate.short_description = NonEmptyValidation(data?.short_description);
+    validate.pickup_location = StringValidation(data?.pickup_location);
+    validate.drop_location = StringValidation(data?.drop_location);
     validate.long_description = NonEmptyValidation(data?.long_description);
     validate.primary_trip_image = NonEmptyValidation(data?.primary_trip_image);
     validate.hero_slider_images = NonEmptyArrayValidation(data?.hero_slider_images);
@@ -447,7 +449,7 @@ const TourCreation = () => {
 
     validate.base_price = NumberValidation(data?.base_price);
     validate.currency = NonEmptyValidation(data?.currency);
-    validate.start_from = NonEmptyValidation(data?.start_from);
+    // validate.start_from = NonEmptyValidation(data?.start_from);
     validate.double_occupancy = NonEmptyValidation(data?.double_occupancy);
     validate.quad_occupancy = NonEmptyValidation(data?.quad_occupancy);
     validate.triple_occupancy = NonEmptyValidation(data?.triple_occupancy);
@@ -650,6 +652,7 @@ const TourCreation = () => {
       errorMsg("At least one itinerary should have a filled field");
       return;
     }
+
     const isValidePricingDetail = pricingValidationDetail(customPricePerPerson)
 
     customPricePerPerson.seasonal_pricing = pricingDetail
@@ -659,9 +662,9 @@ const TourCreation = () => {
     }
 
     customizedPackageData.nights = (customizedPackageData?.days - 1).toString()
-    if (selectedCreatedTags?.length !== 0) {
-      customizedPackageData.tags = selectedCreatedTags
-    }
+    // if (selectedCreatedTags?.length !== 0) {
+    //   customizedPackageData.tags = selectedCreatedTags
+    // }
 
     delete customizedPackageData.undefined
 
@@ -672,6 +675,7 @@ const TourCreation = () => {
 
     if (Object.values(isValideFirst).every((data) => data.status === true) &&
       Object.values(isValidePricingDetail).every((data) => data.status === true)) {
+        console.log("validate success")
       const response = await CreateTripPackage({ customizePackage: cleanedData })
       if (response && response?.statusCode === 200) {
         navigate(-1)
@@ -682,10 +686,20 @@ const TourCreation = () => {
       errorMsg("Please fill all the required fields")
     }
 
-
   }
 
   const handleFixedPackageSubmit = async (e) => {
+
+    const filteredItinerary = itinerarys.filter(item => {
+      return item.day_title.trim() !== "" || item.day_description.trim() !== "";
+    });
+
+    if (filteredItinerary.length > 0) {
+      fixedPackageData.day_wise_itenary = filteredItinerary;
+    } else {
+      errorMsg("At least one itinerary should have a filled field");
+      return;
+    }
 
     fixedPackageData.nights = (fixedPackageData?.days - 1).toString()
     fixedPackageData.price_per_package = fixedPricePerPerson
@@ -716,6 +730,8 @@ const TourCreation = () => {
         navigate(-1)
         successMsg("Trip created successsfully")
       }
+      console.log("🙏 🙏 🙏 🙏 🙏 🙏")
+      console.log(fixedPackageData,"fixedPackageData-fixedPackageData")
     }
     else {
       errorMsg("Please fill all the required fields")
@@ -900,6 +916,34 @@ const TourCreation = () => {
                 </div>
               </div>
 
+              <div className='col-lg-6'>
+                <div className='admin-input-div'>
+                  <label>Pickup Location <span className='required-icon'>*</span></label>
+                  <input type="text" placeholder='Enter Pickup Location' name="pickup_location"
+                    value={customizedPackageData?.pickup_location}
+                    onChange={(e) => handleCustomizedPackageChange(e)}
+                    onBlur={(e) => handleBlurCustomized(e.target.name, e.target.value)}
+                  />
+                  {validation?.pickup_location?.status === false && validation?.pickup_location?.message && (
+                    <p className='error-para'>Pickup Location {validation.pickup_location.message}</p>
+                  )}
+                </div>
+              </div>
+
+              <div className='col-lg-6'>
+                <div className='admin-input-div'>
+                  <label>Drop Location <span className='required-icon'>*</span></label>
+                  <input type="text" placeholder='Enter Drop Location' name="drop_location"
+                    value={customizedPackageData?.drop_location}
+                    onChange={(e) => handleCustomizedPackageChange(e)}
+                    onBlur={(e) => handleBlurCustomized(e.target.name, e.target.value)}
+                  />
+                  {validation?.drop_location?.status === false && validation?.drop_location?.message && (
+                    <p className='error-para'>Drop Location {validation.drop_location.message}</p>
+                  )}
+                </div>
+              </div>
+
 
             </div>
           </>
@@ -1008,6 +1052,8 @@ const TourCreation = () => {
 
                 </div>
               </div>
+
+
             </div>
 
             {activeTripTab == 1 && (
@@ -1101,8 +1147,10 @@ const TourCreation = () => {
                                       defaultActionOnPaste: "insert_clear_html",
                                       allowPaste: true
                                     }}
-                                    tabIndex={1}
-                                    onBlur={(newContent) => updateItinerary(index, "day_description", newContent)}
+                                    onBlur={(value) => {
+                                      handleBlurCustomizedItinerary(index);
+                                      updateItinerary(index, "day_description", value);
+                                    }}
                                   />
                                   {validation[`itinerarys_${index}_day_description`]?.status === false && (
                                     <div className="text-danger small">
@@ -1501,7 +1549,7 @@ const TourCreation = () => {
               <div className='col-lg-6'>
                 <div className='admin-input-div'>
                   <label>Meta Title <span className='required-icon'>*</span></label>
-                  <input type="text" placeholder='Enter Meta Title' name="meta_title"
+                  <textarea type="text" placeholder='Enter Meta Title' name="meta_title"
                     value={customizedPackageData?.meta_title}
                     onChange={(e) => handleCustomizedPackageChange(e)}
                     onBlur={(e) => handleBlurCustomized(e.target.name, e.target.value)}
@@ -1515,7 +1563,7 @@ const TourCreation = () => {
               <div className='col-lg-6'>
                 <div className='admin-input-div'>
                   <label>Meta Tag <span className='required-icon'>*</span></label>
-                  <input type="text" placeholder='Enter Meta Title' name="meta_tags"
+                  <textarea type="text" placeholder='Enter Meta Title' name="meta_tags"
                     value={customizedPackageData?.meta_tags}
                     onChange={(e) => handleCustomizedPackageChange(e)}
                     onBlur={(e) => handleBlurCustomized(e.target.name, e.target.value)}
@@ -1530,7 +1578,7 @@ const TourCreation = () => {
               <div className='col-lg-6'>
                 <div className='admin-input-div'>
                   <label>Meta Description <span className='required-icon'>*</span></label>
-                  <input type="text" placeholder='Enter Meta Title' name="meta_description"
+                  <textarea type="text" placeholder='Enter Meta Title' name="meta_description"
                     value={customizedPackageData?.meta_description}
                     onChange={(e) => handleCustomizedPackageChange(e)}
                     onBlur={(e) => handleBlurCustomized(e.target.name, e.target.value)}
@@ -1731,6 +1779,34 @@ const TourCreation = () => {
                 </div>
               </div>
 
+              <div className='col-lg-6'>
+                <div className='admin-input-div'>
+                  <label>Pickup Location <span className='required-icon'>*</span></label>
+                  <input type="text" placeholder='Enter Pickup Location' name="pickup_location"
+                    value={fixedPackageData?.pickup_location}
+                    onChange={(e) => handleFixedPackageChange(e)}
+                    onBlur={(e) => handleBlurCustomized(e.target.name, e.target.value)}
+                  />
+                  {validation?.pickup_location?.status === false && validation?.pickup_location?.message && (
+                    <p className='error-para'>Pickup Location {validation.pickup_location.message}</p>
+                  )}
+                </div>
+              </div>
+
+              <div className='col-lg-6'>
+                <div className='admin-input-div'>
+                  <label>Drop Location <span className='required-icon'>*</span></label>
+                  <input type="text" placeholder='Enter Drop Location' name="drop_location"
+                    value={fixedPackageData?.drop_location}
+                    onChange={(e) => handleFixedPackageChange(e)}
+                    onBlur={(e) => handleBlurCustomized(e.target.name, e.target.value)}
+                  />
+                  {validation?.drop_location?.status === false && validation?.drop_location?.message && (
+                    <p className='error-para'>Drop Location {validation.drop_location.message}</p>
+                  )}
+                </div>
+              </div>
+
 
             </div>
           </>
@@ -1853,7 +1929,7 @@ const TourCreation = () => {
                   </div>
 
                   <div className="destination-faq">
-                    <div className="accordion" id="accordionExample">
+                    <div className="accordion" id="departureAccordion">
                       {departureSlots.map((slots, index) => (
                         <div className='mt-4'>
                           <div className="accordion-item" key={index} >
@@ -1862,9 +1938,9 @@ const TourCreation = () => {
                                 className="accordion-button flex-grow-1 fw-bold"
                                 type="button"
                                 data-bs-toggle="collapse"
-                                data-bs-target={`#collapse${index}`}
+                                data-bs-target={`#departureCollapse${index}`}
                                 aria-expanded="true"
-                                aria-controls={`collapse${index}`}
+                                aria-controls={`departureCollapse${index}`}
                               >
                                 Departure {index + 1}
                               </button>
@@ -1884,9 +1960,9 @@ const TourCreation = () => {
                             </h2>
 
                             <div
-                              id={`collapse${index}`}
+                              id={`departureCollapse${index}`}
                               className="accordion-collapse collapse show"
-                              data-bs-parent="#accordionExample"
+                              data-bs-parent="#departureAccordion"
                             >
                               <div className="accordion-body">
 
@@ -1973,6 +2049,7 @@ const TourCreation = () => {
                                         onChange={(e) => updateDepartureSlots(index, "status", e.target.value)}
                                         onBlur={(e) => handleBlurDepartureSlots("status", departureSlots[index].status, index)}>
                                         <option value="">Select Status</option>
+                                        <option value="Available">Available</option>
                                         <option value="Booked_Out">Booked Out</option>
                                         <option value="Cancelled">Cancelled</option>
                                       </select>
@@ -1989,6 +2066,152 @@ const TourCreation = () => {
                       ))}
                     </div>
                   </div>
+                </div>
+              </div>
+            )}
+
+            {activeTripTab == 2 && (
+              <div className='itenary-main my-5'>
+                <div className='admin-input-div mt-0'>
+                  <label>Day Wise Itenary </label>
+                </div>
+
+                <div className='itenary-list-main mt-4 '>
+                  <div className='itenary-content mb-5'>
+                    <h5 className='text-center'>Itinerary Builder</h5>
+                    <p className='text-center'>Create day-by-day itinerary for your customized package</p>
+                  </div>
+
+                  <div className="destination-faq">
+                    <div className="accordion" id="itineraryAccordion">
+                      {itinerarys.map((itinerary, index) => (
+                        <div className='mt-4'>
+                          <div className="accordion-item" key={index} >
+                            <h2 className="accordion-header d-flex align-items-center justify-content-between">
+                              <button
+                                className="accordion-button flex-grow-1 fw-bold"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target={`#itineraryCollapse${index}`}
+                                aria-expanded="true"
+                                aria-controls={`itineraryCollapse${index}`}
+                              >
+                                DAY {index + 1}
+                              </button>
+                              <div className="ms-3 d-flex gap-2">
+                                <button className="destination-faq-add me-3" onClick={addItinerary}>
+                                  Add
+                                </button>
+                                {index !== 0 && (
+                                  <button
+                                    className="destination-faq-add faq-delete me-4"
+                                    onClick={() => deleteItinerary(index)}
+                                  >
+                                    Delete
+                                  </button>
+                                )}
+                              </div>
+                            </h2>
+
+                            <div
+                              id={`itineraryCollapse${index}`}
+                              className="accordion-collapse collapse show"
+                              data-bs-parent="#itineraryAccordion"
+                            >
+                              <div className="accordion-body">
+                                <div className="admin-input-div mb-3">
+                                  <label className=''>Day Title <span className='required-icon'>*</span></label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    value={itinerary?.day_title}
+                                    placeholder="Enter Day Title"
+                                    onChange={(e) =>
+                                      updateItinerary(index, "day_title", e.target.value)
+                                    }
+                                    onBlur={() => handleBlurCustomizedItinerary(index)}
+                                  />
+                                  {validation[`itinerarys_${index}_day_title`]?.status === false && (
+                                    <div className="text-danger small">
+                                      {validation[`itinerarys_${index}_day_title`].message}
+                                    </div>
+                                  )}
+                                </div>
+
+                                <div className="admin-input-div admin-desti-faq">
+                                  <label>Day Description <span className='required-icon'>*</span></label>
+                                  <JoditEditor
+                                    ref={editor}
+                                    value={itinerary?.day_description}
+                                    config={{
+                                      readonly: false,
+                                      height: 350,
+                                      toolbarButtonSize: "middle",
+                                      askBeforePasteHTML: false,
+                                      askBeforePasteFromWord: false,
+                                      defaultActionOnPaste: "insert_clear_html",
+                                      allowPaste: true
+                                    }}
+                                    tabIndex={1}
+                                    onBlur={(value) => {
+                                      handleBlurCustomizedItinerary(index);
+                                      updateItinerary(index, "day_description", value);
+                                    }}
+                                  />
+                                  {validation[`itinerarys_${index}_day_description`]?.status === false && (
+                                    <div className="text-danger small">
+                                      {validation[`itinerarys_${index}_day_description`].message}
+                                    </div>
+                                  )}
+                                </div>
+
+                                <div className='col-lg-6'>
+                                  <div className='admin-input-div'>
+                                    <label>Select Activity</label>
+                                    <Select
+                                      isMulti
+                                      placeholder="Select Activity"
+                                      options={activityOptions}
+                                      value={activityOptions.filter(opt => selectedActivities.includes(opt.value))}
+                                      onChange={(selected) =>
+                                        setSelectedActivities(selected ? selected.map(item => item.value) : [])
+                                      }
+                                    />
+                                  </div>
+                                </div>
+
+                                <div className="admin-input-div admin-desti-faq">
+                                  <label>Day Images (Optional) </label>
+                                  <input
+                                    type="file"
+                                    multiple
+                                    accept="image/*"
+                                    className="form-control"
+                                    onChange={(e) => handleMultipleFileUpload(e, "day_images", index)}
+                                  />
+
+
+                                  {itinerary?.day_images && itinerary?.day_images?.length > 0 && (
+                                    <div className="d-flex flex-wrap">
+                                      {itinerary?.day_images?.map((image, index) => (
+                                        <div className='upload-image-div destination-image-div'>
+                                          <div>
+                                            <img src={`${BACKEND_DOMAIN}${image}`} alt="Category-Preview" key={index} />
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
                 </div>
               </div>
             )}
@@ -2233,7 +2456,7 @@ const TourCreation = () => {
               <div className='col-lg-6'>
                 <div className='admin-input-div'>
                   <label>Meta Title <span className='required-icon'>*</span></label>
-                  <input type="text" placeholder='Enter Meta Title' name="meta_title"
+                  <textarea type="text" placeholder='Enter Meta Title' name="meta_title"
                     value={fixedPackageData?.meta_title}
                     onChange={(e) => handleFixedPackageChange(e)}
                     onBlur={(e) => handleBlurCustomized(e.target.name, e.target.value)}
@@ -2247,7 +2470,7 @@ const TourCreation = () => {
               <div className='col-lg-6'>
                 <div className='admin-input-div'>
                   <label>Meta Tag <span className='required-icon'>*</span></label>
-                  <input type="text" placeholder='Enter Meta Title' name="meta_tags"
+                  <textarea type="text" placeholder='Enter Meta Title' name="meta_tags"
                     value={fixedPackageData?.meta_tags}
                     onChange={(e) => handleFixedPackageChange(e)}
                     onBlur={(e) => handleBlurCustomized(e.target.name, e.target.value)}
@@ -2262,7 +2485,7 @@ const TourCreation = () => {
               <div className='col-lg-6'>
                 <div className='admin-input-div'>
                   <label>Meta Description <span className='required-icon'>*</span></label>
-                  <input type="text" placeholder='Enter Meta Title' name="meta_description"
+                  <textarea type="text" placeholder='Enter Meta Title' name="meta_description"
                     value={fixedPackageData?.meta_description}
                     onChange={(e) => handleFixedPackageChange(e)}
                     onBlur={(e) => handleBlurCustomized(e.target.name, e.target.value)}

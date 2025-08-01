@@ -138,6 +138,7 @@
     top: 100px;
 }
 
+
 .trip-detail-price-card .trip-price {
     font-size: 30px;
     font-weight: 600;
@@ -216,7 +217,7 @@
 }
 
 .trip-detail-faqs .accordion-button::after {
-    content: "";
+    content: "+";
     border: none;
 }
 
@@ -264,11 +265,12 @@
 }
 
 .costing-head-table table th {
-    padding: 20px 0px;
+    padding: 12px 0px;
     background-color: #EB662B;
     color: white;
     font-weight: 600;
     text-align: center;
+    font-size: 15px;
 }
 
 .costing-head-table table td {
@@ -278,10 +280,22 @@
 .costing-head-table table tr {
     padding: 10px;
     text-align: center;
+    font-size: 14px;
 }
 
-.costing-head-table table{
+.costing-head-table table {
     width: 100%;
+}
+
+.costing-head-table table .selling-cost {
+    font-weight: 600;
+    text-decoration: line-through;
+    color: rgb(117, 117, 117);
+    ;
+}
+
+.costing-head-table table td {
+    font-weight: 600;
 }
 
 .booking-right {
@@ -298,12 +312,98 @@
     border-collapse: separate !important;
 }
 
-.booking-center-card .fa-arrow-left{
+.booking-center-card .fa-arrow-left {
     position: absolute;
     font-size: 20px;
     display: flex;
     justify-content: start;
     left: 75px;
     cursor: pointer;
-    
+
+}
+
+.trip-detail-overview {
+    height: 70px;
+    overflow: hidden;
+    position: relative;
+    margin-top: 25px;
+}
+
+.trip-detail-overview-more {
+    margin-top: 25px;
+    height: auto;
+    overflow: hidden;
+    position: relative;
+}
+
+.trip-day-image img {
+    width: 200px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin: 20px 10px 10px 0px;
+}
+
+
+.trip-detail-contact-form {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    border-radius: 3px;
+    margin-top: 50px;
+    border: 1px solid #EB662B;
+    position: sticky;
+}
+
+.trip-detail-contact-form-head .head-1 {
+    color: #EB662B;
+    font-weight: 600;
+    font-size: 19px;
+}
+
+.trip-detail-contact-form-head .head-2 {
+    color: black;
+    font-weight: 600;
+    font-size: 17px;
+}
+
+.trip-detail-contact-form-head {
+    background-color: #FFD0B2;
+    padding: 15px 30px;
+}
+
+.trip-detail-contact-input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+
+}
+
+.trip-detail-contact-input label {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+
+.trip-detail-contact-input input {
+    margin-top: 5px;
+    padding: 8px 15px;
+    border-radius: 4px;
+    border: 1px solid rgb(209, 209, 209);
+}
+
+.trip-detail-contact-input-container {
+    padding: 20px 30px 30px;
+    height: 550px;
+    overflow-y: scroll;
+}
+
+.trip-detail-contact-form button{
+    background-color: #EB662B;
+    color: white;
+    border-radius: 50px;
+    margin-top: 20xp;
+    width: 100%;
+    padding: 7px 0px;
+    font-size: 19px;
+    font-weight: 600;
+    border: none;
 }

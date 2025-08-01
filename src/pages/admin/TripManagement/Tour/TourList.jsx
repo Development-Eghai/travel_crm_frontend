@@ -62,9 +62,9 @@ const TourList = () => {
 
                 return (
                     <div className='admin-actions'>
-                        <i className="fa-solid fa-pen-to-square"></i>
+                        {/* <i className="fa-solid fa-pen-to-square"></i>
 
-                        <i className="fa-solid fa-trash ms-3"></i>
+                        <i className="fa-solid fa-trash ms-3"></i> */}
 
                         <i
                             className="fa-solid fa-eye ms-3"
@@ -75,23 +75,23 @@ const TourList = () => {
                 );
             }
         },
-        {
-            field: 'status',
-            headerName: 'Status',
-            flex: 1,
-            sortable: false,
-            filterable: false,
-            disableColumnMenu: true,
-            renderCell: (params) => {
-                const status = params.row.status === "active" ? true : false;
-                return (
-                    <div className="switch">
-                        <input type="checkbox" checked={status} readOnly />
-                        <span className="slider-table round"></span>
-                    </div>
-                );
-            },
-        }
+        // {
+        //     field: 'status',
+        //     headerName: 'Status',
+        //     flex: 1,
+        //     sortable: false,
+        //     filterable: false,
+        //     disableColumnMenu: true,
+        //     renderCell: (params) => {
+        //         const status = params.row.status === "active" ? true : false;
+        //         return (
+        //             <div className="switch">
+        //                 <input type="checkbox" checked={status} readOnly />
+        //                 <span className="slider-table round"></span>
+        //             </div>
+        //         );
+        //     },
+        // }
     ];
 
     const numberedRows = tripList?.length && tripList?.map((row, index) => ({
