@@ -155,7 +155,7 @@ const TourBookingPreview = () => {
                     <div>
                       <p className='mb-1'>Starting from</p>
                       <div className='d-flex'>
-                        <p className='trip-price'>₹ 10,000/-</p>
+                        <p className='trip-price'>₹ {specificTourData?.price_per_package?.base_price}/-</p>
                         <p className='trip-price-per'>Per Person</p>
                       </div>
                     </div>
