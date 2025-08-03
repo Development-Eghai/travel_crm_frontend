@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const BACKEND_DOMAIN = import.meta.env.VITE_BACKEND_URL || "http://localhost:8006";
+export const BACKEND_DOMAIN = import.meta.env.VITE_BACKEND_URL;
 // export const BACKEND_DOMAIN = "http://localhost:8006";
 
 export const BACKEND_BASE = "/api";
