@@ -18,12 +18,6 @@ const DestinationPreview = () => {
     const [destinationContent, setDestinationContent] = useState({})
     const [childDestination, setChildDestination] = useState({})
 
-    const bannerImages = [
-        Images?.destination_one,
-        Images?.destination_two,
-        Images?.destination_three
-    ];
-
     const sectionTabs = [
         {
             id: 1,
@@ -51,6 +45,7 @@ const DestinationPreview = () => {
         }
 
     ]
+    
     const [readMore, setReadMore] = useState(false)
     const [viewMore, setViewMore] = useState(false)
     const [showReadMore, setShowReadMore] = useState(false);
