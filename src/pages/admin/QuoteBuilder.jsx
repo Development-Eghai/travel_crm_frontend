@@ -91,6 +91,24 @@ const QuoteBuilder = () => {
   const [quotes, setQuotes] = useState(sampleQuotes);
   const [selected, setSelected] = useState([]);
   const [activeTab, setActiveTab] = useState('quotes'); // 'quotes', 'builder', 'itinerary', 'pricing'
+  
+  // Check if lead data was passed from Lead Management
+  React.useEffect(() => {
+    if (location.state?.leadData) {
+      const leadData = location.state.leadData;
+      setNewQuote(prev => ({
+        ...prev,
+        leadName: leadData.name || '',
+        leadPhone: leadData.phone || '',
+        destination: leadData.destination || '',
+        tripType: leadData.tripType || ''
+      }));
+      setActiveTab('builder');
+      setFormErrors({}); // Clear any existing form errors
+      // Clear the state to prevent re-triggering on subsequent renders
+      navigate(location.pathname, { replace: true });
+    }
+  }, [location.state, navigate, location.pathname]);
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({
     status: '',
@@ -139,6 +157,20 @@ const QuoteBuilder = () => {
   const [formErrors, setFormErrors] = useState({});
   const [pdfTemplate, setPdfTemplate] = useState('professional');
   const [previewHTML, setPreviewHTML] = useState('');
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editingQuote, setEditingQuote] = useState(null);
+  const [dropdownOpen, setDropdownOpen] = useState(null);
+
+  // Close dropdown when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownOpen && !event.target.closest('.dropdown-container')) {
+        setDropdownOpen(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [dropdownOpen]);
 
   const statusOptions = ['Pending', 'Approved', 'Rejected', 'Expired'];
   const destinationOptions = ['Dubai', 'Switzerland', 'Paris', 'London', 'Rome'];
@@ -232,6 +264,16 @@ const QuoteBuilder = () => {
         pricing: newPricing
       };
     });
+    
+    // Clear the specific error for this quote item when user starts typing
+    const errorKey = `item${field.charAt(0).toUpperCase() + field.slice(1)}${index}`;
+    if (formErrors[errorKey]) {
+      setFormErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[errorKey];
+        return newErrors;
+      });
+    }
   };
 
   // Update pricing to include quote items
@@ -247,15 +289,29 @@ const QuoteBuilder = () => {
     newPricing.discountAmount = (newPricing.totalPrice * newPricing.discountPercent) / 100;
     newPricing.payablePrice = newPricing.totalPrice - newPricing.discountAmount;
     setNewQuote(prev => ({ ...prev, pricing: newPricing }));
+    
+    // Clear the specific error for this pricing field when user starts typing
+    if (formErrors[field]) {
+      setFormErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
   };
 
   const handleNewQuoteChange = (e) => {
     const { name, value } = e.target;
-    setNewQuote(prev => {
-      const updated = { ...prev, [name]: value };
-      setFormErrors(validateQuoteForm(updated));
-      return updated;
-    });
+    setNewQuote(prev => ({ ...prev, [name]: value }));
+    
+    // Clear the specific error for this field when user starts typing
+    if (formErrors[name]) {
+      setFormErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
   };
 
   // Validation function
@@ -263,11 +319,13 @@ const QuoteBuilder = () => {
     const errors = {};
     // Lead info required
     if (!formData.leadName.trim()) errors.leadName = 'Lead name is required.';
-    if (!/^\d{10}$/.test(formData.leadPhone)) {
-      errors.leadPhone = 'Mobile number must be exactly 10 digits.';
+    if (!formData.leadPhone.trim()) {
+      errors.leadPhone = 'Mobile number is required.';
+    } else if (!/^\d{10,15}$/.test(formData.leadPhone.replace(/\s+/g, ''))) {
+      errors.leadPhone = 'Please enter a valid mobile number (10-15 digits).';
     }
-    if (!formData.destination) errors.destination = 'Destination is required.';
-    if (!formData.tripType) errors.tripType = 'Trip type is required.';
+    if (!formData.destination || formData.destination === '') errors.destination = 'Destination is required.';
+    if (!formData.tripType || formData.tripType === '') errors.tripType = 'Trip type is required.';
     // Quote items required
     formData.items.forEach((item, idx) => {
       if (!item.name.trim()) {
@@ -362,6 +420,28 @@ const QuoteBuilder = () => {
     }
   };
 
+  // Edit and Delete handlers
+  const handleEditQuote = (quote) => {
+    setEditingQuote(quote);
+    setEditModalOpen(true);
+    setDropdownOpen(null);
+  };
+
+  const handleDeleteQuote = (quoteId) => {
+    if (window.confirm('Are you sure you want to delete this quote?')) {
+      setQuotes(quotes.filter(q => q.id !== quoteId));
+      setDropdownOpen(null);
+    }
+  };
+
+  const handleSaveEdit = () => {
+    if (editingQuote) {
+      setQuotes(quotes.map(q => q.id === editingQuote.id ? editingQuote : q));
+      setEditModalOpen(false);
+      setEditingQuote(null);
+    }
+  };
+
   // Preview handler for current form
   const handlePreviewCurrent = () => {
     const errors = validateQuoteForm(newQuote);
@@ -380,7 +460,9 @@ const QuoteBuilder = () => {
     exportQuoteToPDF_html2pdf(html, `Travel_Quotation_${newQuote.leadName || 'Quote'}.pdf`);
   };
 
-  const hasErrors = Object.keys(formErrors).length > 0;
+  // Calculate errors dynamically based on current form data
+  const currentErrors = validateQuoteForm(newQuote);
+  const hasErrors = Object.keys(currentErrors).length > 0;
 
   return (
     <div className="quote-builder-page" style={{ padding: '2rem', background: '#f8fafc', minHeight: '100vh' }}>
@@ -683,37 +765,88 @@ const QuoteBuilder = () => {
                       </td>
                       <td style={{ padding: '16px', color: '#666', fontSize: '12px' }}>{quote.createdDate}</td>
                       <td style={{ padding: '16px', color: '#666', fontSize: '12px' }}>{quote.validUntil}</td>
-                      <td style={{ padding: '16px' }}>
-                        <div style={{ display: 'flex', gap: '8px' }}>
+                      <td style={{ padding: '16px', position: 'relative' }}>
+                        {/* Actions Dropdown */}
+                        <div className="dropdown-container" style={{ position: 'relative' }}>
                           <button
-                            onClick={() => handlePreviewQuote(quote)}
-                            style={{
-                              background: '#1976d2',
-                              color: '#fff',
-                              border: 'none',
-                              padding: '6px 12px',
-                              borderRadius: '4px',
-                              cursor: 'pointer',
-                              fontSize: '12px',
-                              fontWeight: 500
-                            }}
-                            title="Preview Quote"
-                          >
-                            <i className="fa-solid fa-eye" style={{ marginRight: '4px' }}></i>
-                            Preview
-                          </button>
-                          <button
+                            onClick={() => setDropdownOpen(dropdownOpen === quote.id ? null : quote.id)}
                             style={{
                               background: 'none',
                               border: 'none',
                               cursor: 'pointer',
                               color: '#666',
-                              fontSize: 16
+                              fontSize: 16,
+                              padding: '4px 8px',
+                              borderRadius: '4px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center'
                             }}
-                            title="More Actions"
+                            title="Actions"
                           >
                             <i className="fa-solid fa-ellipsis-vertical"></i>
                           </button>
+                          
+                          {dropdownOpen === quote.id && (
+                            <div style={{
+                              position: 'absolute',
+                              top: '100%',
+                              right: 0,
+                              background: '#fff',
+                              border: '1px solid #e0e0e0',
+                              borderRadius: '6px',
+                              boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                              zIndex: 1000,
+                              minWidth: '120px',
+                              padding: '8px 0'
+                            }}>
+                              <button
+                                onClick={() => handleEditQuote(quote)}
+                                style={{
+                                  width: '100%',
+                                  background: 'none',
+                                  border: 'none',
+                                  padding: '8px 16px',
+                                  textAlign: 'left',
+                                  cursor: 'pointer',
+                                  fontSize: '13px',
+                                  color: '#333',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '8px'
+                                }}
+                                onMouseOver={e => e.target.style.background = '#f5f5f5'}
+                                onMouseOut={e => e.target.style.background = 'none'}
+                              >
+                                <i className="fa-solid fa-edit" style={{ fontSize: '11px', color: '#1976d2' }}></i>
+                                Edit
+                              </button>
+                              
+                              <div style={{ borderTop: '1px solid #e0e0e0', margin: '4px 0' }}></div>
+                              
+                              <button
+                                onClick={() => handleDeleteQuote(quote.id)}
+                                style={{
+                                  width: '100%',
+                                  background: 'none',
+                                  border: 'none',
+                                  padding: '8px 16px',
+                                  textAlign: 'left',
+                                  cursor: 'pointer',
+                                  fontSize: '13px',
+                                  color: '#d32f2f',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '8px'
+                                }}
+                                onMouseOver={e => e.target.style.background = '#ffebee'}
+                                onMouseOut={e => e.target.style.background = 'none'}
+                              >
+                                <i className="fa-solid fa-trash" style={{ fontSize: '11px' }}></i>
+                                Delete
+                              </button>
+                            </div>
+                          )}
                         </div>
                       </td>
                     </tr>
@@ -852,7 +985,7 @@ const QuoteBuilder = () => {
                 </button>
               </div>
               {newQuote.items.map((item, index) => (
-                <div key={index} style={{ display: 'grid', gridTemplateColumns: '1fr 150px 40px', gap: '1rem', alignItems: 'end', marginBottom: '1rem' }}>
+                <div key={index} style={{ display: 'grid', gridTemplateColumns: '60% 20% 20%', gap: '1rem', alignItems: 'end', marginBottom: '1rem' }}>
                   <div>
                     <label style={{ display: 'block', marginBottom: '4px', fontWeight: 500, fontSize: '14px' }}>Item Name</label>
                     <input
@@ -895,7 +1028,7 @@ const QuoteBuilder = () => {
                       onChange={e => updateQuoteItem(index, 'amount', e.target.value)}
                       placeholder="0"
                       style={{
-                        width: '100%',
+                        width: '90%',
                         padding: '10px 12px',
                         border: formErrors[`itemAmount${index}`] ? '1px solid #e57373' : '1px solid #ccc',
                         borderRadius: '6px',
@@ -1429,6 +1562,150 @@ const QuoteBuilder = () => {
           <div className="modal-content" style={{ maxWidth: 900, width: '100%', borderRadius: 18, boxShadow: '0 8px 32px rgba(25,118,210,0.12)', padding: '2.2rem 1.2rem', position: 'relative', margin: '0 auto', maxHeight: '90vh', overflowY: 'auto' }} onClick={e => e.stopPropagation()}>
             <div dangerouslySetInnerHTML={{ __html: previewHTML }} />
             <button onClick={() => setShowPreview(false)} style={{ marginTop: 24, background: '#1976d2', color: '#fff', border: 'none', borderRadius: 6, padding: '10px 28px', fontWeight: 600, fontSize: 16, cursor: 'pointer' }}>Close</button>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Quote Modal */}
+      {editModalOpen && editingQuote && (
+        <div className="modal-backdrop" onClick={() => setEditModalOpen(false)}>
+          <div
+            className="modal-content"
+            style={{
+              maxWidth: 480,
+              width: '100%',
+              borderRadius: 18,
+              boxShadow: '0 8px 32px rgba(25,118,210,0.12)',
+              padding: '2.2rem 1.2rem',
+              position: 'relative',
+              margin: '0 auto',
+              maxHeight: '90vh',
+              overflowY: 'auto'
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            <h2 style={{
+              marginBottom: 24,
+              textAlign: 'center',
+              fontWeight: 700,
+              letterSpacing: 1,
+              fontSize: 22
+            }}>Edit Quote: {editingQuote.id}</h2>
+            
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Lead Name</label>
+              <input
+                value={editingQuote.leadName}
+                onChange={(e) => setEditingQuote({...editingQuote, leadName: e.target.value})}
+                style={{
+                  width: '100%',
+                  borderRadius: 6,
+                  padding: '10px 12px',
+                  border: '1px solid #ccc',
+                  fontSize: 15
+                }}
+              />
+            </div>
+            
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Destination</label>
+              <select
+                value={editingQuote.destination}
+                onChange={(e) => setEditingQuote({...editingQuote, destination: e.target.value})}
+                style={{
+                  width: '100%',
+                  borderRadius: 6,
+                  padding: '10px 12px',
+                  border: '1px solid #ccc',
+                  fontSize: 15
+                }}
+              >
+                {destinationOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+              </select>
+            </div>
+            
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Trip Type</label>
+              <select
+                value={editingQuote.tripType}
+                onChange={(e) => setEditingQuote({...editingQuote, tripType: e.target.value})}
+                style={{
+                  width: '100%',
+                  borderRadius: 6,
+                  padding: '10px 12px',
+                  border: '1px solid #ccc',
+                  fontSize: 15
+                }}
+              >
+                {tripTypeOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+              </select>
+            </div>
+            
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Status</label>
+              <select
+                value={editingQuote.status}
+                onChange={(e) => setEditingQuote({...editingQuote, status: e.target.value})}
+                style={{
+                  width: '100%',
+                  borderRadius: 6,
+                  padding: '10px 12px',
+                  border: '1px solid #ccc',
+                  fontSize: 15
+                }}
+              >
+                {statusOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+              </select>
+            </div>
+            
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Total Amount</label>
+              <input
+                type="number"
+                value={editingQuote.totalAmount}
+                onChange={(e) => setEditingQuote({...editingQuote, totalAmount: Number(e.target.value)})}
+                style={{
+                  width: '100%',
+                  borderRadius: 6,
+                  padding: '10px 12px',
+                  border: '1px solid #ccc',
+                  fontSize: 15
+                }}
+              />
+            </div>
+
+            <div className="modal-buttons" style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
+              <button
+                onClick={() => setEditModalOpen(false)}
+                style={{
+                  background: '#fff',
+                  color: '#1976d2',
+                  border: '1.5px solid #1976d2',
+                  borderRadius: 6,
+                  padding: '10px 28px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  fontSize: 16
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveEdit}
+                style={{
+                  background: '#1976d2',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: 6,
+                  padding: '10px 28px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  fontSize: 16
+                }}
+              >
+                Save Changes
+              </button>
+            </div>
           </div>
         </div>
       )}

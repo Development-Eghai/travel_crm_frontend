@@ -67,7 +67,6 @@ const LeadManagement = () => {
   });
   const [selectedLead, setSelectedLead] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(null);
-  const [editingStatusId, setEditingStatusId] = useState(null);
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [newLead, setNewLead] = useState({
@@ -93,6 +92,19 @@ const LeadManagement = () => {
     notes: '',
   });
   const [formErrors, setFormErrors] = useState({});
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editingLead, setEditingLead] = useState(null);
+
+  // Close dropdown when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownOpen && !event.target.closest('.dropdown-container')) {
+        setDropdownOpen(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [dropdownOpen]);
 
   const validateLeadForm = () => {
     const errors = {};
@@ -119,15 +131,7 @@ const LeadManagement = () => {
   const handleSelect = (id) => {
     setSelected(selected.includes(id) ? selected.filter(s => s !== id) : [...selected, id]);
   };
-  const handleAssign = (id, value) => {
-    setLeads(leads.map(l => l.id === id ? { ...l, assignedTo: value } : l));
-  };
-  const handleStatus = (id, value) => {
-    setLeads(leads.map(l => l.id === id ? { ...l, status: value } : l));
-  };
-  const handleFollowUp = (id, value) => {
-    setLeads(leads.map(l => l.id === id ? { ...l, followUp: value } : l));
-  };
+
 
   const filteredLeads = leads.filter(lead => {
     const dateOk = (!filters.dateFrom || lead.followUp >= filters.dateFrom) && (!filters.dateTo || lead.followUp <= filters.dateTo);
@@ -163,6 +167,7 @@ const LeadManagement = () => {
     const newLeadData = {
       id,
       name: newLead.name,
+      phone: newLead.mobile, // Add phone number
       destination: newLead.destination,
       tripType: newLead.tripType,
       leadSource: newLead.leadSource,
@@ -181,6 +186,82 @@ const LeadManagement = () => {
     });
     setFormErrors({});
   };
+
+  // Action Handlers
+  const handleEditLead = (lead) => {
+    setEditingLead(lead);
+    setEditModalOpen(true);
+    setDropdownOpen(null);
+  };
+
+
+
+  const handleDeleteLead = (leadId) => {
+    if (window.confirm('Are you sure you want to delete this lead?')) {
+      setLeads(leads.filter(l => l.id !== leadId));
+      setDropdownOpen(null);
+    }
+  };
+
+  const handleSaveEdit = () => {
+    if (editingLead) {
+      setLeads(leads.map(l => l.id === editingLead.id ? editingLead : l));
+      setEditModalOpen(false);
+      setEditingLead(null);
+    }
+  };
+
+  const handleExportTable = () => {
+    // Create CSV content with headers
+    const headers = [
+      'Lead ID',
+      'Name', 
+      'Phone',
+      'Destination',
+      'Trip Type',
+      'Lead Source',
+      'Last Update',
+      'Assigned To',
+      'Status',
+      'Follow-up Date',
+      'Budget'
+    ];
+
+    // Create CSV rows from filtered leads
+    const csvRows = filteredLeads.map(lead => [
+      lead.id,
+      lead.name,
+      lead.phone || '',
+      lead.destination,
+      lead.tripType,
+      lead.leadSource,
+      lead.lastUpdate,
+      lead.assignedTo,
+      lead.status,
+      lead.followUp,
+      lead.budget || ''
+    ]);
+
+    // Combine headers and rows
+    const csvContent = [
+      headers.join(','),
+      ...csvRows.map(row => row.map(cell => `"${cell}"`).join(','))
+    ].join('\n');
+
+    // Create and download the file
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `leads_export_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+
 
   return (
     <div className="lead-management-page" style={{ padding: '2rem', background: '#f8fafc', minHeight: '100vh' }}>
@@ -288,25 +369,9 @@ const LeadManagement = () => {
               <i className="fa-solid fa-filter"></i>
               Filters
             </button>
+
             <button 
-              style={{ 
-                background: '#f5f5f5', 
-                color: '#666', 
-                border: 'none', 
-                padding: '8px 16px', 
-                borderRadius: '6px', 
-                fontWeight: 500, 
-                cursor: 'pointer',
-                fontSize: 14,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px'
-              }}
-            >
-              <i className="fa-solid fa-upload"></i>
-              Import
-            </button>
-            <button 
+              onClick={handleExportTable}
               style={{ 
                 background: '#f5f5f5', 
                 color: '#666', 
@@ -474,7 +539,32 @@ const LeadManagement = () => {
                   </td>
                   <td style={{ padding: '16px' }}>
                     <div>
-                      <div style={{ fontWeight: 600, color: '#1a1a1a', fontSize: '14px' }}>{lead.name}</div>
+                      <button
+                        onClick={() => navigate('/admin/quote-builder', { 
+                          state: { 
+                            leadData: {
+                              name: lead.name,
+                              phone: lead.phone,
+                              destination: lead.destination,
+                              tripType: lead.tripType
+                            }
+                          } 
+                        })}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          color: '#1976d2',
+                          textDecoration: 'underline',
+                          cursor: 'pointer',
+                          fontWeight: 600,
+                          fontSize: '14px',
+                          padding: 0,
+                          textAlign: 'left'
+                        }}
+                        title="Create Quote for this Lead"
+                      >
+                        {lead.name}
+                      </button>
                       <div style={{ color: '#666', fontSize: '12px' }}>{lead.phone}</div>
                     </div>
                   </td>
@@ -484,64 +574,116 @@ const LeadManagement = () => {
                   <td style={{ padding: '16px', color: '#666', fontSize: '12px' }}>{lead.lastUpdate}</td>
                   <td style={{ padding: '16px', color: '#1a1a1a', fontSize: '14px' }}>{lead.assignedTo}</td>
                   <td style={{ padding: '16px' }}>
-                    {editingStatusId === lead.id ? (
-                      <select
-                        value={lead.status}
-                        onChange={e => {
-                          handleStatus(lead.id, e.target.value);
-                          setEditingStatusId(null);
-                        }}
-                        onBlur={() => setEditingStatusId(null)}
-                        autoFocus
-                        style={{ borderRadius: 4, border: '1px solid #ccc', padding: '4px 8px', fontSize: '12px' }}
-                      >
-                        {statusOptions.map(s => <option key={s} value={s}>{s}</option>)}
-                      </select>
-                    ) : (
-                      <span
-                        style={{
-                          display: 'inline-block',
-                          padding: '4px 12px',
-                          borderRadius: 12,
-                          background: {
-                            'New': '#e3f2fd',
-                            'In Progress': '#fffde7',
-                            'Follow-up': '#e8f5e9',
-                            'Converted': '#e0f7fa',
-                            'Lost': '#ffebee'
-                          }[lead.status] || '#f5f5f5',
-                          color: {
-                            'New': '#1976d2',
-                            'In Progress': '#fbc02d',
-                            'Follow-up': '#43a047',
-                            'Converted': '#00bcd4',
-                            'Lost': '#e53935'
-                          }[lead.status] || '#555',
-                          fontWeight: 600,
-                          fontSize: 12,
-                          cursor: 'pointer'
-                        }}
-                        title="Click to change status"
-                        onClick={() => setEditingStatusId(lead.id)}
-                      >
-                        {lead.status}
-                      </span>
-                    )}
+                    <span
+                      style={{
+                        display: 'inline-block',
+                        padding: '4px 12px',
+                        borderRadius: 12,
+                        background: {
+                          'New': '#e3f2fd',
+                          'In Progress': '#fffde7',
+                          'Follow-up': '#e8f5e9',
+                          'Converted': '#e0f7fa',
+                          'Lost': '#ffebee'
+                        }[lead.status] || '#f5f5f5',
+                        color: {
+                          'New': '#1976d2',
+                          'In Progress': '#fbc02d',
+                          'Follow-up': '#43a047',
+                          'Converted': '#00bcd4',
+                          'Lost': '#e53935'
+                        }[lead.status] || '#555',
+                        fontWeight: 600,
+                        fontSize: 12
+                      }}
+                    >
+                      {lead.status}
+                    </span>
                   </td>
                   <td style={{ padding: '16px', color: '#666', fontSize: '12px' }}>{lead.followUp}</td>
-                  <td style={{ padding: '16px' }}>
-                    <button
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                        color: '#666',
-                        fontSize: 16
-                      }}
-                      title="Actions"
-                    >
-                      <i className="fa-solid fa-ellipsis-vertical"></i>
-                    </button>
+                  <td style={{ padding: '16px', position: 'relative' }}>
+                    {/* Actions Dropdown */}
+                    <div className="dropdown-container" style={{ position: 'relative' }}>
+                      <button
+                        onClick={() => setDropdownOpen(dropdownOpen === lead.id ? null : lead.id)}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          cursor: 'pointer',
+                          color: '#666',
+                          fontSize: 16,
+                          padding: '4px 8px',
+                          borderRadius: '4px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}
+                        title="Actions"
+                      >
+                        <i className="fa-solid fa-ellipsis-vertical"></i>
+                      </button>
+                      
+                      {dropdownOpen === lead.id && (
+                        <div style={{
+                          position: 'absolute',
+                          top: '100%',
+                          right: 0,
+                          background: '#fff',
+                          border: '1px solid #e0e0e0',
+                          borderRadius: '6px',
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                          zIndex: 1000,
+                          minWidth: '120px',
+                          padding: '8px 0'
+                        }}>
+                          <button
+                            onClick={() => handleEditLead(lead)}
+                            style={{
+                              width: '100%',
+                              background: 'none',
+                              border: 'none',
+                              padding: '8px 16px',
+                              textAlign: 'left',
+                              cursor: 'pointer',
+                              fontSize: '13px',
+                              color: '#333',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px'
+                            }}
+                            onMouseOver={e => e.target.style.background = '#f5f5f5'}
+                            onMouseOut={e => e.target.style.background = 'none'}
+                          >
+                            <i className="fa-solid fa-edit" style={{ fontSize: '11px', color: '#1976d2' }}></i>
+                            Edit
+                          </button>
+                          
+                          <div style={{ borderTop: '1px solid #e0e0e0', margin: '4px 0' }}></div>
+                          
+                          <button
+                            onClick={() => handleDeleteLead(lead.id)}
+                            style={{
+                              width: '100%',
+                              background: 'none',
+                              border: 'none',
+                              padding: '8px 16px',
+                              textAlign: 'left',
+                              cursor: 'pointer',
+                              fontSize: '13px',
+                              color: '#d32f2f',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px'
+                            }}
+                            onMouseOver={e => e.target.style.background = '#ffebee'}
+                            onMouseOut={e => e.target.style.background = 'none'}
+                          >
+                            <i className="fa-solid fa-trash" style={{ fontSize: '11px' }}></i>
+                            Delete
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -1055,6 +1197,151 @@ const LeadManagement = () => {
           </div>
         </div>
       )}
+
+      {/* Edit Lead Modal */}
+      {editModalOpen && editingLead && (
+        <div className="modal-backdrop" onClick={() => setEditModalOpen(false)}>
+          <div
+            className="modal-content"
+            style={{
+              maxWidth: 480,
+              width: '100%',
+              borderRadius: 18,
+              boxShadow: '0 8px 32px rgba(25,118,210,0.12)',
+              padding: '2.2rem 1.2rem',
+              position: 'relative',
+              margin: '0 auto',
+              maxHeight: '90vh',
+              overflowY: 'auto'
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            <h2 style={{
+              marginBottom: 24,
+              textAlign: 'center',
+              fontWeight: 700,
+              letterSpacing: 1,
+              fontSize: 22
+            }}>Edit Lead: {editingLead.id}</h2>
+            
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Name</label>
+              <input
+                value={editingLead.name}
+                onChange={(e) => setEditingLead({...editingLead, name: e.target.value})}
+                style={{
+                  width: '100%',
+                  borderRadius: 6,
+                  padding: '10px 12px',
+                  border: '1px solid #ccc',
+                  fontSize: 15
+                }}
+              />
+            </div>
+            
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Destination</label>
+              <input
+                value={editingLead.destination}
+                onChange={(e) => setEditingLead({...editingLead, destination: e.target.value})}
+                style={{
+                  width: '100%',
+                  borderRadius: 6,
+                  padding: '10px 12px',
+                  border: '1px solid #ccc',
+                  fontSize: 15
+                }}
+              />
+            </div>
+            
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Status</label>
+              <select
+                value={editingLead.status}
+                onChange={(e) => setEditingLead({...editingLead, status: e.target.value})}
+                style={{
+                  width: '100%',
+                  borderRadius: 6,
+                  padding: '10px 12px',
+                  border: '1px solid #ccc',
+                  fontSize: 15
+                }}
+              >
+                {statusOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+              </select>
+            </div>
+            
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Assigned To</label>
+              <select
+                value={editingLead.assignedTo}
+                onChange={(e) => setEditingLead({...editingLead, assignedTo: e.target.value})}
+                style={{
+                  width: '100%',
+                  borderRadius: 6,
+                  padding: '10px 12px',
+                  border: '1px solid #ccc',
+                  fontSize: 15
+                }}
+              >
+                {teamMembers.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+              </select>
+            </div>
+            
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Follow-up Date</label>
+              <input
+                type="date"
+                value={editingLead.followUp}
+                onChange={(e) => setEditingLead({...editingLead, followUp: e.target.value})}
+                style={{
+                  width: '100%',
+                  borderRadius: 6,
+                  padding: '10px 12px',
+                  border: '1px solid #ccc',
+                  fontSize: 15
+                }}
+              />
+            </div>
+
+            <div className="modal-buttons" style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
+              <button
+                onClick={() => setEditModalOpen(false)}
+                style={{
+                  background: '#fff',
+                  color: '#1976d2',
+                  border: '1.5px solid #1976d2',
+                  borderRadius: 6,
+                  padding: '10px 28px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  fontSize: 16
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveEdit}
+                style={{
+                  background: '#1976d2',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: 6,
+                  padding: '10px 28px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  fontSize: 16
+                }}
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+
       {/* Lead Details Modal (simple example) */}
       {selectedLead && (
         <div className="modal-backdrop" onClick={() => setSelectedLead(null)}>
