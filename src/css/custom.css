@@ -396,7 +396,7 @@
     overflow-y: scroll;
 }
 
-.trip-detail-contact-form button{
+.trip-detail-contact-form button {
     background-color: #EB662B;
     color: white;
     border-radius: 50px;
@@ -407,3 +407,206 @@
     font-weight: 600;
     border: none;
 }
+
+/****************************************************** Admin Login Page ******************************************/
+.admin-login-left .icon-div i {
+    font-size: 28px;
+    background-color: #EB662B;
+    border-radius: 9px;
+    color: white;
+    margin-bottom: 15px;
+    padding: 15px 15px 15px;
+    margin-right: 15px;
+}
+
+.admin-login-left .icon-div-main .head {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.admin-login-left .icon-div-main {
+    margin-bottom: 20px;
+}
+
+.admin-login-left .icon-div-main .para {
+    font-weight: 500;
+}
+
+.admin-login-parent h1 {
+    font-size: 55px;
+    margin-bottom: 0px !important;
+    font-weight: 600;
+}
+
+.admin-login-left .normal-para {
+    font-size: 20px;
+    margin-top: 15px
+}
+
+.bottom-icon-div-main i {
+    background-color: #EB662B;
+    width: fit-content;
+    padding: 15px 17px;
+    color: white;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 7px;
+    font-size: 20px;
+}
+
+.bottom-icon-div-main .small-head {
+    font-weight: 700;
+    text-align: center;
+    font-size: 17px;
+}
+
+.bottom-icon-div-main .packages {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: rgb(117, 117, 117);
+    margin-top: 8px;
+
+}
+
+.bottom-icon-div-main .icon-div-bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-login-dright-input {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 5px;
+    padding: 20px 30px;
+}
+
+.admin-login-dright-input .form-head {
+    font-weight: 700;
+    text-align: center;
+    font-size: 22px;
+}
+
+.admin-login-input-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-login-input-div label {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.admin-login-input-div input {
+    padding: 10px 10px 10px 15px;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    border-radius: 5px;
+}
+
+.admin-login-dright-input button {
+    padding: 8px;
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border: none;
+    background-color: #EB662B;
+    color: white;
+    font-weight: 700;
+    margin: 20px 0px;
+    border-radius: 5px;
+}
+
+.admin-login-parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh
+}
+
+.global-tabs-main {
+    display: flex;
+    gap: 0px;
+    background: rgb(255, 255, 255);
+    border-radius: 8px;
+    padding: 4px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 8px;
+    width: fit-content;
+}
+
+.global-tabs-main button {
+    background: transparent;
+    color: rgb(102, 102, 102);
+    border: none;
+    padding: 12px 32px;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+.global-tabs-main .active {
+    background: rgb(25, 118, 210);
+    color: rgb(255, 255, 255);
+    border: none;
+    padding: 12px 32px;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 16px;
+    letter-spacing: 1px;
+
+}
+
+.global-tabs-parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.admin-content-main {
+    border-radius: 0px !important;
+}
+
+.header-title {
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    margin-top: 25px;
+    margin-bottom: 6px;
+}
+
+.app-config i {
+    font-size: 33px;
+    margin-top: 5px;
+    margin-right: 16px;
+    color: #1778f2;
+}
+
+.app-config .fa-facebook-f {
+    color: #1778f2;
+}
+
+.app-config .fa-instagram {
+    color: #dc2743;
+}
+
+.app-config .fa-linkedin-in {
+    color: #0077b5;
+}
+
+.app-config .fa-youtube {
+    color: #c4302b;
+}
+
+.app-config .fa-x-twitter {
+    color: #00acee;
+}
+
+.model-input-div .app-config input{
+    width: 470px !important;
+}
+

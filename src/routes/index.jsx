@@ -18,6 +18,7 @@ import LeadManagement from "../pages/admin/LeadManagement";
 import QuoteBuilder from "../pages/admin/QuoteBuilder";
 import ItineraryBuilder from "../pages/admin/ItineraryBuilder";
 import ComprehensiveQuoteBuilder from "../pages/admin/ComprehensiveQuoteBuilder";
+import FooterSettings from "../pages/admin/GlobalSettings/FooterSettings";
 
 
 export const routes = [
@@ -93,10 +94,10 @@ export const routes = [
         path: "/quote-builder",
         component: QuoteBuilder,
     },
-    // {
-    //     path: "/itinerary-builder",
-    //     component: ItineraryBuilder,
-    // },
+    {
+        path: "/global-settings",
+        component: FooterSettings,
+    },
     // {
     //     path: "/comprehensive-quote-builder",
     //     component: ComprehensiveQuoteBuilder,

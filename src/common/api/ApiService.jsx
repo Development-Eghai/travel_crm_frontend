@@ -321,6 +321,32 @@ export const TourPreviewDetails = async (_id) => {
 };
 
 
+// *************************************************  App Configuration  **********************************************
+
+export const UpdateAppConfig = async (payload) => {
+    return await APIBaseUrl.put("leads/update_app_config", payload)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+export const GetSpecificAppConfig= async () => {
+    return await APIBaseUrl.get(`leads/get_app_config`)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+export const UpdateAppConfigSocialLinks= async (payload) => {
+    return await APIBaseUrl.put(`leads/update_app_config_social_links`,payload)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
 // ************************************************  SINGLE FILE UPLOAD API **********************************************
 
 export const SingleFileUpload = async (payload) => {

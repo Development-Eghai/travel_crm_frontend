@@ -74,6 +74,11 @@ export const AdminMenu = [
         icon: <i className="fa-solid fa-user-plus"></i>,
         name: "Lead Management",
     },
+    {
+        path: "/admin/global-settings",
+        icon: <i className="fa-solid fa-user-plus"></i>,
+        name: "Global Settings",
+    },
 ]
 
 export const UserMenu = [

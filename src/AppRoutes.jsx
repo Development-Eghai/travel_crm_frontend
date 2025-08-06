@@ -17,6 +17,7 @@ import TripBookings from "./pages/user/TripBookings";
 
 import TourPreview from "./pages/admin/TripManagement/Tour/TourPreview";
 import TourBookingPreview from "./pages/admin/TripManagement/Tour/TourBookingPreview";
+import LoginPage from "./pages/admin/Auth/LoginPage";
 
 const DestinationDetail = lazy(() => import("./pages/user/DestinationDetail"));
 const Homepage = lazy(() => import("./pages/user/Homepage"));
@@ -49,6 +50,9 @@ const AppRoutes = () => {
                     <Route path="/admin" element={<Layout />}>
                         <Route path="destination-create/:id?" element={<DestinationCreation />} />
                     </Route>
+
+
+                    <Route path="/admin-login" element={<LoginPage />} />
                 </Routes>
             </Router>
         </div>

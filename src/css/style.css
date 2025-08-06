@@ -2555,9 +2555,7 @@ button:focus:not(:focus-visible) {
 
 
 .admin-content-main {
-    /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
     padding: 28px 40px 20px 40px;
-    /* margin-top: 30px; */
     border-radius: 5px;
     background-color: #f9fafb !important;
 }
