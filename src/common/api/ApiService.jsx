@@ -328,3 +328,47 @@ export const MultipleFileUpload = async (payload) => {
             return { err: err?.response?.data || err };
         });
 };
+
+// *************************************************  LEAD MANAGEMENT API  **********************************************
+
+export const CreateLead = async (payload) => {
+    return await APIBaseUrl.post("/leads/create_lead", payload)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+export const GetAllLeads = async () => {
+    return await APIBaseUrl.get("/leads/get_all")
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+export const GetSpecificLead = async (_id) => {
+    return await APIBaseUrl.get(`/leads/get_specific?_id=${_id}`)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+export const UpdateLead = async (payload) => {
+    return await APIBaseUrl.put("/leads/update", payload)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
+export const DeleteLead = async (_id) => {
+    return await APIBaseUrl.delete("/leads/delete", {
+        data: { _id }
+    })
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
