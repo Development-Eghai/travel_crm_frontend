@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { CreateLead, GetAllLeads, UpdateLead, DeleteLead, GetAllDestination, GetAllTourType } from '../../common/api/ApiService';
+import { CreateLead, GetAllLeads, UpdateLead, DeleteLead, GetAllDestination, GetAllTourType, GetSpecificLead, UpdateLeadStatus } from '../../common/api/ApiService';
 
 // --- Widget Data with Enhanced Metrics ---
 const widgetData = [
@@ -47,6 +47,14 @@ const placeholderLeads = [
 const teamMembers = ['Alice', 'Bob', 'Charlie', 'Mike Johnson', 'Sarah Wilson'];
 const statusOptions = ['New', 'In Progress', 'Follow-up', 'Converted', 'Lost'];
 const leadSourceOptions = ['Website', 'Facebook', 'Instagram', 'WhatsApp'];
+
+const statusEnumOptions = [
+  { label: 'New', value: 'new' },
+  { label: 'In Progress', value: 'in_progress' },
+  { label: 'Follow-up', value: 'follow-up' },
+  { label: 'Converted', value: 'converted' },
+  { label: 'Lost', value: 'lost' }
+];
 
 const LeadManagement = () => {
   const navigate = useNavigate();
@@ -96,6 +104,7 @@ const LeadManagement = () => {
   const [editingLead, setEditingLead] = useState(null);
   const [destinationList, setDestinationList] = useState([]);
   const [tripTypeList, setTripTypeList] = useState([]);
+  const [editLoading, setEditLoading] = useState(false);
 
   // Helper functions to get names from IDs
   const getDestinationName = (destinationId) => {
@@ -315,30 +324,11 @@ const LeadManagement = () => {
     if (editingLead) {
       try {
         const payload = {
-          _id: editingLead._id || editingLead.id,
-          name: editingLead.name,
-          mobile_number: editingLead.phone || editingLead.mobile_number,
-          email: editingLead.email,
-          lead_source: editingLead.leadSource,
-          trip_type: editingLead.tripType,
-          destination: editingLead.destination,
-          pickup_location: editingLead.pickupLocation,
-          travel_mode: editingLead.travelMode,
-          travel_date_from: editingLead.travelFrom && editingLead.travelFrom.trim() !== '' && !isNaN(new Date(editingLead.travelFrom).getTime()) ? new Date(editingLead.travelFrom).toISOString() : null,
-          travel_date_to: editingLead.travelTo && editingLead.travelTo.trim() !== '' && !isNaN(new Date(editingLead.travelTo).getTime()) ? new Date(editingLead.travelTo).toISOString() : null,
-          no_of_adults: editingLead.adults,
-          no_of_children: editingLead.children,
-          budget: editingLead.budget,
-          hotel_preference: editingLead.hotelPref,
-          special_request: editingLead.specialReq,
-          assign_to: editingLead.assignedTo,
-          lead_status: convertStatusToBackend(editingLead.status),
-          follow_up_date: editingLead.followUp && editingLead.followUp.trim() !== '' && !isNaN(new Date(editingLead.followUp).getTime()) ? new Date(editingLead.followUp).toISOString() : null,
-          follow_up_time: editingLead.followUpTime && editingLead.followUpTime.trim() !== '' && !isNaN(new Date(editingLead.followUpTime).getTime()) ? new Date(editingLead.followUpTime).toISOString() : null,
-          notes: editingLead.notes
+          _id: editingLead._id, // Use _id for backend
+          status: editingLead.status // This will be the enum value
         };
-
-        const response = await UpdateLead(payload);
+        console.log('Payload being sent:', payload); // For debugging
+        const response = await UpdateLeadStatus(payload);
         if (response && !response.err) {
           // Refresh the leads list
           const updatedLeadsResponse = await GetAllLeads();
@@ -348,12 +338,12 @@ const LeadManagement = () => {
           setEditModalOpen(false);
           setEditingLead(null);
         } else {
-          console.error('Error updating lead:', response?.err);
-          alert('Failed to update lead. Please try again.');
+          console.error('Error updating lead status:', response?.err);
+          alert('Failed to update lead status. Please try again.');
         }
       } catch (error) {
-        console.error('Error updating lead:', error);
-        alert('Failed to update lead. Please try again.');
+        console.error('Error updating lead status:', error);
+        alert('Failed to update lead status. Please try again.');
       }
     }
   };
@@ -675,21 +665,7 @@ const LeadManagement = () => {
                     />
                   </td>
                   <td style={{ padding: '16px' }}>
-                    <button
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        color: '#1976d2',
-                        textDecoration: 'underline',
-                        cursor: 'pointer',
-                        fontWeight: 600,
-                        fontSize: '14px'
-                      }}
-                      title="View Lead Details"
-                      onClick={() => setSelectedLead(lead)}
-                    >
                       {lead._id || lead.id}
-                    </button>
                   </td>
                   <td style={{ padding: '16px' }}>
                     <div>
@@ -1373,65 +1349,28 @@ const LeadManagement = () => {
             }}
             onClick={e => e.stopPropagation()}
           >
+            {editLoading ? (
+              <div style={{ textAlign: 'center', padding: '2rem' }}>
+                <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: 32, marginBottom: 8 }}></i>
+                <div>Loading lead details...</div>
+              </div>
+            ) : (
+              <>
             <h2 style={{
               marginBottom: 24,
               textAlign: 'center',
               fontWeight: 700,
               letterSpacing: 1,
               fontSize: 22
-            }}>Edit Lead: {editingLead.id}</h2>
-            
+                }}>Edit Lead Status: {editingLead.id}</h2>
             <div style={{ marginBottom: 20 }}>
               <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Name</label>
-              <input
-                value={editingLead.name}
-                onChange={(e) => setEditingLead({...editingLead, name: e.target.value})}
-                style={{
-                  width: '100%',
-                  borderRadius: 6,
-                  padding: '10px 12px',
-                  border: '1px solid #ccc',
-                  fontSize: 15
-                }}
-              />
+                  <div style={{ padding: '10px 12px', background: '#f5f5f5', borderRadius: 6 }}>{editingLead.name}</div>
             </div>
-            
             <div style={{ marginBottom: 20 }}>
               <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Destination</label>
-              <select
-                value={editingLead.destination}
-                onChange={(e) => setEditingLead({...editingLead, destination: e.target.value})}
-                style={{
-                  width: '100%',
-                  borderRadius: 6,
-                  padding: '10px 12px',
-                  border: '1px solid #ccc',
-                  fontSize: 15
-                }}
-              >
-                <option value="">Select</option>
-                {destinationList.map(opt => <option key={opt._id} value={opt._id}>{opt.destination_name}</option>)}
-              </select>
+                  <div style={{ padding: '10px 12px', background: '#f5f5f5', borderRadius: 6 }}>{getDestinationName(editingLead.destination)}</div>
             </div>
-            
-            <div style={{ marginBottom: 20 }}>
-              <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Trip Type</label>
-              <select
-                value={editingLead.tripType}
-                onChange={(e) => setEditingLead({...editingLead, tripType: e.target.value})}
-                style={{
-                  width: '100%',
-                  borderRadius: 6,
-                  padding: '10px 12px',
-                  border: '1px solid #ccc',
-                  fontSize: 15
-                }}
-              >
-                <option value="">Select</option>
-                {tripTypeList.map(opt => <option key={opt._id} value={opt._id}>{opt.tour_name}</option>)}
-              </select>
-            </div>
-            
             <div style={{ marginBottom: 20 }}>
               <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Status</label>
               <select
@@ -1445,43 +1384,9 @@ const LeadManagement = () => {
                   fontSize: 15
                 }}
               >
-                {statusOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                {statusEnumOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
               </select>
             </div>
-            
-            <div style={{ marginBottom: 20 }}>
-              <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Assigned To</label>
-              <select
-                value={editingLead.assignedTo}
-                onChange={(e) => setEditingLead({...editingLead, assignedTo: e.target.value})}
-                style={{
-                  width: '100%',
-                  borderRadius: 6,
-                  padding: '10px 12px',
-                  border: '1px solid #ccc',
-                  fontSize: 15
-                }}
-              >
-                {teamMembers.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-              </select>
-            </div>
-            
-            <div style={{ marginBottom: 20 }}>
-              <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Follow-up Date</label>
-              <input
-                type="date"
-                value={editingLead.followUp}
-                onChange={(e) => setEditingLead({...editingLead, followUp: e.target.value})}
-                style={{
-                  width: '100%',
-                  borderRadius: 6,
-                  padding: '10px 12px',
-                  border: '1px solid #ccc',
-                  fontSize: 15
-                }}
-              />
-            </div>
-
             <div className="modal-buttons" style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
               <button
                 onClick={() => setEditModalOpen(false)}
@@ -1514,6 +1419,8 @@ const LeadManagement = () => {
                 Save Changes
               </button>
             </div>
+              </>
+            )}
           </div>
         </div>
       )}

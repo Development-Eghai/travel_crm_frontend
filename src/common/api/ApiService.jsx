@@ -363,6 +363,14 @@ export const UpdateLead = async (payload) => {
         });
 };
 
+export const UpdateLeadStatus = async (payload) => {
+    return await APIBaseUrl.put("/leads/update_lead", payload)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
 export const DeleteLead = async (_id) => {
     return await APIBaseUrl.delete("/leads/delete", {
         data: { _id }
