@@ -380,3 +380,14 @@ export const DeleteLead = async (_id) => {
             return { err: err?.response?.data || err };
         });
 };
+
+// *************************************************  QUOTE MANAGEMENT API  **********************************************
+
+export const CreateQuote = async (payload) => {
+    console.log(payload, "CreateQuote");
+    return await APIBaseUrl.post("/leads/create_quote", payload)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};

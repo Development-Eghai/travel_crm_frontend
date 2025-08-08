@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import QuotePreview from './QuotePreview';
 import { generateSimplePDF, generateModernPDF, generateElegantPDF, generateMinimalistPDF, generateTravelMagazinePDF, generateProfessionalPDF, exportQuoteToPDF_html2pdf } from '../../utils/pdfExport';
+import { CreateQuote, GetAllDestination, GetAllTourType } from '../../common/api/ApiService';
+import { successMsg, errorMsg } from '../../common/Toastify';
 
 // Helper: get HTML for preview for each template
 const getQuoteTemplateHTML = (template, quoteData) => {
@@ -35,54 +37,8 @@ const widgetData = [
 
 // --- Sample Quotes Data ---
 const sampleQuotes = [
-  {
-    id: 'QT001',
-    leadName: 'John Smith',
-    leadPhone: '+91 9876543210',
-    destination: 'Dubai',
-    tripType: 'Honeymoon',
-    totalAmount: 2500,
-    status: 'Pending',
-    createdDate: '2024-01-15',
-    validUntil: '2024-01-22',
-    items: [
-      { name: 'Flight Tickets', amount: 800 },
-      { name: 'Hotel Booking', amount: 1200 },
-      { name: 'Sightseeing Tour', amount: 500 }
-    ]
-  },
-  {
-    id: 'QT002',
-    leadName: 'Emily Davis',
-    leadPhone: '+91 9876543211',
-    destination: 'Switzerland',
-    tripType: 'Family',
-    totalAmount: 3200,
-    status: 'Approved',
-    createdDate: '2024-01-14',
-    validUntil: '2024-01-21',
-    items: [
-      { name: 'Flight Tickets', amount: 1100 },
-      { name: 'Hotel Booking', amount: 1500 },
-      { name: 'Ski Pass', amount: 600 }
-    ]
-  },
-  {
-    id: 'QT003',
-    leadName: 'Michael Brown',
-    leadPhone: '+91 9876543212',
-    destination: 'Paris',
-    tripType: 'Solo',
-    totalAmount: 1800,
-    status: 'Rejected',
-    createdDate: '2024-01-13',
-    validUntil: '2024-01-20',
-    items: [
-      { name: 'Flight Tickets', amount: 600 },
-      { name: 'Hotel Booking', amount: 800 },
-      { name: 'City Tour', amount: 400 }
-    ]
-  }
+
+  
 ];
 
 const QuoteBuilder = () => {
@@ -160,6 +116,79 @@ const QuoteBuilder = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editingQuote, setEditingQuote] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(null);
+  const [isCreatingQuote, setIsCreatingQuote] = useState(false);
+  const [destinationList, setDestinationList] = useState([]);
+  const [tripTypeList, setTripTypeList] = useState([]);
+  const [isLoadingData, setIsLoadingData] = useState(true);
+
+  // Debug: Log destinationList changes
+  React.useEffect(() => {
+    console.log('DestinationList updated:', destinationList);
+  }, [destinationList]);
+
+  // Debug: Log tripTypeList changes
+  React.useEffect(() => {
+    console.log('TripTypeList updated:', tripTypeList);
+  }, [tripTypeList]);
+
+  // Fetch destinations and trip types on component mount
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoadingData(true);
+        const [destinationResponse, tripTypeResponse] = await Promise.all([
+          GetAllDestination(),
+          GetAllTourType()
+        ]);
+
+        console.log('Destination Response:', destinationResponse);
+        console.log('Destination Response.data:', destinationResponse?.data);
+        console.log('Destination Response.data[0]:', destinationResponse?.data?.[0]);
+        if (destinationResponse && destinationResponse.statusCode === 200) {
+          setDestinationList(destinationResponse.data || []);
+          console.log('Destinations set:', destinationResponse.data);
+        } else if (destinationResponse && destinationResponse.data) {
+          // Fallback: if response has data but no statusCode
+          setDestinationList(destinationResponse.data || []);
+          console.log('Destinations set (fallback):', destinationResponse.data);
+        } else {
+          console.error('Error fetching destinations:', destinationResponse?.err);
+          // Temporary fallback data for debugging
+          setDestinationList([
+            { _id: '64a99d2f5c1b2d001f123abc', name: 'Dubai' },
+            { _id: '64a99d2f5c1b2d001f123abd', name: 'Switzerland' },
+            { _id: '64a99d2f5c1b2d001f123abe', name: 'Paris' }
+          ]);
+        }
+
+        console.log('Trip Type Response:', tripTypeResponse);
+        console.log('Trip Type Response.data:', tripTypeResponse?.data);
+        console.log('Trip Type Response.data[0]:', tripTypeResponse?.data?.[0]);
+        if (tripTypeResponse && tripTypeResponse.statusCode === 200) {
+          setTripTypeList(tripTypeResponse.data || []);
+          console.log('Trip Types set:', tripTypeResponse.data);
+        } else if (tripTypeResponse && tripTypeResponse.data) {
+          // Fallback: if response has data but no statusCode
+          setTripTypeList(tripTypeResponse.data || []);
+          console.log('Trip Types set (fallback):', tripTypeResponse.data);
+        } else {
+          console.error('Error fetching trip types:', tripTypeResponse?.err);
+          // Temporary fallback data for debugging
+          setTripTypeList([
+            { _id: '64a99d5e7c8f3c001f456def', name: 'Honeymoon' },
+            { _id: '64a99d5e7c8f3c001f456deg', name: 'Family' },
+            { _id: '64a99d5e7c8f3c001f456deh', name: 'Solo' }
+          ]);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setIsLoadingData(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   // Close dropdown when clicking outside
   React.useEffect(() => {
@@ -173,8 +202,6 @@ const QuoteBuilder = () => {
   }, [dropdownOpen]);
 
   const statusOptions = ['Pending', 'Approved', 'Rejected', 'Expired'];
-  const destinationOptions = ['Dubai', 'Switzerland', 'Paris', 'London', 'Rome'];
-  const tripTypeOptions = ['Honeymoon', 'Family', 'Solo', 'Group', 'Business'];
 
   const handleSelectAll = (e) => {
     setSelected(e.target.checked ? filteredQuotes.map(q => q.id) : []);
@@ -228,6 +255,16 @@ const QuoteBuilder = () => {
       return day;
     });
     setNewQuote(prev => ({ ...prev, days: updatedDays }));
+    
+    // Clear the specific error for this day field when user starts typing
+    const errorKey = `day${field.charAt(0).toUpperCase() + field.slice(1)}${dayIndex}`;
+    if (formErrors[errorKey]) {
+      setFormErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[errorKey];
+        return newErrors;
+      });
+    }
   };
 
   // Add Quote Item
@@ -326,6 +363,7 @@ const QuoteBuilder = () => {
     }
     if (!formData.destination || formData.destination === '') errors.destination = 'Destination is required.';
     if (!formData.tripType || formData.tripType === '') errors.tripType = 'Trip type is required.';
+    
     // Quote items required
     formData.items.forEach((item, idx) => {
       if (!item.name.trim()) {
@@ -337,6 +375,7 @@ const QuoteBuilder = () => {
         errors[`itemAmount${idx}`] = 'Amount cannot be negative.';
       }
     });
+    
     // Pricing required
     ['perAdultPrice'].forEach(field => {
       if (formData.pricing[field] === '' || formData.pricing[field] === null) {
@@ -350,63 +389,140 @@ const QuoteBuilder = () => {
         errors[field] = 'Value cannot be negative.';
       }
     });
+    
+    // Additional validations for API requirements
+    if (!formData.validUntil) errors.validUntil = 'Valid until date is required.';
+    
+    // Validate itinerary days
+    formData.days.forEach((day, idx) => {
+      if (!day.destination.trim()) {
+        errors[`dayDestination${idx}`] = 'Day destination is required.';
+      }
+      if (!day.date) {
+        errors[`dayDate${idx}`] = 'Day date is required.';
+      }
+      if (!day.activities.trim()) {
+        errors[`dayActivities${idx}`] = 'Day activities are required.';
+      }
+    });
+    
     return errors;
   };
 
-  const createQuote = () => {
+  const createQuote = async () => {
     const errors = validateQuoteForm(newQuote);
     setFormErrors(errors);
     if (Object.keys(errors).length > 0) return;
     
-    const id = `QT${(quotes.length + 1).toString().padStart(3, '0')}`;
-    
-    const quoteData = {
-      id,
-      leadName: newQuote.leadName,
-      leadPhone: newQuote.leadPhone,
-      destination: newQuote.destination,
-      tripType: newQuote.tripType,
-      totalAmount: newQuote.pricing.payablePrice,
-      status: 'Pending',
-      createdDate: new Date().toISOString().slice(0, 10),
-      validUntil: newQuote.validUntil,
-      days: newQuote.days,
-      items: newQuote.items, // Include items in the quote data
-      pricing: newQuote.pricing
-    };
+    setIsCreatingQuote(true);
+    try {
+      // Prepare the API payload according to the backend structure
+      const apiPayload = {
+        lead_name: newQuote.leadName,
+        phone_number: newQuote.leadPhone,
+        destination: newQuote.destination,
+        trip_type: newQuote.tripType,
+        
+        quote_item: newQuote.items.map(item => ({
+          item_name: item.name,
+          item_description: item.description || '',
+          item_amount: item.amount.toString()
+        })),
+        
+        day_wise_itenary: newQuote.days.map(day => ({
+          destination: day.destination,
+          date: day.date,
+          description: day.activities,
+          stay: day.overnightStay === 'Yes'
+        })),
+        
+        per_adult_price: newQuote.pricing.perAdultPrice.toString(),
+        child_without_bed: newQuote.pricing.cwobPrice.toString(),
+        child_with_bed: newQuote.pricing.cwbPrice.toString(),
+        
+        discount_amount_percentage: newQuote.pricing.discountPercent.toString(),
+        total_payable_amount: newQuote.pricing.payablePrice.toString(),
+        
+        valid_until: newQuote.validUntil,
+        notes: newQuote.notes || ''
+      };
 
-    setQuotes([quoteData, ...quotes]);
-    setNewQuote({
-      leadName: '', leadPhone: '', destination: '', tripType: '', 
-      items: [{ name: '', description: '', amount: '' }],
-      notes: '',
-      validUntil: '',
-      days: [
-        {
-          dayNumber: 1,
-          destination: '',
-          date: '',
-          activities: '',
-          overnightStay: 'Yes'
-        }
-      ],
-      pricing: {
-        perAdultPrice: '',
-        adultCount: 1,
-        adultTotal: 0,
-        cwobPrice: '',
-        cwobCount: 0,
-        cwobTotal: 0,
-        cwbPrice: '',
-        cwbCount: 0,
-        cwbTotal: 0,
-        totalPrice: 0,
-        discountPercent: '',
-        discountAmount: 0,
-        payablePrice: 0
+      // Call the API
+      const response = await CreateQuote(apiPayload);
+      
+      if (response && !response.err) {
+        successMsg('Quote created successfully!');
+        
+        // Add the new quote to the local state with the response data
+        const selectedDestination = destinationList.find(d => {
+          const id = d._id || d.id || d.destination_id;
+          return id === newQuote.destination;
+        });
+        const selectedTripType = tripTypeList.find(t => {
+          const id = t._id || t.id || t.trip_type_id;
+          return id === newQuote.tripType;
+        });
+        
+                  const quoteData = {
+            id: response.data?._id || `QT${(quotes.length + 1).toString().padStart(3, '0')}`,
+            leadName: newQuote.leadName,
+            leadPhone: newQuote.leadPhone,
+            destination: selectedDestination?.name || selectedDestination?.destination_name || selectedDestination?.title || selectedDestination?.destination || newQuote.destination,
+            destinationId: newQuote.destination,
+            tripType: selectedTripType?.name || selectedTripType?.trip_type_name || selectedTripType?.title || selectedTripType?.trip_type || newQuote.tripType,
+            tripTypeId: newQuote.tripType,
+          totalAmount: newQuote.pricing.payablePrice,
+          status: 'Pending',
+          createdDate: new Date().toISOString().slice(0, 10),
+          validUntil: newQuote.validUntil,
+          days: newQuote.days,
+          items: newQuote.items,
+          pricing: newQuote.pricing
+        };
+
+        setQuotes([quoteData, ...quotes]);
+        
+        // Reset the form
+        setNewQuote({
+          leadName: '', leadPhone: '', destination: '', tripType: '', 
+          items: [{ name: '', description: '', amount: '' }],
+          notes: '',
+          validUntil: '',
+          days: [
+            {
+              dayNumber: 1,
+              destination: '',
+              date: '',
+              activities: '',
+              overnightStay: 'Yes'
+            }
+          ],
+          pricing: {
+            perAdultPrice: '',
+            adultCount: 1,
+            adultTotal: 0,
+            cwobPrice: '',
+            cwobCount: 0,
+            cwobTotal: 0,
+            cwbPrice: '',
+            cwbCount: 0,
+            cwbTotal: 0,
+            totalPrice: 0,
+            discountPercent: '',
+            discountAmount: 0,
+            payablePrice: 0
+          }
+        });
+        setActiveTab('quotes');
+      } else {
+        errorMsg(response?.err?.message || 'Failed to create quote. Please try again.');
       }
-    });
-    setActiveTab('quotes');
+    } catch (error) {
+      console.error('Error creating quote:', error);
+      errorMsg('An error occurred while creating the quote. Please try again.');
+    } finally {
+      setIsCreatingQuote(false);
+    }
   };
 
   const handlePreviewQuote = (quote) => {
@@ -436,7 +552,25 @@ const QuoteBuilder = () => {
 
   const handleSaveEdit = () => {
     if (editingQuote) {
-      setQuotes(quotes.map(q => q.id === editingQuote.id ? editingQuote : q));
+      // Update the names based on the selected IDs
+      const selectedDestination = destinationList.find(d => {
+        const id = d._id || d.id || d.destination_id;
+        return id === editingQuote.destination;
+      });
+      const selectedTripType = tripTypeList.find(t => {
+        const id = t._id || t.id || t.trip_type_id;
+        return id === editingQuote.tripType;
+      });
+      
+              const updatedQuote = {
+          ...editingQuote,
+          destination: selectedDestination?.name || selectedDestination?.destination_name || selectedDestination?.title || selectedDestination?.destination || editingQuote.destination,
+          destinationId: editingQuote.destination,
+          tripType: selectedTripType?.name || selectedTripType?.trip_type_name || selectedTripType?.title || selectedTripType?.trip_type || editingQuote.tripType,
+          tripTypeId: editingQuote.tripType
+        };
+      
+      setQuotes(quotes.map(q => q.id === editingQuote.id ? updatedQuote : q));
       setEditModalOpen(false);
       setEditingQuote(null);
     }
@@ -635,14 +769,30 @@ const QuoteBuilder = () => {
                   <label style={{ fontWeight: 500, fontSize: '12px' }}>Destination</label><br />
                   <select name="destination" value={filters.destination} onChange={handleFilterChange} style={{ borderRadius: 4, border: '1px solid #ccc', padding: '6px 8px', width: '100%', fontSize: '12px' }}>
                     <option value="">All</option>
-                    {destinationOptions.map(d => <option key={d} value={d}>{d}</option>)}
+                    {isLoadingData ? (
+                      <option value="" disabled>Loading...</option>
+                    ) : (
+                      destinationList.map(d => {
+                        const id = d._id || d.id || d.destination_id;
+                        const name = d.name || d.destination_name || d.title || d.destination;
+                        return <option key={id} value={id}>{name}</option>;
+                      })
+                    )}
                   </select>
                 </div>
                 <div className="filter-field" style={{ minWidth: 140, flex: 1 }}>
                   <label style={{ fontWeight: 500, fontSize: '12px' }}>Trip Type</label><br />
                   <select name="tripType" value={filters.tripType} onChange={handleFilterChange} style={{ borderRadius: 4, border: '1px solid #ccc', padding: '6px 8px', width: '100%', fontSize: '12px' }}>
                     <option value="">All</option>
-                    {tripTypeOptions.map(t => <option key={t} value={t}>{t}</option>)}
+                    {isLoadingData ? (
+                      <option value="" disabled>Loading...</option>
+                    ) : (
+                      tripTypeList.map(t => {
+                        const id = t._id || t.id || t.trip_type_id;
+                        const name = t.name || t.trip_type_name || t.title || t.trip_type;
+                        return <option key={id} value={id}>{name}</option>;
+                      })
+                    )}
                   </select>
                 </div>
                 <div className="filter-field" style={{ minWidth: 140, flex: 1 }}>
@@ -935,7 +1085,20 @@ const QuoteBuilder = () => {
                     }}
                   >
                     <option value="">Select Destination</option>
-                    {destinationOptions.map(d => <option key={d} value={d}>{d}</option>)}
+                    {isLoadingData ? (
+                      <option value="" disabled>Loading destinations...</option>
+                    ) : (
+                      (() => {
+                        console.log('Rendering destinations:', destinationList);
+                        console.log('First destination object:', destinationList[0]);
+                        return destinationList.map(d => {
+                          const id = d._id || d.id || d.destination_id;
+                          const name = d.name || d.destination_name || d.title || d.destination;
+                          console.log('Destination item:', { id, name, original: d });
+                          return <option key={id} value={id}>{name}</option>;
+                        });
+                      })()
+                    )}
                   </select>
                   {formErrors.destination && <div style={{ color: '#e57373', fontSize: 12, marginTop: 2 }}>{formErrors.destination}</div>}
                 </div>
@@ -955,7 +1118,16 @@ const QuoteBuilder = () => {
                     }}
                   >
                     <option value="">Select Trip Type</option>
-                    {tripTypeOptions.map(t => <option key={t} value={t}>{t}</option>)}
+                                        {isLoadingData ? (
+                      <option value="" disabled>Loading trip types...</option>
+                    ) : (
+                      tripTypeList.map((t, index) => {
+                        console.log(`Trip type item ${index}:`, t);
+                        const id = t._id || t.id || t.trip_type_id;
+                        const name = t.tour_name;
+                        return <option key={id || index} value={id}>{name || 'Unnamed Trip Type'}</option>;
+                      })
+                    )}
                   </select>
                   {formErrors.tripType && <div style={{ color: '#e57373', fontSize: 12, marginTop: 2 }}>{formErrors.tripType}</div>}
                 </div>
@@ -1126,23 +1298,33 @@ const QuoteBuilder = () => {
                       style={{
                         flex: 1,
                         padding: '6px 12px',
-                        border: '1px solid #ccc',
+                        border: formErrors[`dayDestination${dayIndex}`] ? '1px solid #e57373' : '1px solid #ccc',
                         borderRadius: '4px',
                         fontSize: '14px',
                         marginRight: '1rem'
                       }}
                     />
+                    {formErrors[`dayDestination${dayIndex}`] && (
+                      <div style={{ color: '#e57373', fontSize: 12, marginTop: 2, width: '100%' }}>
+                        {formErrors[`dayDestination${dayIndex}`]}
+                      </div>
+                    )}
                     <input
                       type="date"
                       value={day.date}
                       onChange={e => handleDayChange(dayIndex, 'date', e.target.value)}
                       style={{
                         padding: '6px 12px',
-                        border: '1px solid #ccc',
+                        border: formErrors[`dayDate${dayIndex}`] ? '1px solid #e57373' : '1px solid #ccc',
                         borderRadius: '4px',
                         fontSize: '14px'
                       }}
                     />
+                    {formErrors[`dayDate${dayIndex}`] && (
+                      <div style={{ color: '#e57373', fontSize: 12, marginTop: 2 }}>
+                        {formErrors[`dayDate${dayIndex}`]}
+                      </div>
+                    )}
                   </div>
 
                   <textarea
@@ -1153,13 +1335,18 @@ const QuoteBuilder = () => {
                     style={{
                       width: '100%',
                       padding: '8px 12px',
-                      border: '1px solid #ccc',
+                      border: formErrors[`dayActivities${dayIndex}`] ? '1px solid #e57373' : '1px solid #ccc',
                       borderRadius: '4px',
                       fontSize: '14px',
                       marginBottom: '1rem',
                       resize: 'vertical'
                     }}
                   />
+                  {formErrors[`dayActivities${dayIndex}`] && (
+                    <div style={{ color: '#e57373', fontSize: 12, marginTop: 2 }}>
+                      {formErrors[`dayActivities${dayIndex}`]}
+                    </div>
+                  )}
 
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <span style={{ fontSize: '14px', fontWeight: 500, marginRight: '0.5rem' }}>Overnight Stay:</span>
@@ -1457,11 +1644,12 @@ const QuoteBuilder = () => {
                     style={{
                       width: '100%',
                       padding: '10px 12px',
-                      border: '1px solid #ccc',
+                      border: formErrors.validUntil ? '1px solid #e57373' : '1px solid #ccc',
                       borderRadius: '6px',
                       fontSize: '14px'
                     }}
                   />
+                  {formErrors.validUntil && <div style={{ color: '#e57373', fontSize: 12, marginTop: 2 }}>{formErrors.validUntil}</div>}
                 </div>
               </div>
               <div>
@@ -1536,20 +1724,25 @@ const QuoteBuilder = () => {
               </div>
               <button
                 type="submit"
+                disabled={isCreatingQuote}
                 style={{
-                  background: '#43a047',
+                  background: isCreatingQuote ? '#ccc' : '#43a047',
                   color: '#fff',
                   border: 'none',
                   borderRadius: 6,
                   padding: '10px 28px',
                   fontWeight: 600,
-                  cursor: 'pointer',
+                  cursor: isCreatingQuote ? 'not-allowed' : 'pointer',
                   fontSize: 16,
                   minWidth: 120,
-                  maxWidth: 180
+                  maxWidth: 180,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
                 }}
               >
-                Create Quote
+                {isCreatingQuote && <i className="fa-solid fa-spinner fa-spin"></i>}
+                {isCreatingQuote ? 'Creating...' : 'Create Quote'}
               </button>
             </div>
           </form>
@@ -1610,7 +1803,7 @@ const QuoteBuilder = () => {
             <div style={{ marginBottom: 20 }}>
               <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Destination</label>
               <select
-                value={editingQuote.destination}
+                value={editingQuote.destinationId || editingQuote.destination}
                 onChange={(e) => setEditingQuote({...editingQuote, destination: e.target.value})}
                 style={{
                   width: '100%',
@@ -1620,14 +1813,22 @@ const QuoteBuilder = () => {
                   fontSize: 15
                 }}
               >
-                {destinationOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                {isLoadingData ? (
+                  <option value="" disabled>Loading...</option>
+                ) : (
+                  destinationList.map(opt => {
+                    const id = opt._id || opt.id || opt.destination_id;
+                    const name = opt.name || opt.destination_name || opt.title || opt.destination;
+                    return <option key={id} value={id}>{name}</option>;
+                  })
+                )}
               </select>
             </div>
             
             <div style={{ marginBottom: 20 }}>
               <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Trip Type</label>
               <select
-                value={editingQuote.tripType}
+                value={editingQuote.tripTypeId || editingQuote.tripType}
                 onChange={(e) => setEditingQuote({...editingQuote, tripType: e.target.value})}
                 style={{
                   width: '100%',
@@ -1637,7 +1838,15 @@ const QuoteBuilder = () => {
                   fontSize: 15
                 }}
               >
-                {tripTypeOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                {isLoadingData ? (
+                  <option value="" disabled>Loading...</option>
+                ) : (
+                  tripTypeList.map(opt => {
+                    const id = opt._id || opt.id || opt.trip_type_id;
+                    const name = opt.name || opt.trip_type_name || opt.title || opt.trip_type;
+                    return <option key={id} value={id}>{name}</option>;
+                  })
+                )}
               </select>
             </div>
             
