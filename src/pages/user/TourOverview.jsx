@@ -334,6 +334,7 @@ const TourOverview = () => {
                                         </div>
                                     </div>
                                 </div>
+                                
                             </div>
 
                             <div className='whats-included-main'>

@@ -103,6 +103,8 @@ export const deleteTourCategory = async (_id) => {
 };
 
 
+
+
 // *************************************************  TOUR TYPE API  **********************************************
 
 export const CreateTourType = async (payload) => {
@@ -292,7 +294,7 @@ export const DeleteBlogCategory = async (_id) => {
 };
 
 
-// *************************************************  Blog Category API  **********************************************
+// *************************************************  Trip Collection API  **********************************************
 
 export const CreateTripPackage = async (payload) => {
     return await APIBaseUrl.post("/trips/create", payload)
@@ -309,6 +311,15 @@ export const GetAllTrip = async () => {
             return { err: err?.response?.data || err };
         });
 };
+
+export const TourPreviewDetails = async (_id) => {
+    return await APIBaseUrl.get(`trips/get_trip_preview?_id=${_id}`)
+        .then((response) => response.data)
+        .catch((err) => {
+            return { err: err?.response?.data || err };
+        });
+};
+
 
 // ************************************************  SINGLE FILE UPLOAD API **********************************************
 

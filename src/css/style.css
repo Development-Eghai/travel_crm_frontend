@@ -2282,6 +2282,11 @@ button:focus:not(:focus-visible) {
     box-shadow: none;
 }
 
+.destination-faq .accordion-button:not(.collapsed)::after,
+.destination-faq .accordion-button::after{
+    background-image: none !important;
+}
+
 .destination-faq-add {
     padding: 5px 20px;
     font-size: 15px;
@@ -3060,16 +3065,17 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
-.accordion-button:not(.collapsed)::after{
+/* .accordion-button:not(.collapsed)::after{
     background-image: none !important;
 }
 .accordion-button::after{
     background-image: none !important;
-}
+} */
 
 input, select, textarea {
   transition: border-color 0.2s, box-shadow 0.2s;
 }
+
 input:focus, select:focus, textarea:focus {
   border-color: #1976d2 !important;
   box-shadow: 0 0 0 2px #e3f2fd;

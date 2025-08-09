@@ -10,7 +10,7 @@ const TourList = () => {
     const navigate = useNavigate();
     
     const handlePreview = (slug, id) => {
-        const url = `/destination/${slug}/${id}`;
+        const url = `/trip-preview/${slug}/${id}`;
         window.open(url, '_blank');
     };
 
@@ -49,33 +49,32 @@ const TourList = () => {
                 );
             }
         },
-        // { field: 'slug', headerName: 'Slug', flex: 1 },
-        // {
-        //     field: '_id',
-        //     headerName: 'Actions',
-        //     flex: 1,
-        //     sortable: false,
-        //     filterable: false,
-        //     disableColumnMenu: true,
-        //     renderCell: (params) => {
-        //         const slug = params.row?.slug;
-        //         const id = params.row?._id;
+        {
+            field: '_id',
+            headerName: 'Actions',
+            flex: 1,
+            sortable: false,
+            filterable: false,
+            disableColumnMenu: true,
+            renderCell: (params) => {
+                const slug = params.row?.fixedPackage?.slug || params.row?.customizePackage?.slug || "";
+                const id = params.row?._id;
 
-        //         return (
-        //             <div className='admin-actions'>
-        //                 <i className="fa-solid fa-pen-to-square"></i>
+                return (
+                    <div className='admin-actions'>
+                        {/* <i className="fa-solid fa-pen-to-square"></i>
 
-        //                 <i className="fa-solid fa-trash ms-3"></i>
+                        <i className="fa-solid fa-trash ms-3"></i> */}
 
-        //                 <i
-        //                     className="fa-solid fa-eye ms-3"
-        //                     style={{ cursor: "pointer" }}
-        //                     onClick={() => handlePreview(slug, id)}
-        //                 ></i>
-        //             </div>
-        //         );
-        //     }
-        // },
+                        <i
+                            className="fa-solid fa-eye ms-3"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => handlePreview(slug, id)}
+                        ></i>
+                    </div>
+                );
+            }
+        },
         // {
         //     field: 'status',
         //     headerName: 'Status',
