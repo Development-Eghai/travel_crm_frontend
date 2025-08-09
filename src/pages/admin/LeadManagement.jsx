@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { CreateLead, GetAllLeads, UpdateLead, DeleteLead, GetAllDestination, GetAllTourType, GetSpecificLead, UpdateLeadStatus } from '../../common/api/ApiService';
 
 // --- Widget Data with Enhanced Metrics ---
 const widgetData = [
@@ -45,14 +46,21 @@ const placeholderLeads = [
 
 const teamMembers = ['Alice', 'Bob', 'Charlie', 'Mike Johnson', 'Sarah Wilson'];
 const statusOptions = ['New', 'In Progress', 'Follow-up', 'Converted', 'Lost'];
-const destinationOptions = ['Paris', 'London', 'Rome', 'Dubai', 'Switzerland'];
-const tripTypeOptions = ['Family', 'Solo', 'Group', 'Honeymoon'];
 const leadSourceOptions = ['Website', 'Facebook', 'Instagram', 'WhatsApp'];
+
+const statusEnumOptions = [
+  { label: 'New', value: 'new' },
+  { label: 'In Progress', value: 'in_progress' },
+  { label: 'Follow-up', value: 'follow-up' },
+  { label: 'Converted', value: 'converted' },
+  { label: 'Lost', value: 'lost' }
+];
 
 const LeadManagement = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [leads, setLeads] = useState(placeholderLeads);
+  const [leads, setLeads] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState([]);
   const [filters, setFilters] = useState({
     dateFrom: '',
@@ -94,6 +102,76 @@ const LeadManagement = () => {
   const [formErrors, setFormErrors] = useState({});
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editingLead, setEditingLead] = useState(null);
+  const [destinationList, setDestinationList] = useState([]);
+  const [tripTypeList, setTripTypeList] = useState([]);
+  const [editLoading, setEditLoading] = useState(false);
+
+  // Helper functions to get names from IDs
+  const getDestinationName = (destinationId) => {
+    const destination = destinationList.find(d => d._id === destinationId);
+    return destination ? destination.destination_name : destinationId;
+  };
+
+  const getTripTypeName = (tripTypeId) => {
+    const tripType = tripTypeList.find(t => t._id === tripTypeId);
+    return tripType ? tripType.tour_name : tripTypeId;
+  };
+
+  // Helper function to convert frontend status to backend enum
+  const convertStatusToBackend = (frontendStatus) => {
+    const statusMap = {
+      'New': 'new',
+      'In Progress': 'in_progress',
+      'Follow-up': 'follow-up',
+      'Converted': 'converted',
+      'Lost': 'lost'
+    };
+    return statusMap[frontendStatus] || frontendStatus;
+  };
+
+  // Load leads from API
+  useEffect(() => {
+    const fetchLeads = async () => {
+      try {
+        setLoading(true);
+        const response = await GetAllLeads();
+        if (response && !response.err) {
+          setLeads(response.data || []);
+        } else {
+          console.error('Error fetching leads:', response?.err);
+          // Fallback to placeholder data if API fails
+          setLeads(placeholderLeads);
+        }
+      } catch (error) {
+        console.error('Error fetching leads:', error);
+        setLeads(placeholderLeads);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchDestinationAndTripTypes = async () => {
+      try {
+        const [destinationResponse, tripTypeResponse] = await Promise.all([
+          GetAllDestination(),
+          GetAllTourType()
+        ]);
+
+        if (destinationResponse && destinationResponse.statusCode === 200) {
+          setDestinationList(destinationResponse.data || []);
+        }
+
+        if (tripTypeResponse && tripTypeResponse.statusCode === 200) {
+          setTripTypeList(tripTypeResponse.data || []);
+        }
+      } catch (error) {
+        console.error('Error fetching destination and trip type data:', error);
+      }
+    };
+
+    fetchLeads();
+    fetchDestinationAndTripTypes();
+  }, []);
 
   // Close dropdown when clicking outside
   React.useEffect(() => {
@@ -126,7 +204,7 @@ const LeadManagement = () => {
   };
 
   const handleSelectAll = (e) => {
-    setSelected(e.target.checked ? filteredLeads.map(l => l.id) : []);
+    setSelected(e.target.checked ? filteredLeads.map(l => l._id || l.id) : []);
   };
   const handleSelect = (id) => {
     setSelected(selected.includes(id) ? selected.filter(s => s !== id) : [...selected, id]);
@@ -134,13 +212,13 @@ const LeadManagement = () => {
 
 
   const filteredLeads = leads.filter(lead => {
-    const dateOk = (!filters.dateFrom || lead.followUp >= filters.dateFrom) && (!filters.dateTo || lead.followUp <= filters.dateTo);
-    const statusOk = !filters.status || lead.status === filters.status;
+    const dateOk = (!filters.dateFrom || (lead.follow_up_date || lead.followUp) >= filters.dateFrom) && (!filters.dateTo || (lead.follow_up_date || lead.followUp) <= filters.dateTo);
+    const statusOk = !filters.status || (lead.lead_status || lead.status) === filters.status;
     const destOk = !filters.destination || lead.destination === filters.destination;
-    const tripTypeOk = !filters.tripType || lead.tripType === filters.tripType;
-    const assignedOk = !filters.assignedTo || lead.assignedTo === filters.assignedTo;
-    const sourceOk = !filters.leadSource || lead.leadSource === filters.leadSource;
-    const budgetOk = (!filters.budgetMin || lead.budget >= Number(filters.budgetMin)) && (!filters.budgetMax || lead.budget <= Number(filters.budgetMax));
+    const tripTypeOk = !filters.tripType || lead.trip_type || lead.tripType === filters.tripType;
+    const assignedOk = !filters.assignedTo || (lead.assign_to || lead.assignedTo) === filters.assignedTo;
+    const sourceOk = !filters.leadSource || (lead.lead_source || lead.leadSource) === filters.leadSource;
+    const budgetOk = (!filters.budgetMin || (lead.budget || 0) >= Number(filters.budgetMin)) && (!filters.budgetMax || (lead.budget || 0) <= Number(filters.budgetMax));
     return dateOk && statusOk && destOk && tripTypeOk && assignedOk && sourceOk && budgetOk;
   });
 
@@ -158,33 +236,57 @@ const LeadManagement = () => {
     const { name, value } = e.target;
     setNewLead(l => ({ ...l, [name]: value }));
   };
-  const handleAddLead = () => {
+  const handleAddLead = async () => {
     const errors = validateLeadForm();
     setFormErrors(errors);
     if (Object.keys(errors).length > 0) return;
     
-    const id = `LD-${(leads.length + 1).toString().padStart(4, '0')}`;
-    const newLeadData = {
-      id,
-      name: newLead.name,
-      phone: newLead.mobile, // Add phone number
-      destination: newLead.destination,
-      tripType: newLead.tripType,
-      leadSource: newLead.leadSource,
-      lastUpdate: new Date().toISOString().slice(0, 16).replace('T', ' ') + ' (Admin)',
-      assignedTo: newLead.assignedTo,
-      status: newLead.status,
-      followUp: newLead.followUp,
-      budget: newLead.budget,
-      // Add more fields as needed
-    };
-    
-    setLeads([newLeadData, ...leads]);
-    setAddModalOpen(false);
-    setNewLead({
-      name: '', mobile: '', email: '', leadSource: '', tripType: '', destination: '', pickupLocation: '', travelFrom: '', travelTo: '', adults: '', children: '', budget: '', hotelPref: '', travelMode: '', specialReq: '', assignedTo: '', status: 'New', followUp: '', followUpTime: '', notes: ''
-    });
-    setFormErrors({});
+    try {
+      const payload = {
+        name: newLead.name,
+        mobile_number: newLead.mobile,
+        email: newLead.email,
+        lead_source: newLead.leadSource,
+        trip_type: newLead.tripType,
+        destination: newLead.destination,
+        pickup_location: newLead.pickupLocation,
+        travel_mode: newLead.travelMode,
+        travel_date_from: newLead.travelFrom && newLead.travelFrom.trim() !== '' && !isNaN(new Date(newLead.travelFrom).getTime()) ? new Date(newLead.travelFrom).toISOString() : null,
+        travel_date_to: newLead.travelTo && newLead.travelTo.trim() !== '' && !isNaN(new Date(newLead.travelTo).getTime()) ? new Date(newLead.travelTo).toISOString() : null,
+        no_of_adults: newLead.adults,
+        no_of_children: newLead.children,
+        budget: newLead.budget,
+        hotel_preference: newLead.hotelPref,
+        special_request: newLead.specialReq,
+        assign_to: newLead.assignedTo,
+        lead_status: convertStatusToBackend(newLead.status),
+        follow_up_date: newLead.followUp && newLead.followUp.trim() !== '' && !isNaN(new Date(newLead.followUp).getTime()) ? new Date(newLead.followUp).toISOString() : null,
+        follow_up_time: newLead.followUpTime && newLead.followUpTime.trim() !== '' && !isNaN(new Date(newLead.followUpTime).getTime()) ? new Date(newLead.followUpTime).toISOString() : null,
+        notes: newLead.notes
+      };
+
+      console.log('Payload being sent to backend:', payload);
+      const response = await CreateLead(payload);
+      if (response && !response.err) {
+        // Refresh the leads list
+        const updatedLeadsResponse = await GetAllLeads();
+        if (updatedLeadsResponse && !updatedLeadsResponse.err) {
+          setLeads(updatedLeadsResponse.data || []);
+        }
+        
+        setAddModalOpen(false);
+        setNewLead({
+          name: '', mobile: '', email: '', leadSource: '', tripType: '', destination: '', pickupLocation: '', travelFrom: '', travelTo: '', adults: '', children: '', budget: '', hotelPref: '', travelMode: '', specialReq: '', assignedTo: '', status: 'New', followUp: '', followUpTime: '', notes: ''
+        });
+        setFormErrors({});
+      } else {
+        console.error('Error creating lead:', response?.err);
+        alert('Failed to create lead. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error creating lead:', error);
+      alert('Failed to create lead. Please try again.');
+    }
   };
 
   // Action Handlers
@@ -196,18 +298,53 @@ const LeadManagement = () => {
 
 
 
-  const handleDeleteLead = (leadId) => {
+  const handleDeleteLead = async (leadId) => {
     if (window.confirm('Are you sure you want to delete this lead?')) {
-      setLeads(leads.filter(l => l.id !== leadId));
-      setDropdownOpen(null);
+      try {
+        const response = await DeleteLead(leadId);
+        if (response && !response.err) {
+          // Refresh the leads list
+          const updatedLeadsResponse = await GetAllLeads();
+          if (updatedLeadsResponse && !updatedLeadsResponse.err) {
+            setLeads(updatedLeadsResponse.data || []);
+          }
+          setDropdownOpen(null);
+        } else {
+          console.error('Error deleting lead:', response?.err);
+          alert('Failed to delete lead. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error deleting lead:', error);
+        alert('Failed to delete lead. Please try again.');
+      }
     }
   };
 
-  const handleSaveEdit = () => {
+  const handleSaveEdit = async () => {
     if (editingLead) {
-      setLeads(leads.map(l => l.id === editingLead.id ? editingLead : l));
-      setEditModalOpen(false);
-      setEditingLead(null);
+      try {
+        const payload = {
+          _id: editingLead._id, // Use _id for backend
+          status: editingLead.status // This will be the enum value
+        };
+        console.log('Payload being sent:', payload); // For debugging
+        const response = await UpdateLeadStatus(payload);
+        if (response && !response.err) {
+          // Refresh the leads list
+          const updatedLeadsResponse = await GetAllLeads();
+          if (updatedLeadsResponse && !updatedLeadsResponse.err) {
+            setLeads(updatedLeadsResponse.data || []);
+          }
+          setEditModalOpen(false);
+          setEditingLead(null);
+        } else {
+          console.error('Error updating lead status:', response?.err);
+          alert('Failed to update lead status. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error updating lead status:', error);
+        alert('Failed to update lead status. Please try again.');
+      }
     }
   };
 
@@ -229,16 +366,16 @@ const LeadManagement = () => {
 
     // Create CSV rows from filtered leads
     const csvRows = filteredLeads.map(lead => [
-      lead.id,
+      lead._id || lead.id,
       lead.name,
-      lead.phone || '',
+      lead.mobile_number || lead.phone || '',
       lead.destination,
-      lead.tripType,
-      lead.leadSource,
-      lead.lastUpdate,
-      lead.assignedTo,
-      lead.status,
-      lead.followUp,
+      lead.trip_type || lead.tripType,
+      lead.lead_source || lead.leadSource,
+      lead.updatedAt ? new Date(lead.updatedAt).toLocaleString() : lead.lastUpdate,
+      lead.assign_to || lead.assignedTo,
+      lead.lead_status || lead.status,
+      lead.follow_up_date || lead.followUp,
       lead.budget || ''
     ]);
 
@@ -435,14 +572,14 @@ const LeadManagement = () => {
               <label style={{ fontWeight: 500 }}>Destination</label><br />
               <select name="destination" value={filters.destination} onChange={handleFilterChange} style={{ borderRadius: 4, border: '1px solid #ccc', padding: '2px 6px', width: '100%' }}>
                 <option value="">All</option>
-                {destinationOptions.map(d => <option key={d} value={d}>{d}</option>)}
+                {destinationList.map(d => <option key={d._id} value={d._id}>{d.destination_name}</option>)}
               </select>
             </div>
             <div className="filter-field" style={{ minWidth: 140, flex: 1 }}>
               <label style={{ fontWeight: 500 }}>Trip Type</label><br />
               <select name="tripType" value={filters.tripType} onChange={handleFilterChange} style={{ borderRadius: 4, border: '1px solid #ccc', padding: '2px 6px', width: '100%' }}>
                 <option value="">All</option>
-                {tripTypeOptions.map(t => <option key={t} value={t}>{t}</option>)}
+                {tripTypeList.map(t => <option key={t._id} value={t._id}>{t.tour_name}</option>)}
               </select>
             </div>
             <div className="filter-field" style={{ minWidth: 140, flex: 1 }}>
@@ -494,7 +631,14 @@ const LeadManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredLeads.length === 0 ? (
+              {loading ? (
+                <tr>
+                  <td colSpan={11} style={{ textAlign: 'center', color: '#888', padding: '3rem' }}>
+                    <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: 32, marginBottom: 8 }}></i>
+                    <div>Loading leads...</div>
+                  </td>
+                </tr>
+              ) : filteredLeads.length === 0 ? (
                 <tr>
                   <td colSpan={11} style={{ textAlign: 'center', color: '#888', padding: '3rem' }}>
                     <i className="fa-solid fa-magnifying-glass" style={{ fontSize: 32, marginBottom: 8 }}></i>
@@ -504,38 +648,24 @@ const LeadManagement = () => {
                 </tr>
               ) : filteredLeads.map((lead, idx) => (
                 <tr
-                  key={lead.id}
+                  key={lead._id || lead.id}
                   style={{
-                    background: selected.includes(lead.id) ? '#e3f2fd' : idx % 2 === 0 ? '#fff' : '#fafbfc',
+                    background: selected.includes(lead._id || lead.id) ? '#e3f2fd' : idx % 2 === 0 ? '#fff' : '#fafbfc',
                     borderBottom: '1px solid #f0f0f0',
                     transition: 'background 0.2s'
                   }}
-                  onMouseEnter={e => e.currentTarget.style.background = selected.includes(lead.id) ? '#e3f2fd' : '#f8fafc'}
-                  onMouseLeave={e => e.currentTarget.style.background = selected.includes(lead.id) ? '#e3f2fd' : idx % 2 === 0 ? '#fff' : '#fafbfc'}
+                  onMouseEnter={e => e.currentTarget.style.background = selected.includes(lead._id || lead.id) ? '#e3f2fd' : '#f8fafc'}
+                  onMouseLeave={e => e.currentTarget.style.background = selected.includes(lead._id || lead.id) ? '#e3f2fd' : idx % 2 === 0 ? '#fff' : '#fafbfc'}
                 >
                   <td style={{ padding: '16px' }}>
                     <input
                       type="checkbox"
-                      checked={selected.includes(lead.id)}
-                      onChange={() => handleSelect(lead.id)}
+                      checked={selected.includes(lead._id || lead.id)}
+                      onChange={() => handleSelect(lead._id || lead.id)}
                     />
                   </td>
                   <td style={{ padding: '16px' }}>
-                    <button
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        color: '#1976d2',
-                        textDecoration: 'underline',
-                        cursor: 'pointer',
-                        fontWeight: 600,
-                        fontSize: '14px'
-                      }}
-                      title="View Lead Details"
-                      onClick={() => setSelectedLead(lead)}
-                    >
-                      {lead.id}
-                    </button>
+                      {lead._id || lead.id}
                   </td>
                   <td style={{ padding: '16px' }}>
                     <div>
@@ -565,14 +695,14 @@ const LeadManagement = () => {
                       >
                         {lead.name}
                       </button>
-                      <div style={{ color: '#666', fontSize: '12px' }}>{lead.phone}</div>
+                      <div style={{ color: '#666', fontSize: '12px' }}>{lead.mobile_number || lead.phone}</div>
                     </div>
                   </td>
-                  <td style={{ padding: '16px', color: '#1a1a1a', fontSize: '14px' }}>{lead.destination}</td>
-                  <td style={{ padding: '16px', color: '#1a1a1a', fontSize: '14px' }}>{lead.tripType}</td>
-                  <td style={{ padding: '16px', color: '#1a1a1a', fontSize: '14px' }}>{lead.leadSource}</td>
-                  <td style={{ padding: '16px', color: '#666', fontSize: '12px' }}>{lead.lastUpdate}</td>
-                  <td style={{ padding: '16px', color: '#1a1a1a', fontSize: '14px' }}>{lead.assignedTo}</td>
+                  <td style={{ padding: '16px', color: '#1a1a1a', fontSize: '14px' }}>{getDestinationName(lead.destination)}</td>
+                  <td style={{ padding: '16px', color: '#1a1a1a', fontSize: '14px' }}>{getTripTypeName(lead.tripType)}</td>
+                  <td style={{ padding: '16px', color: '#1a1a1a', fontSize: '14px' }}>{lead.lead_source || lead.leadSource}</td>
+                  <td style={{ padding: '16px', color: '#666', fontSize: '12px' }}>{lead.updatedAt ? new Date(lead.updatedAt).toLocaleString() : lead.lastUpdate}</td>
+                  <td style={{ padding: '16px', color: '#1a1a1a', fontSize: '14px' }}>{lead.assign_to || lead.assignedTo}</td>
                   <td style={{ padding: '16px' }}>
                     <span
                       style={{
@@ -585,19 +715,19 @@ const LeadManagement = () => {
                           'Follow-up': '#e8f5e9',
                           'Converted': '#e0f7fa',
                           'Lost': '#ffebee'
-                        }[lead.status] || '#f5f5f5',
+                        }[lead.lead_status || lead.status] || '#f5f5f5',
                         color: {
                           'New': '#1976d2',
                           'In Progress': '#fbc02d',
                           'Follow-up': '#43a047',
                           'Converted': '#00bcd4',
                           'Lost': '#e53935'
-                        }[lead.status] || '#555',
+                        }[lead.lead_status || lead.status] || '#555',
                         fontWeight: 600,
                         fontSize: 12
                       }}
                     >
-                      {lead.status}
+                      {lead.lead_status || lead.status}
                     </span>
                   </td>
                   <td style={{ padding: '16px', color: '#666', fontSize: '12px' }}>{lead.followUp}</td>
@@ -605,7 +735,7 @@ const LeadManagement = () => {
                     {/* Actions Dropdown */}
                     <div className="dropdown-container" style={{ position: 'relative' }}>
                       <button
-                        onClick={() => setDropdownOpen(dropdownOpen === lead.id ? null : lead.id)}
+                        onClick={() => setDropdownOpen(dropdownOpen === (lead._id || lead.id) ? null : (lead._id || lead.id))}
                         style={{
                           background: 'none',
                           border: 'none',
@@ -623,7 +753,7 @@ const LeadManagement = () => {
                         <i className="fa-solid fa-ellipsis-vertical"></i>
                       </button>
                       
-                      {dropdownOpen === lead.id && (
+                      {dropdownOpen === (lead._id || lead.id) && (
                         <div style={{
                           position: 'absolute',
                           top: '100%',
@@ -661,7 +791,7 @@ const LeadManagement = () => {
                           <div style={{ borderTop: '1px solid #e0e0e0', margin: '4px 0' }}></div>
                           
                           <button
-                            onClick={() => handleDeleteLead(lead.id)}
+                            onClick={() => handleDeleteLead(lead._id || lead.id)}
                             style={{
                               width: '100%',
                               background: 'none',
@@ -832,13 +962,13 @@ const LeadManagement = () => {
                       }}
                     >
                       <option value="">Select</option>
-                      {tripTypeOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                      {tripTypeList.map(opt => <option key={opt._id} value={opt._id}>{opt.tour_name}</option>)}
                     </select>
                     {formErrors.tripType && <div style={{ color: '#e57373', fontSize: 12, marginTop: 2 }}><i className="fa-solid fa-circle-exclamation" style={{ marginRight: 4 }} />{formErrors.tripType}</div>}
                   </div>
                   <div className="form-field" style={{ flex: 1, minWidth: 180, marginBottom: 12 }}>
                     <label>Destination <span style={{ color: 'red' }}>*</span></label>
-                    <input
+                    <select
                       name="destination"
                       value={newLead.destination}
                       onChange={handleNewLeadChange}
@@ -853,7 +983,10 @@ const LeadManagement = () => {
                         outline: 'none',
                         fontSize: 15,
                       }}
-                    />
+                    >
+                      <option value="">Select</option>
+                      {destinationList.map(opt => <option key={opt._id} value={opt._id}>{opt.destination_name}</option>)}
+                    </select>
                     {formErrors.destination && <div style={{ color: '#e57373', fontSize: 12, marginTop: 2 }}><i className="fa-solid fa-circle-exclamation" style={{ marginRight: 4 }} />{formErrors.destination}</div>}
                   </div>
                 </div>
@@ -1216,44 +1349,28 @@ const LeadManagement = () => {
             }}
             onClick={e => e.stopPropagation()}
           >
+            {editLoading ? (
+              <div style={{ textAlign: 'center', padding: '2rem' }}>
+                <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: 32, marginBottom: 8 }}></i>
+                <div>Loading lead details...</div>
+              </div>
+            ) : (
+              <>
             <h2 style={{
               marginBottom: 24,
               textAlign: 'center',
               fontWeight: 700,
               letterSpacing: 1,
               fontSize: 22
-            }}>Edit Lead: {editingLead.id}</h2>
-            
+                }}>Edit Lead Status: {editingLead.id}</h2>
             <div style={{ marginBottom: 20 }}>
               <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Name</label>
-              <input
-                value={editingLead.name}
-                onChange={(e) => setEditingLead({...editingLead, name: e.target.value})}
-                style={{
-                  width: '100%',
-                  borderRadius: 6,
-                  padding: '10px 12px',
-                  border: '1px solid #ccc',
-                  fontSize: 15
-                }}
-              />
+                  <div style={{ padding: '10px 12px', background: '#f5f5f5', borderRadius: 6 }}>{editingLead.name}</div>
             </div>
-            
             <div style={{ marginBottom: 20 }}>
               <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Destination</label>
-              <input
-                value={editingLead.destination}
-                onChange={(e) => setEditingLead({...editingLead, destination: e.target.value})}
-                style={{
-                  width: '100%',
-                  borderRadius: 6,
-                  padding: '10px 12px',
-                  border: '1px solid #ccc',
-                  fontSize: 15
-                }}
-              />
+                  <div style={{ padding: '10px 12px', background: '#f5f5f5', borderRadius: 6 }}>{getDestinationName(editingLead.destination)}</div>
             </div>
-            
             <div style={{ marginBottom: 20 }}>
               <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Status</label>
               <select
@@ -1267,43 +1384,9 @@ const LeadManagement = () => {
                   fontSize: 15
                 }}
               >
-                {statusOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                {statusEnumOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
               </select>
             </div>
-            
-            <div style={{ marginBottom: 20 }}>
-              <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Assigned To</label>
-              <select
-                value={editingLead.assignedTo}
-                onChange={(e) => setEditingLead({...editingLead, assignedTo: e.target.value})}
-                style={{
-                  width: '100%',
-                  borderRadius: 6,
-                  padding: '10px 12px',
-                  border: '1px solid #ccc',
-                  fontSize: 15
-                }}
-              >
-                {teamMembers.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-              </select>
-            </div>
-            
-            <div style={{ marginBottom: 20 }}>
-              <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Follow-up Date</label>
-              <input
-                type="date"
-                value={editingLead.followUp}
-                onChange={(e) => setEditingLead({...editingLead, followUp: e.target.value})}
-                style={{
-                  width: '100%',
-                  borderRadius: 6,
-                  padding: '10px 12px',
-                  border: '1px solid #ccc',
-                  fontSize: 15
-                }}
-              />
-            </div>
-
             <div className="modal-buttons" style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
               <button
                 onClick={() => setEditModalOpen(false)}
@@ -1336,6 +1419,8 @@ const LeadManagement = () => {
                 Save Changes
               </button>
             </div>
+              </>
+            )}
           </div>
         </div>
       )}
@@ -1348,8 +1433,8 @@ const LeadManagement = () => {
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <h2>Lead Details: {selectedLead.id}</h2>
             <p><b>Name:</b> {selectedLead.name}</p>
-            <p><b>Destination:</b> {selectedLead.destination}</p>
-            <p><b>Trip Type:</b> {selectedLead.tripType}</p>
+                            <p><b>Destination:</b> {getDestinationName(selectedLead.destination)}</p>
+                          <p><b>Trip Type:</b> {getTripTypeName(selectedLead.tripType)}</p>
             <p><b>Status:</b> {selectedLead.status}</p>
             <p><b>Assigned To:</b> {selectedLead.assignedTo}</p>
             {/* Add more details and actions here */}

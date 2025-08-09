@@ -12,6 +12,8 @@ import PrivacyPolicy from "./pages/user/PrivacyPolicy";
 import AboutUs from "./pages/user/AboutUs";
 import DestinationPreview from "./pages/admin/TripManagement/Destination/DestinationPreview";
 import DestinationCreation from "./pages/admin/TripManagement/Destination/DestinationCreation";
+import SearchResults from "./pages/user/SearchResults";
+import TravelForm from "./pages/user/TravelForm";
 import TripsDetail from "./pages/user/TripsDetail";
 import TripBookings from "./pages/user/TripBookings";
 
@@ -29,6 +31,8 @@ const AppRoutes = () => {
                     <Route path="/" element={<Homepage />} />
                     <Route path="/destination" element={<DestinationDetail />} />
                     <Route path="/destination-list" element={<DestinationFilters />} />
+                    <Route path="/search-results" element={<SearchResults />} />
+                    <Route path="/travel-form" element={<TravelForm />} />
                     <Route path="/tour-overview" element={<TourOverview />} />
                     <Route path="/admin/*" element={<Layout />} />
                     <Route path="/blogs" element={<Blogs />} />
