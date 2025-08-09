@@ -16,9 +16,7 @@ import ActivityBookingCreation from "../pages/admin/ActivityBooking/ActivityBook
 import BlogsTags from "../pages/admin/Blogs/Tags/BlogsTags";
 import LeadManagement from "../pages/admin/LeadManagement";
 import QuoteBuilder from "../pages/admin/QuoteBuilder";
-import ItineraryBuilder from "../pages/admin/ItineraryBuilder";
-import ComprehensiveQuoteBuilder from "../pages/admin/ComprehensiveQuoteBuilder";
-import FooterSettings from "../pages/admin/GlobalSettings/FooterSettings";
+import GlobalSettings from "../pages/admin/GlobalSettings/GlobalSettings";
 
 
 export const routes = [
@@ -96,7 +94,7 @@ export const routes = [
     },
     {
         path: "/global-settings",
-        component: FooterSettings,
+        component: GlobalSettings,
     },
     // {
     //     path: "/comprehensive-quote-builder",

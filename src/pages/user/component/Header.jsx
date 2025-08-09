@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Images } from "../../../helpers/Images/images";
+import { GetSpecificAppConfig } from '../../../common/api/ApiService';
+import { BACKEND_DOMAIN } from '../../../common/api/ApiClient';
 
 
 const Header = ({ fixed = true }) => {
   const [isSticky, setIsSticky] = useState(false);
+  const [appConfigData, setAppConfigData] = useState({})
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,13 +18,26 @@ const Header = ({ fixed = true }) => {
   }, []);
 
 
+
+  const getAppConfig = async () => {
+    const response = await GetSpecificAppConfig()
+    if (response && response?.statusCode === 200) {
+      setAppConfigData(response?.data)
+    }
+  }
+
+  useEffect(() => {
+    getAppConfig()
+  }, [])
+
+
   return (
     <div className='overflow-hidden'>
       <div className={`header-main ${isSticky ? "sticky-header" : ""} ${fixed ? "fixed-header" : "not-fixed-header"}`}>
         <nav className="navbar navbar-expand-lg">
           <div className="container">
             <a href='/'>
-              <img src={Images.logo} alt="logo" className="logo-image" />
+              <img src={`${BACKEND_DOMAIN}${appConfigData?.logo_url}`} alt="logo" className="logo-image" />
             </a>
             <button
               className="navbar-toggler"
