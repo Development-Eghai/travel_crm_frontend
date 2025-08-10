@@ -46,7 +46,7 @@ export const AdminMenu = [
     },
     {
         path: "",
-        icon: <i className="fa-solid fa-suitcase-rolling"></i>,
+        icon: <i class="fa-brands fa-microblog"></i>,
         name: "Blogs Management",
         subMenu: [
             {
@@ -73,25 +73,140 @@ export const AdminMenu = [
 
         ],
     },
-    {
-        path: "/admin/hotel-List",
-        icon: <i className="fa-solid fa-chart-line"></i>,
-        name: "Hotel Management",
-    },
-    {
-        path: "/admin/Activity-list",
-        icon: <i className="fa-solid fa-chart-line"></i>,
-        name: "Activity Management",
-    },
+
     {
         path: "/admin/lead-management",
-        icon: <i className="fa-solid fa-user-plus"></i>,
+        icon: <i class="fa-solid fa-circle-user"></i>,
         name: "Lead Management",
     },
     {
+        path: "/admin/quote-builder",
+        icon: <i class="fa-solid fa-money-bill-trend-up"></i>,
+        name: "QuoteBuilder",
+    },
+    {
         path: "/admin/global-settings",
-        icon: <i className="fa-solid fa-user-plus"></i>,
-        name: "Global Settings",
+        icon: <i class="fa-solid fa-gear"></i>,
+        name: "GlobalSettings",
+    },
+    {
+        path: "",
+        icon: <i class="fa-solid fa-warehouse"></i>,
+        name: "Inventory",
+        subMenu: [
+            {
+                path: "/admin/not-available-1",
+                icon: <span class="material-symbols-outlined">
+                hotel
+                </span>,
+                name: "Hotels",
+            },
+            {
+                path: "/admin/not-available-2",
+                icon: <span class="material-symbols-outlined">
+                person_play
+                </span>,
+                name: "Activities",
+            },
+            {
+                path: "/admin/not-available-3",
+                icon:<span class="material-symbols-outlined">
+                local_taxi
+                </span>,
+                name: "Cab Bookings",
+            },
+
+        ],
+    },
+    {
+        path: "",
+        icon: <i class="fa-brands fa-adversal"></i>,
+        name: "Sales & Marketing",
+        subMenu: [
+            {
+                path: "/admin/not-available",
+                icon: <span class="material-symbols-outlined">
+                diversity_3
+                </span>,
+                name: "Leads",
+            },
+            {
+                path: "/admin/not-available",
+                icon: <span class="material-symbols-outlined">
+                format_quote
+                </span>,
+                name: "Quotations",
+            },
+            {
+                path: "/admin/not-available",
+                icon:<span class="material-symbols-outlined">
+                featured_seasonal_and_gifts
+                </span>,
+                name: "Offers & Coupons",
+            },
+            {
+                path: "/admin/not-available",
+                icon:<span class="material-symbols-outlined">
+                local_atm
+                </span>,
+                name: "Banners",
+            },
+
+        ],
+    },
+    {
+        path: "",
+        icon: <i class="fa-solid fa-newspaper"></i>,
+        name: "Sales & Marketing",
+        subMenu: [
+            {
+                path: "/admin/not-available",
+                icon: <span class="material-symbols-outlined">
+                contract_edit
+                </span>,
+                name: "CMS",
+            },
+            {
+                path: "/admin/not-available",
+                icon: <span class="material-symbols-outlined">
+                search_gear
+                </span>,
+                name: "SEO Settings",
+            },
+        ],
+    },
+    {
+        path: "",
+        icon: <i class="fa-solid fa-walkie-talkie"></i>,
+        name: "Communication",
+        subMenu: [
+            {
+                path: "/admin/not-available",
+                icon: <i class="fa-solid fa-envelope-circle-check"></i>,
+                name: "Email Marketing",
+            },
+            {
+                path: "/admin/not-available",
+                icon: <i class="fa-brands fa-whatsapp"></i>,
+                name: "Whatsapp Marketing",
+            },
+        ],
+    }, {
+        path: "",
+        icon: <i class="fa-solid fa-gears"></i>,
+        name: "System Settings",
+        subMenu: [
+            {
+                path: "/admin/not-available",
+                icon: <i class="fa-solid fa-wrench"></i>,
+                name: "Settings",
+            },
+            {
+                path: "/admin/not-available",
+                icon: <i class="fa-solid fa-circle-user"></i>,
+                name: "User Roles",
+            },
+        ],
     },
 ]
 

@@ -19,7 +19,6 @@ const Footer = () => {
   }, [])
 
 
-  console.log(appConfigData, "appConfigData")
 
   return (
     <div>
