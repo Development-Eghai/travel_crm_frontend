@@ -1,7 +1,7 @@
 export const AdminMenu = [
     {
         path: "/admin/admin-dashboard",
-        icon:<i className="fa-solid fa-chart-line"></i>,
+        icon: <i class="fa-solid fa-grip"></i>,
         name: "Dashboard",
     },
     {
@@ -11,28 +11,36 @@ export const AdminMenu = [
         subMenu: [
             {
                 path: "/admin/destination-list",
-                icon: <i className="fa-solid fa-location-dot"></i>,
-                name: "Add Destination",
+                icon: <span class="material-symbols-outlined">
+                distance
+                </span>,
+                name: "Destinations",
             },
             {
                 path: "/admin/activity",
-                icon: <i className="fa-solid fa-location-dot"></i>,
-                name: "Add Activity",
+                icon: <span class="material-symbols-outlined">hiking</span>,
+                name: "Activities",
             },
             {
                 path: "/admin/tour-list",
-                icon: <i className="fa-regular fa-paper-plane"></i>,
-                name: " Add Trip",
+                icon: <span class="material-symbols-outlined">
+                connecting_airports
+                </span>,
+                name: " All Trips",
             },
             {
                 path: "/admin/category-create",
-                icon: <i className="fa-regular fa-paper-plane"></i>,
-                name: " Add Category",
+                icon: <span class="material-symbols-outlined">
+                bus_railway
+                </span>,
+                name: "Categories",
             },
             {
                 path: "/admin/create-tour-type",
-                icon: <i className="fa-regular fa-paper-plane"></i>,
-                name: " Add Trip Type",
+                icon: <span class="material-symbols-outlined">
+                checked_bag_question
+                </span>,
+                name: "Trip Type",
             },
         ],
     },
@@ -43,30 +51,36 @@ export const AdminMenu = [
         subMenu: [
             {
                 path: "/admin/tag-blogs",
-                icon: <i className="fa-solid fa-location-dot"></i>,
-                name: "Add Blog Tag",
+                icon: <span class="material-symbols-outlined">
+                add_comment
+                </span>,
+                name: "Blog Tag",
             },
             {
                 path: "/admin/categories-blog",
-                icon: <i className="fa-solid fa-location-dot"></i>,
-                name: "Add Blog Category",
+                icon: <span class="material-symbols-outlined">
+                dynamic_feed
+                </span>,
+                name: "Blog Category",
             },
             {
                 path: "/admin/blogs-List",
-                icon: <i className="fa-solid fa-location-dot"></i>,
-                name: "Add Blogs",
+                icon: <span class="material-symbols-outlined">
+                article_person
+                </span>,
+                name: "Blogs",
             },
-            
+
         ],
     },
     {
         path: "/admin/hotel-List",
-        icon:<i className="fa-solid fa-chart-line"></i>,
+        icon: <i className="fa-solid fa-chart-line"></i>,
         name: "Hotel Management",
     },
     {
         path: "/admin/Activity-list",
-        icon:<i className="fa-solid fa-chart-line"></i>,
+        icon: <i className="fa-solid fa-chart-line"></i>,
         name: "Activity Management",
     },
     {

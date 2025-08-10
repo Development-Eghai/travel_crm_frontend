@@ -60,6 +60,7 @@ import culture_image_2 from "../../assets/images/culture-image-2.avif";
 import culture_image_3 from "../../assets/images/culture-image-3.avif";
 
 
+import trip_management from "../../assets/images/travel-and-tourism.png";
 
 
 
@@ -68,6 +69,20 @@ import culture_image_3 from "../../assets/images/culture-image-3.avif";
 
 
 const Images = {
+
+    trip_management,
+
+
+
+
+
+
+
+
+
+
+
+
     featured_card,
     trending_one,
     trending_two,

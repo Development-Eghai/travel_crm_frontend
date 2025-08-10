@@ -1015,7 +1015,7 @@
     font-weight: 600;
 }
 
-.success-div{
+.success-div {
     margin-top: 70px;
 }
 
@@ -1030,5 +1030,107 @@
     color: white;
     font-weight: 700;
     background-color: #EB662B;
-    width:fit-content;
+    width: fit-content;
+}
+
+
+
+
+/* dashboard css */
+
+.dashboard {
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+.stat-card {
+    background: white;
+    padding: 18px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+
+
+.card {
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.inventory-item,
+.lead-item {
+    padding: 14px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.inventory-item:last-child,
+.lead-item:last-child {
+    border-bottom: none;
+}
+
+.quick-action {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.quick-action:hover {
+    background: #e9ecef;
+}
+
+.badge.bg-orange {
+    background-color: orange;
+    color: white;
+}
+
+.inventory-header h6 {
+    font-size: 23px;
+    font-weight: 600;
+    margin-bottom: 3px;
+
+}
+
+
+.inventory-header i {
+    font-size: 20px;
+    margin-right: 10px;
+    color: #00acee;
+    margin-top: 2px;
+}
+
+.inventory-item-content h6 {
+    font-size: 15px;
+    margin-bottom: 2px;
+    font-weight: 600;
+
+}
+
+.inventory-item-content p {
+    font-size: 12px;
+}
+
+.inventory-item i {
+    color: #00acee;
+}
+
+.inventory-item button {
+    padding: 5px 25px;
+    border: none;
+    color: black;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.inventory-item button:hover {
+    color: white;
+    background-color: #EB662B;
+
+}
+.material-symbols-outlined{
+    font-size: 23px !important;
 }

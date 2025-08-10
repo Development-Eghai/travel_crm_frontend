@@ -42,7 +42,7 @@ const Sidebar = ({ role = "admin" }) => {
                                 </button>
 
                                 <div className={`collapse ${openSubmenus[index] ? "show" : ""}`}>
-                                    <ul className="submenu-list ms-4">
+                                    <ul className="submenu-list ms-3">
                                         {item.subMenu.map((sub, subIndex) => {
                                             const basePath = getBasePath(sub.path);
                                             const isActive = pathname.startsWith(basePath);
@@ -52,7 +52,7 @@ const Sidebar = ({ role = "admin" }) => {
                                                     <li className={`nav-item submenu-menus ${isActive ? "active" : ""
                                                         }`} key={sub.path || subIndex}>
 
-                                                        <span className="me-2">{sub.icon}</span>
+                                                        <span className="me-2 sidebar-icon">{sub.icon}</span>
                                                         <span> {sub.name}</span>
                                                     </li>
                                                 </NavLink>
@@ -67,7 +67,7 @@ const Sidebar = ({ role = "admin" }) => {
                                 className={` d-flex sidebar-menu align-items-center ${location.pathname === item.path ? "active" : ""
                                     }`}
                             >
-                                <span className="sidebar-icon">{item.icon}</span>
+                                <p className="sidebar-icon">{item.icon}</p>
                                 <span className="ms-2">{item.name}</span>
                             </NavLink>
                         )}
