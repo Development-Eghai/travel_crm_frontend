@@ -1,24 +1,29 @@
+// store.js
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import persistStore from "redux-persist/es/persistStore";
-import loginSlice from "./slices/loginSlice";
+import sharingReducer from "./slices/RoomSharingSlice";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 const persistConfig = {
-  key: "employee-verification",
+  key: "travel",
   storage,
 };
 
 const rootReducer = combineReducers({
-  login: loginSlice,
+  sharing: sharingReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 const persistor = persistStore(store);
-// persistor.purge();
+
 export { store, persistor };

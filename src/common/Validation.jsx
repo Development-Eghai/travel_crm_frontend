@@ -1,4 +1,4 @@
-export const EmailRegex = !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+export const EmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const StringRegex = /^[A-Za-z ]+$/;
 export const CompanyStringRegex = /^[A-Za-z\s@.'\-_,&()!?]+$/;
 
@@ -36,6 +36,15 @@ export function NumberValidation(value) {
     return { status: true, message: "" };
 }
 
+export function EmailValidation(value) {
+    if (!value || value.trim().length === 0) {
+        return { status: false, message: "is required" };
+    } 
+    if (!(EmailRegex instanceof RegExp) || !EmailRegex.test(value)) {
+        return { status: false, message: "Invalid email format" };
+      }
+    return { status: true, message: "" };
+}
 
 export function NonEmptyValidation(value) {
     if (value === null || value === undefined || value === "") {
@@ -61,9 +70,6 @@ export function NonEmptyFaqArrayValidation(value) {
 
     return { status: true, message: "" };
 }
-
-
-
 
 
 export function NonEmptyArrayValidation(value) {
