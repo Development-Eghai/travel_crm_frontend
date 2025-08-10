@@ -19,7 +19,6 @@ const TourType = () => {
     const [isUpdate, setIsUpdate] = useState(false);
     const [deleteId, setDeleteId] = useState("");
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
-    const [isLoading, setIsLoading] = useState(true);
 
     const columns = [
         { field: 'sno', headerName: 'SNO', flex: 1 },

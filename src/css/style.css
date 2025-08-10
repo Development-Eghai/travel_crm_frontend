@@ -56,10 +56,7 @@ p {
     background-color: rgb(39, 39, 39);
 }
 
-.logo-image {
-    width: 150px;
-    height: auto;
-}
+
 
 .navbar-brand {
     color: white;
@@ -1435,8 +1432,7 @@ button:focus:not(:focus-visible) {
 }
 
 .sidebar-icon {
-    font-size: 16px;
-    /* margin-top: 8px; */
+    font-size: 18px !important;
 }
 
 .Layout-container {
@@ -1491,9 +1487,9 @@ button:focus:not(:focus-visible) {
 }
 
 
-.submenu-menus span {
+/* .submenu-menus span {
     font-size: 16px;
-}
+} */
 
 .submenu-menus:hover,
 .submenu-menus:hover a {
@@ -2555,9 +2551,7 @@ button:focus:not(:focus-visible) {
 
 
 .admin-content-main {
-    /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
     padding: 28px 40px 20px 40px;
-    /* margin-top: 30px; */
     border-radius: 5px;
     background-color: #f9fafb !important;
 }

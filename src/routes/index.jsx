@@ -16,8 +16,7 @@ import ActivityBookingCreation from "../pages/admin/ActivityBooking/ActivityBook
 import BlogsTags from "../pages/admin/Blogs/Tags/BlogsTags";
 import LeadManagement from "../pages/admin/LeadManagement";
 import QuoteBuilder from "../pages/admin/QuoteBuilder";
-import ItineraryBuilder from "../pages/admin/ItineraryBuilder";
-import ComprehensiveQuoteBuilder from "../pages/admin/ComprehensiveQuoteBuilder";
+import GlobalSettings from "../pages/admin/GlobalSettings/GlobalSettings";
 
 
 export const routes = [
@@ -66,7 +65,7 @@ export const routes = [
         component: BlogsList,
     },
     {
-        path: "/blogs-create",
+        path: "/blogs-create/:id?",
         component: BlogsCreation,
     },
     {
@@ -93,10 +92,10 @@ export const routes = [
         path: "/quote-builder",
         component: QuoteBuilder,
     },
-    // {
-    //     path: "/itinerary-builder",
-    //     component: ItineraryBuilder,
-    // },
+    {
+        path: "/global-settings",
+        component: GlobalSettings,
+    },
     // {
     //     path: "/comprehensive-quote-builder",
     //     component: ComprehensiveQuoteBuilder,

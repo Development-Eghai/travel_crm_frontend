@@ -5,6 +5,9 @@ export const BACKEND_DOMAIN = import.meta.env.VITE_BACKEND_URL;
 
 export const BACKEND_BASE = "/api";
 
+export const BACKEND_BASE_API = "http://localhost:8006/api";
+
+
 export const APIBaseUrl = axios.create({
     baseURL: `${BACKEND_DOMAIN}${BACKEND_BASE}`,
 });
