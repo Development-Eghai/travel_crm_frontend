@@ -17,7 +17,6 @@ const Homepage = () => {
     
     return (
         <div className='overflow-hidden'>
-            <Header />
             <HomeBanner />
             <div className=''>
 
@@ -469,10 +468,7 @@ const Homepage = () => {
                         </div>
                     </div>
                 </section>
-                
-
             </div>
-            <Footer />
         </div>
     )
 }

@@ -20,6 +20,7 @@ import TripBookings from "./pages/user/TripBookings";
 import TourPreview from "./pages/admin/TripManagement/Tour/TourPreview";
 import TourBookingPreview from "./pages/admin/TripManagement/Tour/TourBookingPreview";
 import LoginPage from "./pages/admin/Auth/LoginPage";
+import { CommonLayout } from "./layouts/commonLayout";
 
 const DestinationDetail = lazy(() => import("./pages/user/DestinationDetail"));
 const Homepage = lazy(() => import("./pages/user/Homepage"));
@@ -29,27 +30,29 @@ const AppRoutes = () => {
         <div>
             <Router>
                 <Routes>
-                    <Route path="/" element={<Homepage />} />
-                    <Route path="/destination" element={<DestinationDetail />} />
-                    <Route path="/destination-list" element={<DestinationFilters />} />
-                    <Route path="/search-results" element={<SearchResults />} />
-                    <Route path="/travel-form" element={<TravelForm />} />
-                    <Route path="/tour-overview" element={<TourOverview />} />
-                    <Route path="/admin/*" element={<Layout />} />
-                    <Route path="/blogs" element={<Blogs />} />
-                    <Route path="/blogs-detail" element={<BlogsDetail />} />
-                    <Route path="/contact-us" element={<ContactUs />} />
-                    <Route path="/Payments" element={<Payments />} />
-                    <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                    <Route path="/about-us" element={<AboutUs />} />
-                    <Route path="/trips-detail" element={<TripsDetail />} />
-                    <Route path="/trips-bookings" element={<TripBookings />} />
+                    <Route element={<CommonLayout />}>
+                        <Route path="/" element={<Homepage />} />
+                        <Route path="/destination" element={<DestinationDetail />} />
+                        <Route path="/destination-list" element={<DestinationFilters />} />
+                        <Route path="/search-results" element={<SearchResults />} />
+                        <Route path="/travel-form" element={<TravelForm />} />
+                        <Route path="/tour-overview" element={<TourOverview />} />
+                        <Route path="/admin/*" element={<Layout />} />
+                        <Route path="/blogs" element={<Blogs />} />
+                        <Route path="/blogs-detail" element={<BlogsDetail />} />
+                        <Route path="/contact-us" element={<ContactUs />} />
+                        <Route path="/Payments" element={<Payments />} />
+                        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+                        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                        <Route path="/about-us" element={<AboutUs />} />
+                        <Route path="/trips-detail" element={<TripsDetail />} />
+                        <Route path="/trips-bookings" element={<TripBookings />} />
 
-                    {/* Preview */}
-                    <Route path="/destination/:slug?/:id?" element={<DestinationPreview />} />
-                    <Route path="/trip-preview/:slug?/:id?" element={<TourPreview />} />
-                    <Route path="/booking/:slug?/:id?" element={<TourBookingPreview />} />
+                        {/* Preview */}
+                        <Route path="/destination/:slug?/:id?" element={<DestinationPreview />} />
+                        <Route path="/trip-preview/:slug?/:id?" element={<TourPreview />} />
+                        <Route path="/booking/:slug?/:id?" element={<TourBookingPreview />} />
+                    </Route>
 
                     <Route path="/admin" element={<Layout />}>
                         <Route path="destination-create/:id?" element={<DestinationCreation />} />

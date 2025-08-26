@@ -87,11 +87,11 @@ const TravelForm = () => {
     const generateTripIdeas = async () => {
         setLoading(true);
         setError(false);
-        
+
         try {
             // Simulate API call - replace with actual API integration
             await new Promise(resolve => setTimeout(resolve, 2000));
-            
+
             // Mock AI response - replace with actual AI integration
             const mockResponse = `
                 <div class="ai-result-container">
@@ -175,7 +175,7 @@ const TravelForm = () => {
                     </div>
                 </div>
             `;
-            
+
             setAiResult(mockResponse);
             setShowResult(true);
         } catch (err) {
@@ -188,19 +188,19 @@ const TravelForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         // Reset validation errors
         setValidationErrors({ name: false, email: false });
-        
+
         let hasErrors = false;
         const newErrors = { name: false, email: false };
-        
+
         // Validate required fields
         if (!formData.name || !formData.name.trim()) {
             newErrors.name = true;
             hasErrors = true;
         }
-        
+
         if (!formData.email || !formData.email.trim()) {
             newErrors.email = true;
             hasErrors = true;
@@ -212,13 +212,13 @@ const TravelForm = () => {
                 hasErrors = true;
             }
         }
-        
+
         if (hasErrors) {
             setValidationErrors(newErrors);
             console.log('Validation errors:', newErrors);
             return;
         }
-        
+
         console.log('Submitting form with data:', formData);
         await generateTripIdeas();
     };
@@ -313,11 +313,10 @@ const TravelForm = () => {
                             {travelerTypes.map((type) => (
                                 <div
                                     key={type.value}
-                                    className={`choice-card text-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-300 ${
-                                        formData.travelerType === type.value
+                                    className={`choice-card text-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-300 ${formData.travelerType === type.value
                                             ? 'border-blue-500 bg-blue-500 bg-opacity-20 scale-105'
                                             : 'border-gray-500 hover:border-blue-400'
-                                    }`}
+                                        }`}
                                     onClick={() => handleChoiceSelection('travelerType', type.value)}
                                 >
                                     <div className="text-3xl mb-2">{type.icon}</div>
@@ -360,11 +359,10 @@ const TravelForm = () => {
                                 {tripStyles.map((style) => (
                                     <div
                                         key={style.value}
-                                        className={`choice-card text-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-300 ${
-                                            formData.tripStyle === style.value
+                                        className={`choice-card text-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-300 ${formData.tripStyle === style.value
                                                 ? 'border-blue-500 bg-blue-500 bg-opacity-20 scale-105'
                                                 : 'border-gray-500 hover:border-blue-400'
-                                        }`}
+                                            }`}
                                         onClick={() => handleChoiceSelection('tripStyle', style.value)}
                                     >
                                         {style.label}
@@ -427,11 +425,10 @@ const TravelForm = () => {
                                 {budgetRanges.map((budget) => (
                                     <div
                                         key={budget.value}
-                                        className={`choice-card text-center p-3 border-2 rounded-lg cursor-pointer transition-all duration-300 ${
-                                            formData.budget === budget.value
+                                        className={`choice-card text-center p-3 border-2 rounded-lg cursor-pointer transition-all duration-300 ${formData.budget === budget.value
                                                 ? 'border-blue-500 bg-blue-500 bg-opacity-20 scale-105'
                                                 : 'border-gray-500 hover:border-blue-400'
-                                        }`}
+                                            }`}
                                         onClick={() => handleChoiceSelection('budget', budget.value)}
                                     >
                                         {budget.label}
@@ -472,11 +469,10 @@ const TravelForm = () => {
                                     id="name"
                                     value={formData.name}
                                     onChange={(e) => handleInputChange('name', e.target.value)}
-                                    className={`form-input w-full p-3 bg-gray-700 border-2 rounded-lg focus:outline-none focus:shadow-lg ${
-                                        validationErrors.name 
-                                            ? 'border-red-500 focus:border-red-500' 
+                                    className={`form-input w-full p-3 bg-gray-700 border-2 rounded-lg focus:outline-none focus:shadow-lg ${validationErrors.name
+                                            ? 'border-red-500 focus:border-red-500'
                                             : 'border-gray-500 focus:border-blue-500'
-                                    }`}
+                                        }`}
                                     placeholder="John Doe"
                                     required
                                 />
@@ -491,11 +487,10 @@ const TravelForm = () => {
                                     id="email"
                                     value={formData.email}
                                     onChange={(e) => handleInputChange('email', e.target.value)}
-                                    className={`form-input w-full p-3 bg-gray-700 border-2 rounded-lg focus:outline-none focus:shadow-lg ${
-                                        validationErrors.email 
-                                            ? 'border-red-500 focus:border-red-500' 
+                                    className={`form-input w-full p-3 bg-gray-700 border-2 rounded-lg focus:outline-none focus:shadow-lg ${validationErrors.email
+                                            ? 'border-red-500 focus:border-red-500'
                                             : 'border-gray-500 focus:border-blue-500'
-                                    }`}
+                                        }`}
                                     placeholder="you@example.com"
                                     required
                                 />
@@ -552,126 +547,122 @@ const TravelForm = () => {
             <div className="travel-form-container">
                 <div className="relative min-h-screen flex flex-col items-center p-4 py-8">
                     <div className="glass-container rounded-2xl shadow-2xl w-full max-w-4xl p-8 md:p-12">
-                            {loading && (
-                                <div className="text-center">
-                                    <div className="loader mx-auto mb-4"></div>
-                                    <h2 className="text-2xl font-bold text-white mb-2">Crafting your adventure...</h2>
-                                    <p className="text-gray-300">Our AI is curating the perfect trip based on your choices. Please wait a moment.</p>
-                                </div>
-                            )}
-
-                            {error && (
-                                <div className="text-center">
-                                    <div className="text-red-400 text-6xl mb-4">⚠️</div>
-                                    <h2 className="text-2xl font-bold text-white mb-2">Oops! Something went wrong.</h2>
-                                    <p className="text-gray-300 mb-6">We couldn't generate your trip ideas right now. Please try again later.</p>
-                                </div>
-                            )}
-
-                            {!loading && !error && aiResult && (
-                                <div className="ai-result-container">
-                                    <div dangerouslySetInnerHTML={{ __html: aiResult }} />
-                                    
-                                    <div className="additional-features">
-                                        <div className="features-header">
-                                            <h3 className="features-title">Enhance Your Journey</h3>
-                                            <p className="features-subtitle">Get personalized insights to make your trip extraordinary</p>
-                                        </div>
-                                        
-                                        <div className="features-grid">
-                                            <button
-                                                onClick={generatePackingList}
-                                                disabled={additionalFeatures.showPacking}
-                                                className="feature-card packing-card"
-                                            >
-                                                <div className="feature-icon">
-                                                    <span className="icon">🧳</span>
-                                                </div>
-                                                <div className="feature-content">
-                                                    <h4 className="feature-title">Smart Packing List</h4>
-                                                    <p className="feature-description">Get a personalized packing list based on your destination and travel style</p>
-                                                </div>
-                                                {additionalFeatures.showPacking && <div className="feature-loader"></div>}
-                                            </button>
-                                            
-                                            <button
-                                                onClick={generateCulturalTips}
-                                                disabled={additionalFeatures.showTips}
-                                                className="feature-card tips-card"
-                                            >
-                                                <div className="feature-icon">
-                                                    <span className="icon">🌍</span>
-                                                </div>
-                                                <div className="feature-content">
-                                                    <h4 className="feature-title">Cultural Insights</h4>
-                                                    <p className="feature-description">Learn local customs, etiquette, and cultural tips for your destination</p>
-                                                </div>
-                                                {additionalFeatures.showTips && <div className="feature-loader"></div>}
-                                            </button>
-                                        </div>
-                                        
-                                        {additionalFeatures.packingList && (
-                                            <div className="packing-result mt-4 p-4 bg-black bg-opacity-20 rounded-lg" dangerouslySetInnerHTML={{ __html: additionalFeatures.packingList }} />
-                                        )}
-                                        
-                                        {additionalFeatures.culturalTips && (
-                                            <div className="tips-result mt-4 p-4 bg-black bg-opacity-20 rounded-lg" dangerouslySetInnerHTML={{ __html: additionalFeatures.culturalTips }} />
-                                        )}
-                                    </div>
-                                </div>
-                            )}
-
-                            <div className="action-section">
-                                <button
-                                    onClick={startOver}
-                                    className="start-over-btn"
-                                >
-                                    <span className="btn-icon">🔄</span>
-                                    <span className="btn-text">Start New Journey</span>
-                                </button>
+                        {loading && (
+                            <div className="text-center">
+                                <div className="loader mx-auto mb-4"></div>
+                                <h2 className="text-2xl font-bold text-white mb-2">Crafting your adventure...</h2>
+                                <p className="text-gray-300">Our AI is curating the perfect trip based on your choices. Please wait a moment.</p>
                             </div>
+                        )}
+
+                        {error && (
+                            <div className="text-center">
+                                <div className="text-red-400 text-6xl mb-4">⚠️</div>
+                                <h2 className="text-2xl font-bold text-white mb-2">Oops! Something went wrong.</h2>
+                                <p className="text-gray-300 mb-6">We couldn't generate your trip ideas right now. Please try again later.</p>
+                            </div>
+                        )}
+
+                        {!loading && !error && aiResult && (
+                            <div className="ai-result-container">
+                                <div dangerouslySetInnerHTML={{ __html: aiResult }} />
+
+                                <div className="additional-features">
+                                    <div className="features-header">
+                                        <h3 className="features-title">Enhance Your Journey</h3>
+                                        <p className="features-subtitle">Get personalized insights to make your trip extraordinary</p>
+                                    </div>
+
+                                    <div className="features-grid">
+                                        <button
+                                            onClick={generatePackingList}
+                                            disabled={additionalFeatures.showPacking}
+                                            className="feature-card packing-card"
+                                        >
+                                            <div className="feature-icon">
+                                                <span className="icon">🧳</span>
+                                            </div>
+                                            <div className="feature-content">
+                                                <h4 className="feature-title">Smart Packing List</h4>
+                                                <p className="feature-description">Get a personalized packing list based on your destination and travel style</p>
+                                            </div>
+                                            {additionalFeatures.showPacking && <div className="feature-loader"></div>}
+                                        </button>
+
+                                        <button
+                                            onClick={generateCulturalTips}
+                                            disabled={additionalFeatures.showTips}
+                                            className="feature-card tips-card"
+                                        >
+                                            <div className="feature-icon">
+                                                <span className="icon">🌍</span>
+                                            </div>
+                                            <div className="feature-content">
+                                                <h4 className="feature-title">Cultural Insights</h4>
+                                                <p className="feature-description">Learn local customs, etiquette, and cultural tips for your destination</p>
+                                            </div>
+                                            {additionalFeatures.showTips && <div className="feature-loader"></div>}
+                                        </button>
+                                    </div>
+
+                                    {additionalFeatures.packingList && (
+                                        <div className="packing-result mt-4 p-4 bg-black bg-opacity-20 rounded-lg" dangerouslySetInnerHTML={{ __html: additionalFeatures.packingList }} />
+                                    )}
+
+                                    {additionalFeatures.culturalTips && (
+                                        <div className="tips-result mt-4 p-4 bg-black bg-opacity-20 rounded-lg" dangerouslySetInnerHTML={{ __html: additionalFeatures.culturalTips }} />
+                                    )}
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="action-section">
+                            <button
+                                onClick={startOver}
+                                className="start-over-btn"
+                            >
+                                <span className="btn-icon">🔄</span>
+                                <span className="btn-text">Start New Journey</span>
+                            </button>
                         </div>
                     </div>
                 </div>
+            </div>
         );
     }
 
     return (
-        <>
-            <Header />
-            <div className="travel-form-container">
-                {/* Background Image */}
-                <div className="absolute inset-0 z-0">
-                    <img
-                        src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070&auto=format&fit=crop"
-                        alt="A beautiful lake surrounded by mountains, representing travel and adventure."
-                        className="w-full h-full object-cover opacity-60"
-                    />
-                </div>
+        <div className="travel-form-container">
+            {/* Background Image */}
+            <div className="absolute inset-0 z-0">
+                <img
+                    src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070&auto=format&fit=crop"
+                    alt="A beautiful lake surrounded by mountains, representing travel and adventure."
+                    className="w-full h-full object-cover opacity-60"
+                />
+            </div>
 
-                <div className="relative min-h-screen flex flex-col items-center justify-center p-4">
-                    <div className="glass-container rounded-2xl shadow-2xl w-full max-w-2xl p-6 md:p-8">
-                        {/* Progress Bar */}
-                        <div className="mb-8">
-                            <div className="w-full bg-gray-600 rounded-full h-2.5">
-                                <div
-                                    className="bg-blue-500 h-2.5 rounded-full transition-all duration-500"
-                                    style={{ width: `${updateProgressBar()}%` }}
-                                ></div>
-                            </div>
-                            <div className="text-center text-sm text-gray-300 mt-2">
-                                Step {currentStep + 1} of {totalSteps}
-                            </div>
+            <div className="relative min-h-screen flex flex-col items-center justify-center p-4">
+                <div className="glass-container rounded-2xl shadow-2xl w-full max-w-2xl p-6 md:p-8">
+                    {/* Progress Bar */}
+                    <div className="mb-8">
+                        <div className="w-full bg-gray-600 rounded-full h-2.5">
+                            <div
+                                className="bg-blue-500 h-2.5 rounded-full transition-all duration-500"
+                                style={{ width: `${updateProgressBar()}%` }}
+                            ></div>
                         </div>
-
-                        <form onSubmit={handleSubmit}>
-                            {renderStep()}
-                        </form>
+                        <div className="text-center text-sm text-gray-300 mt-2">
+                            Step {currentStep + 1} of {totalSteps}
+                        </div>
                     </div>
+
+                    <form onSubmit={handleSubmit}>
+                        {renderStep()}
+                    </form>
                 </div>
             </div>
-            <Footer />
-        </>
+        </div>
     );
 };
 

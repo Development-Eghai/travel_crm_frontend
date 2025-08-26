@@ -26,7 +26,6 @@ const Blogs = () => {
 
     return (
         <div className='overflow-hidden'>
-            <Header />
             <section className='overflow-hidden'>
                 <div className="homepaage-banner-image-1">
                     <div className="home-banner-content">
@@ -479,9 +478,7 @@ const Blogs = () => {
                         </div>
                     </div>
                 </div>
-            </section>
-
-            <Footer />
+            </section> 
         </div>
     )
 }

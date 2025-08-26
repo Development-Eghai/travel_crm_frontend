@@ -1,24 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { GetSpecificAppConfig } from '../../../common/api/ApiService';
-import { BACKEND_DOMAIN } from '../../../common/api/ApiClient';
-
-
+import { Link } from 'react-router-dom';
+import { MemorizedSelector } from '../../../helpers/memorizedSelector';
 
 const Footer = () => {
-  const [appConfigData, setAppConfigData] = useState({})
-
-  const getAppConfig = async () => {
-    const response = await GetSpecificAppConfig()
-    if (response && response?.statusCode === 200) {
-      setAppConfigData(response?.data)
-    }
-  }
-
-  useEffect(() => {
-    getAppConfig()
-  }, [])
-
-
+  const { appConfigData } = MemorizedSelector();
 
   return (
     <div>
@@ -28,47 +12,47 @@ const Footer = () => {
           <div className='footer-top-main position-relative'>
             <div className='d-flex my-auto'>
               <p>Speak to our expert at</p>
-              <a className='expert-contact' href='tel:+9345841519'>{appConfigData?.phone1}</a>
+              <a className='expert-contact' href='tel:+9345841519'>{appConfigData?.config_data?.phone1}</a>
             </div>
 
-            {appConfigData?.social_links &&
+            {appConfigData?.config_data?.social_links &&
               <div className='footer-social-icon mt-lg-0 mt-3'>
                 <p>Follow Us :</p>
                 <ul className='social-hover'>
 
-                  {appConfigData?.social_links?.instagram?.url &&
-                    appConfigData?.social_links?.instagram?.show && (
+                  {appConfigData?.config_data?.social_links?.instagram?.url &&
+                    appConfigData?.config_data?.social_links?.instagram?.show && (
                       <li>
-                        <a href={appConfigData.social_links.instagram.url} target="_blank"><i className="fa-brands fa-instagram icon"></i></a>
+                        <a href={appConfigData?.config_data.social_links.instagram.url} target="_blank"><i className="fa-brands fa-instagram icon"></i></a>
                       </li>
                     )}
 
-                  {appConfigData?.social_links?.facebook?.url &&
-                    appConfigData?.social_links?.facebook?.show && (
+                  {appConfigData?.config_data?.social_links?.facebook?.url &&
+                    appConfigData?.config_data?.social_links?.facebook?.show && (
                       <li>
-                        <a href={appConfigData?.social_links?.facebook.url} target="_blank"><i class="fa-brands fa-facebook-f icon"></i></a>
+                        <a href={appConfigData?.config_data?.social_links?.facebook.url} target="_blank"><i class="fa-brands fa-facebook-f icon"></i></a>
                       </li>
                     )}
 
-                  {appConfigData?.social_links?.linkedin?.url &&
-                    appConfigData?.social_links?.linkedin?.show && (
+                  {appConfigData?.config_data?.social_links?.linkedin?.url &&
+                    appConfigData?.config_data?.social_links?.linkedin?.show && (
                       <li>
-                        <a href={appConfigData?.social_links?.linkedin.url} target="_blank"><i class="fa-brands fa-linkedin-in icon"></i></a>
+                        <a href={appConfigData?.config_data?.social_links?.linkedin.url} target="_blank"><i class="fa-brands fa-linkedin-in icon"></i></a>
                       </li>
                     )}
 
-                  {appConfigData?.social_links?.youtube?.url &&
-                    appConfigData?.social_links?.youtube?.show && (
+                  {appConfigData?.config_data?.social_links?.youtube?.url &&
+                    appConfigData?.config_data?.social_links?.youtube?.show && (
                       <li>
-                        <a href={appConfigData?.social_links?.youtube.url} target="_blank"><i class="fa-brands fa-youtube icon"></i></a>
+                        <a href={appConfigData?.config_data?.social_links?.youtube.url} target="_blank"><i class="fa-brands fa-youtube icon"></i></a>
                       </li>
                     )}
 
 
-                  {appConfigData?.social_links?.twitter?.url &&
-                    appConfigData?.social_links?.twitter?.show && (
+                  {appConfigData?.config_data?.social_links?.twitter?.url &&
+                    appConfigData?.config_data?.social_links?.twitter?.show && (
                       <li>
-                        <a href={appConfigData.social_links.twitter.url} target="_blank">
+                        <a href={appConfigData?.config_data.social_links.twitter.url} target="_blank">
                           <i class="fa-brands fa-x-twitter icon"></i>
                         </a>
                       </li>
@@ -85,10 +69,10 @@ const Footer = () => {
               <div className="col-lg-4 col-md-4 col-6">
                 <div className='footer-column-one d-flex flex-column'>
                   <h5 className='footer-column-heading'>Contact</h5>
-                  <p className='mb-2'>{appConfigData?.address}</p>
-                  <a href={`mailto:${appConfigData?.email}`}>{appConfigData?.email}</a>
-                  <a href={`tel:${appConfigData?.phone1}`} className='mt-3'>{appConfigData?.phone1}</a>
-                  <a href={`tel:${appConfigData?.phone2}`} className='mt-3'>{appConfigData?.phone2}</a>
+                  <p className='mb-2'>{appConfigData?.config_data?.address}</p>
+                  <a href={`mailto:${appConfigData?.config_data?.email}`}>{appConfigData?.config_data?.email}</a>
+                  <a href={`tel:${appConfigData?.config_data?.phone1}`} className='mt-3'>{appConfigData?.config_data?.phone1}</a>
+                  <a href={`tel:${appConfigData?.config_data?.phone2}`} className='mt-3'>{appConfigData?.config_data?.phone2}</a>
                 </div>
               </div>
 
@@ -129,10 +113,9 @@ const Footer = () => {
 
           <div className='pb-5 footer-last'>
             <div>
-              <a href='/Payments' className='me-3'>Payments</a>
-              <a href='/terms-and-conditions' className='me-3'>TermsAndConditions</a>
-              <a href='/privacy-policy' className='me-3'>PrivacyPolicy</a>
-
+              <Link to='/Payments' className='me-3'>Payments</Link>
+              <Link to='/terms-and-conditions' className='me-3'>TermsAndConditions</Link>
+              <Link to='/privacy-policy' className='me-3'>PrivacyPolicy</Link>
             </div>
             <div><p className='mt-lg-0 mt-md-0 mt-3'>© Copyright Viatours 2024</p></div>
           </div>

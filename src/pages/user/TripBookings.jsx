@@ -6,9 +6,7 @@ const TripBookings = () => {
     const navigate = useNavigate();
     return (
         <div>
-            <div className='booking-main-parent'>
-                <Header fixed={false} />
-
+            <div className='booking-main-parent'> 
                 <div className='booking-center-card position-relative'>
                     <div>
                         <i class="fa-solid fa-arrow-left" onClick={() => navigate(-1)}></i>

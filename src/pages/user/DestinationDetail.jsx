@@ -47,8 +47,7 @@ const DestinationDetail = () => {
     const [readMore, setReadMore] = useState(false)
     const [viewMore, setViewMore] = useState(false)
     return (
-        <div className=''>
-            <Header />
+        <div>
             <section className="destination-detail-banner-main">
                 <Swiper
                     modules={[EffectFade, Autoplay, Navigation]}
@@ -499,7 +498,6 @@ const DestinationDetail = () => {
                 </>
             )}
 
-
             {activeTab === 2 && (
                 <>
                     <div className="container">
@@ -508,7 +506,6 @@ const DestinationDetail = () => {
                 </>
 
             )}
-
 
             {activeTab === 3 && (
                 <>
@@ -909,7 +906,6 @@ const DestinationDetail = () => {
                 </>
             )}
 
-
             {activeTab === 4 && (
                 <>
                     <div className="container">
@@ -964,8 +960,6 @@ const DestinationDetail = () => {
                     </div>
                 </>
             )}
-
-            <Footer />
         </div>
     )
 }

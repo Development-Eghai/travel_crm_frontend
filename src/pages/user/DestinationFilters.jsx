@@ -1,4 +1,3 @@
-import React from 'react'
 import Header from './component/Header'
 import Footer from './component/Footer'
 import { Images } from "../../helpers/Images/images";
@@ -6,8 +5,6 @@ import { Images } from "../../helpers/Images/images";
 const DestinationFilters = () => {
   return (
     <div>
-      <Header fixed={false} />
-
       <div className='section-padding-bottom'>
         <div className="container">
           <div className='destination-filter-top mt-5'>
@@ -483,8 +480,6 @@ const DestinationFilters = () => {
           </section>
         </div>
       </div >
-
-      <Footer />
     </div >
   )
 }

@@ -83,16 +83,12 @@ const SearchResults = () => {
 
     if (loading) {
         return (
-            <>
-                <Header />
-                <div className="search-results-container">
-                    <div className="loading-container">
-                        <div className="loading-spinner"></div>
-                        <p>Searching for amazing tours...</p>
-                    </div>
+            <div className="search-results-container">
+                <div className="loading-container">
+                    <div className="loading-spinner"></div>
+                    <p>Searching for amazing tours...</p>
                 </div>
-                <Footer />
-            </>
+            </div>
         );
     }
 
@@ -107,7 +103,7 @@ const SearchResults = () => {
                             <h1>Search Results</h1>
                             <p>Found {searchResults.length} tours for "{searchQuery}"</p>
                         </div>
-                        
+
                         {/* Search Bar */}
                         <div className="search-results-search-bar">
                             <form onSubmit={handleSearch}>
@@ -136,11 +132,11 @@ const SearchResults = () => {
                         <div className="search-filters-sidebar">
                             <div className="filter-section">
                                 <h3>Filters</h3>
-                                
+
                                 <div className="filter-group">
                                     <label>Price Range</label>
-                                    <select 
-                                        value={filters.priceRange} 
+                                    <select
+                                        value={filters.priceRange}
                                         onChange={(e) => handleFilterChange('priceRange', e.target.value)}
                                     >
                                         <option value="">Any Price</option>
@@ -153,8 +149,8 @@ const SearchResults = () => {
 
                                 <div className="filter-group">
                                     <label>Duration</label>
-                                    <select 
-                                        value={filters.duration} 
+                                    <select
+                                        value={filters.duration}
                                         onChange={(e) => handleFilterChange('duration', e.target.value)}
                                     >
                                         <option value="">Any Duration</option>
@@ -167,8 +163,8 @@ const SearchResults = () => {
 
                                 <div className="filter-group">
                                     <label>Rating</label>
-                                    <select 
-                                        value={filters.rating} 
+                                    <select
+                                        value={filters.rating}
                                         onChange={(e) => handleFilterChange('rating', e.target.value)}
                                     >
                                         <option value="">Any Rating</option>
@@ -188,8 +184,8 @@ const SearchResults = () => {
                                 </div>
                                 <div className="results-sort">
                                     <label>Sort by:</label>
-                                    <select 
-                                        value={filters.sortBy} 
+                                    <select
+                                        value={filters.sortBy}
                                         onChange={(e) => handleFilterChange('sortBy', e.target.value)}
                                     >
                                         <option value="relevance">Relevance</option>

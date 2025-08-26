@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { Images } from "../../../helpers/Images/images";
-import { GetSpecificAppConfig } from '../../../common/api/ApiService';
+import { useEffect, useState } from 'react'
 import { BACKEND_DOMAIN } from '../../../common/api/ApiClient';
+import { Link } from 'react-router-dom';
+import { MemorizedSelector } from '../../../helpers/memorizedSelector';
 
-
-const Header = ({ fixed = true }) => {
+const Header = () => {
   const [isSticky, setIsSticky] = useState(false);
-  const [appConfigData, setAppConfigData] = useState({})
+  const { appConfigData } = MemorizedSelector();
+  const no_fixed_header_for = ["/blogs-detail", "/contact-us", "/destination-list", "/Payments", "/privacy-policy", "/terms-and-conditions", "/tour-overview", "/trips-bookings"]
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,28 +17,14 @@ const Header = ({ fixed = true }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-
-
-  const getAppConfig = async () => {
-    const response = await GetSpecificAppConfig()
-    if (response && response?.statusCode === 200) {
-      setAppConfigData(response?.data)
-    }
-  }
-
-  useEffect(() => {
-    getAppConfig()
-  }, [])
-
-
   return (
     <div className='overflow-hidden'>
-      <div className={`header-main ${isSticky ? "sticky-header" : ""} ${fixed ? "fixed-header" : "not-fixed-header"}`}>
+      <div className={`header-main ${isSticky ? "sticky-header" : ""} ${!no_fixed_header_for?.includes(window.location.pathname) || false ? "fixed-header" : "not-fixed-header"}`}>
         <nav className="navbar navbar-expand-lg">
           <div className="container">
-            <a href='/'>
+            <Link to='/'>
               <img src={`${BACKEND_DOMAIN}${appConfigData?.logo_url}`} alt="logo" className="logo-image" />
-            </a>
+            </Link>
             <button
               className="navbar-toggler"
               type="button"
@@ -53,15 +39,15 @@ const Header = ({ fixed = true }) => {
 
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
               <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
-                <a className="navbar-brand" href="/tour-overview">Search destinations or activities</a>
+                <Link className="navbar-brand" to="/tour-overview">Search destinations or activities</Link>
               </ul>
               <div className="d-flex flex-column flex-lg-row  mt-3 mt-lg-0">
-                <a className="navbar-brand" href="/blogs">Blogs</a>
-                <a className="navbar-brand" href="/blogs-detail">Blogs Detail</a>
-                <a className="navbar-brand" href="/contact-us">Contact Us</a>
-                <a className="navbar-brand" href="/about-us">About Us</a>
-                <a className="navbar-brand" href="/destination">Signup</a>
-                <a className="navbar-brand login-btn mt-lg-0 mt-4" href="/destination-list">Login</a>
+                <Link to="/blogs" className="navbar-brand">Blogs</Link>
+                <Link to="/blogs-detail" className="navbar-brand">Blogs Detail</Link>
+                <Link to="/contact-us" className="navbar-brand">Contact Us</Link>
+                <Link to="/about-us" className="navbar-brand">About Us</Link>
+                <Link to="/destination" className="navbar-brand">Signup</Link>
+                <Link to="/admin-login" className="navbar-brand login-btn mt-lg-0 mt-4">Login</Link>
               </div>
             </div>
           </div>

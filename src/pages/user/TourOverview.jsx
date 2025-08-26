@@ -55,9 +55,7 @@ const TourOverview = () => {
         },
     ];
     return (
-        <div className='overflow-hidden'>
-            <Header fixed={false} />
-
+        <div className='overflow-hidden'> 
             <div className=''>
                 <div className="container">
                     <div className='destination-filter-top mt-5'>
@@ -691,9 +689,7 @@ const TourOverview = () => {
                         </div>
                     </div>
                 </div>
-            </div>
-            <Footer />
-
+            </div> 
         </div >
     )
 }

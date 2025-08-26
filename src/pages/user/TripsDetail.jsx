@@ -21,7 +21,6 @@ const TripsDetail = () => {
 
     return (
         <div className=''>
-            <Header />
             <section className="destination-detail-banner-main">
                 <Swiper
                     modules={[EffectFade, Autoplay, Navigation]}
