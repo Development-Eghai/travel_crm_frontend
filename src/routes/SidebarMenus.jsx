@@ -1,3 +1,22 @@
+import { MdOutlineDashboard } from "react-icons/md";
+import { SlPlane } from "react-icons/sl";
+import { LuCompass } from "react-icons/lu";
+import { CiLocationOn } from "react-icons/ci";
+import { CiCalendar } from "react-icons/ci";
+import { LiaHotelSolid } from "react-icons/lia";
+import { PiPulseLight } from "react-icons/pi";
+import { LiaCarSideSolid } from "react-icons/lia";
+import { BsPeople } from "react-icons/bs";
+import { GrDocumentText } from "react-icons/gr";
+import { AiOutlinePercentage } from "react-icons/ai";
+import { HiOutlineSpeakerphone } from "react-icons/hi";
+import { PiNotePencilThin } from "react-icons/pi";
+import { IoSearchOutline } from "react-icons/io5";
+import { CiMail } from "react-icons/ci";
+import { PiWhatsappLogoThin } from "react-icons/pi";
+import { IoSettingsOutline } from "react-icons/io5";
+import { FiUserPlus } from "react-icons/fi";
+
 export const AdminMenu = [
     {
         path: "/admin/admin-dashboard",
@@ -12,7 +31,7 @@ export const AdminMenu = [
             {
                 path: "/admin/destination-list",
                 icon: <span class="material-symbols-outlined">
-                distance
+                    distance
                 </span>,
                 name: "Destinations",
             },
@@ -24,21 +43,21 @@ export const AdminMenu = [
             {
                 path: "/admin/tour-list",
                 icon: <span class="material-symbols-outlined">
-                connecting_airports
+                    connecting_airports
                 </span>,
                 name: " All Trips",
             },
             {
                 path: "/admin/category-create",
                 icon: <span class="material-symbols-outlined">
-                bus_railway
+                    bus_railway
                 </span>,
                 name: "Categories",
             },
             {
                 path: "/admin/create-tour-type",
                 icon: <span class="material-symbols-outlined">
-                checked_bag_question
+                    checked_bag_question
                 </span>,
                 name: "Trip Type",
             },
@@ -52,21 +71,21 @@ export const AdminMenu = [
             {
                 path: "/admin/tag-blogs",
                 icon: <span class="material-symbols-outlined">
-                add_comment
+                    add_comment
                 </span>,
                 name: "Blog Tag",
             },
             {
                 path: "/admin/categories-blog",
                 icon: <span class="material-symbols-outlined">
-                dynamic_feed
+                    dynamic_feed
                 </span>,
                 name: "Blog Category",
             },
             {
                 path: "/admin/blogs-List",
                 icon: <span class="material-symbols-outlined">
-                article_person
+                    article_person
                 </span>,
                 name: "Blogs",
             },
@@ -97,21 +116,21 @@ export const AdminMenu = [
             {
                 path: "/admin/not-available-1",
                 icon: <span class="material-symbols-outlined">
-                hotel
+                    hotel
                 </span>,
                 name: "Hotels",
             },
             {
                 path: "/admin/not-available-2",
                 icon: <span class="material-symbols-outlined">
-                person_play
+                    person_play
                 </span>,
                 name: "Activities",
             },
             {
                 path: "/admin/not-available-3",
-                icon:<span class="material-symbols-outlined">
-                local_taxi
+                icon: <span class="material-symbols-outlined">
+                    local_taxi
                 </span>,
                 name: "Cab Bookings",
             },
@@ -126,28 +145,28 @@ export const AdminMenu = [
             {
                 path: "/admin/not-available",
                 icon: <span class="material-symbols-outlined">
-                diversity_3
+                    diversity_3
                 </span>,
                 name: "Leads",
             },
             {
                 path: "/admin/not-available",
                 icon: <span class="material-symbols-outlined">
-                format_quote
+                    format_quote
                 </span>,
                 name: "Quotations",
             },
             {
                 path: "/admin/not-available",
-                icon:<span class="material-symbols-outlined">
-                featured_seasonal_and_gifts
+                icon: <span class="material-symbols-outlined">
+                    featured_seasonal_and_gifts
                 </span>,
                 name: "Offers & Coupons",
             },
             {
                 path: "/admin/not-available",
-                icon:<span class="material-symbols-outlined">
-                local_atm
+                icon: <span class="material-symbols-outlined">
+                    local_atm
                 </span>,
                 name: "Banners",
             },
@@ -162,14 +181,14 @@ export const AdminMenu = [
             {
                 path: "/admin/not-available",
                 icon: <span class="material-symbols-outlined">
-                contract_edit
+                    contract_edit
                 </span>,
                 name: "CMS",
             },
             {
                 path: "/admin/not-available",
                 icon: <span class="material-symbols-outlined">
-                search_gear
+                    search_gear
                 </span>,
                 name: "SEO Settings",
             },
@@ -216,5 +235,133 @@ export const UserMenu = [
         icon: <span className="material-symbols-outlined">dashboard_2
         </span>,
         name: "Dashboard",
+    },
+]
+
+export const ClientMenu = [
+    {
+        name: "overview",
+        subMenu: [
+            {
+                path: "/dashboard",
+                icon: <MdOutlineDashboard size={18} />,
+                name: "Dashboard",
+            }
+        ]
+    },
+    {
+        name: "Trip Management",
+        subMenu: [
+            {
+                path: "/dashboard",
+                icon: <SlPlane size={18} />,
+                name: "All Trips",
+            },
+            {
+                path: "/dashboard",
+                icon: <LuCompass size={18} />,
+                name: "Categories",
+            },
+            {
+                path: "/dashboard",
+                icon: <CiLocationOn size={18} />,
+                name: "Destinations",
+            },
+            {
+                path: "/dashboard",
+                icon: <CiCalendar size={18} />,
+                name: "Itineraries",
+            }
+        ]
+    },
+    {
+        name: "Inventory",
+        subMenu: [
+            {
+                path: "/dashboard",
+                icon: <LiaHotelSolid size={18} />,
+                name: "Hotels",
+            },
+            {
+                path: "/dashboard",
+                icon: <PiPulseLight size={18} />,
+                name: "Activities",
+            },
+            {
+                path: "/dashboard",
+                icon: <LiaCarSideSolid size={18} />,
+                name: "Cab Booking",
+            }
+        ]
+    },
+    {
+        name: "Sales & Marketing",
+        subMenu: [
+            {
+                path: "/dashboard",
+                icon: <BsPeople size={18} />,
+                name: "Leads",
+            },
+            {
+                path: "/dashboard",
+                icon: <GrDocumentText size={18} />,
+                name: "Quotations",
+            },
+            {
+                path: "/dashboard",
+                icon: <AiOutlinePercentage size={18} />,
+                name: "Offers & Coupons",
+            },
+            {
+                path: "/dashboard",
+                icon: <HiOutlineSpeakerphone size={18} />,
+                name: "Banners",
+            }
+        ]
+    },
+    {
+        name: "Content & SEO",
+        subMenu: [
+            {
+                path: "/dashboard",
+                icon: <PiNotePencilThin size={18} />,
+                name: "CMS",
+            },
+            {
+                path: "/dashboard",
+                icon: <IoSearchOutline size={18} />,
+                name: "SEO Settings",
+            }
+        ]
+    },
+    {
+        name: "Communication",
+        subMenu: [
+            {
+                path: "/dashboard",
+                icon: <CiMail size={18} />,
+                name: "Email Marketing",
+            },
+            {
+                path: "/dashboard",
+                icon: <PiWhatsappLogoThin size={18} />,
+                name: "Whatsapp Marketing",
+            }
+        ]
+    },
+     {
+        name: "System",
+        subMenu: [
+            {
+                path: "/dashboard",
+                icon: <IoSettingsOutline size={18} />,
+                name: "Settings",
+            },
+            {
+                path: "/dashboard",
+                icon: <FiUserPlus size={18} />,
+                name: "User & Roles",
+            }
+        ]
     },
 ]

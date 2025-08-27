@@ -18,7 +18,6 @@ import LeadManagement from "../pages/admin/LeadManagement";
 import QuoteBuilder from "../pages/admin/QuoteBuilder";
 import GlobalSettings from "../pages/admin/GlobalSettings/GlobalSettings";
 
-
 export const routes = [
     {
         path: "/admin-dashboard",
@@ -100,4 +99,17 @@ export const routes = [
     //     path: "/comprehensive-quote-builder",
     //     component: ComprehensiveQuoteBuilder,
     // }
+]
+
+
+export const client_routes = [
+    {
+        path: "/admin-dashboard",
+    },
+    {
+        path: "/destination-create/:id?",
+    },
+    {
+        path: "/destination-list",
+    },
 ]
