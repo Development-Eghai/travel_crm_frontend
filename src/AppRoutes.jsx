@@ -27,7 +27,7 @@ const Homepage = lazy(() => import("./pages/user/Homepage"));
 
 const AppRoutes = () => {
     return (
-        <Router>
+        <Router basename="/travel_crm_frontend/">
             <Routes>
                 <Route element={<CommonLayout />}>
                     <Route path="/" element={<Homepage />} />
