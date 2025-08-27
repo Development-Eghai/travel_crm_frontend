@@ -1,5 +1,5 @@
 {
-  "homepage": "https:///Development-Eghai.github.io/travel_crm_frontend/",
+  "homepage": "https://Development-Eghai.github.io/travel_crm_frontend/",
   "name": "travel-frontend",
   "private": true,
   "version": "0.0.0",
@@ -9,7 +9,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
