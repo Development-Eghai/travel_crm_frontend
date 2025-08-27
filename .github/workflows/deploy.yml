@@ -29,6 +29,10 @@ jobs:
       - name: Build Vite project
         run: npm run build
 
+      # 👇 Add this step: copy index.html → 404.html for React Router fallback
+      - name: Add 404.html for SPA routing
+        run: cp dist/index.html dist/404.html
+
       - name: Upload build output
         uses: actions/upload-pages-artifact@v3
         with:
