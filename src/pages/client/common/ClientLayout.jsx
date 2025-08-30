@@ -1,9 +1,11 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const ClientLayout = () => {
+    const [shrink_sidebar, setShrinkSidebar] = useState(false);
+
     useEffect(() => {
         document.body.classList.add("no-scroll");
 
@@ -14,9 +16,9 @@ const ClientLayout = () => {
 
     return (
         <div className="client-container">
-            <Sidebar />
-            <div className="client-right-container">
-                <Header />
+            <Sidebar shrink_sidebar={shrink_sidebar}/>
+            <div className="client-right-container flex-grow-1">
+                <Header shrink_sidebar={shrink_sidebar} setShrinkSidebar={setShrinkSidebar} />
                 <Outlet />
             </div>
         </div>

@@ -1,10 +1,12 @@
 import { NavLink } from 'react-router-dom';
 import { ClientMenu } from '../../../routes/SidebarMenus'
 
-const Sidebar = () => {
+const Sidebar = ({
+    shrink_sidebar
+}) => {
 
     return (
-        <div className="client-sidebar d-none d-xl-block">
+        <div className={`client-sidebar d-none d-lg-block ${shrink_sidebar ? "shrink" : ""}`}>
             <div className="sidebar-header">
                 sidebar logo
             </div>
@@ -12,7 +14,7 @@ const Sidebar = () => {
                 {ClientMenu?.map((item, i) => {
                     return (
                         <div key={i} className="sidebar-item py-2">
-                            <div className="sidebar-content-heading">
+                            <div className={`sidebar-content-heading ${shrink_sidebar ? "d-none" : ""}`}>
                                 {item.name}
                             </div>
                             {item?.subMenu?.map((sub, j) => (
@@ -20,7 +22,7 @@ const Sidebar = () => {
                                     <span className="col-1">
                                         {sub.icon}
                                     </span>
-                                    <span className="col ps-3">
+                                    <span className={`col ps-3 ${shrink_sidebar ? "d-none" : ""}`}>
                                         {sub.name}
                                     </span>
                                 </NavLink>
@@ -29,6 +31,8 @@ const Sidebar = () => {
                     )
                 })}
             </div>
+
+           
         </div>
     )
 }
